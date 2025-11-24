@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Montessori Tangram Figures</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            /* Lighter grey background */
+            background-color: #d0d0d0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Prevent scrollbars if content slightly exceeds viewport */
+        }
+
+        #tangram-display {
+            display: flex;
+            align-items: center; /* Vertically align items in the center */
+        }
+
+        /* Abstract Tangram Arrow Styling */
+        .arrow {
+            width: 80px; /* Width of the arrow */
+            height: 80px; /* Height of the arrow */
+            background-color: #a0a0a0; /* Grey color for the arrow */
+            position: relative;
+            cursor: pointer;
+            margin: 0 30px; /* Space between arrow and image */
+            transition: background-color 0.2s ease-in-out;
+            transform-origin: center center; /* Ensure rotation is centered */
+        }
+
+        .arrow:hover {
+            background-color: #808080; /* Darker grey on hover */
+        }
+
+        /* Left Arrow - Pointing Left */
+        .arrow.left {
+            transform: rotate(-45deg); /* Rotate to make it point left (diamond shape) */
+            clip-path: polygon(100% 0, 100% 100%, 0% 50%); /* Triangle pointing left */
+        }
+
+        /* Right Arrow - Pointing Right */
+        .arrow.right {
+            transform: rotate(45deg); /* Rotate to make it point right (diamond shape) */
+            clip-path: polygon(0% 0, 100% 50%, 0% 100%); /* Triangle pointing right */
+        }
+
+        #tangram-container {
+            width: 350px; /* Slightly larger container for the tangram */
+            height: 350px;
+            overflow: hidden;
+            display: flex; /* Use flex to center the image within its container */
+            justify-content: center;
+            align-items: center;
+        }
+
+        #tangram-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="tangram-display">
+        <div id="prev-btn" class="arrow left"></div>
+
+        <div id="tangram-container">
+            <img id="tangram-img" src="" alt="Tangram figure">
+        </div>
+
+        <div id="next-btn" class="arrow right"></div>
+    </div>
+
+    <script>
+        const tangramImg = document.getElementById('tangram-img');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        // Define your tangram figures. Each figure has a default and a hover/touch image.
+        const figures = [
+            { default: '000camel0.png', hover: '000camel1.png', alt: 'Camel tangram' },
+            { default: '001swan0.png', hover: '001swan1.png', alt: 'Swan tangram' }
+            // Add more figures here following the pattern:
+            // { default: '002yourfigure0.png', hover: '002yourfigure1.png', alt: 'Your figure name' }
+        ];
+
+        let currentIndex = 0; // Start with the first figure (camel)
+        let isHovered = false; // Track if the current tangram is hovered/touched
+
+        // Function to update the image displayed based on current index and hover state
+        function updateTangramImage() {
+            const currentFigure = figures[currentIndex];
+            tangramImg.src = isHovered ? currentFigure.hover : currentFigure.default;
+            tangramImg.alt = currentFigure.alt;
+        }
+
+        // --- Navigation Functions ---
+        function showNextFigure() {
+            currentIndex = (currentIndex + 1) % figures.length;
+            isHovered = false; // Reset hover state for the new figure
+            updateTangramImage();
+        }
+
+        function showPrevFigure() {
+            currentIndex = (currentIndex - 1 + figures.length) % figures.length;
+            isHovered = false; // Reset hover state for the new figure
+            updateTangramImage();
+        }
+
+        // --- Event Listeners for Tangram Image (Hover/Touch) ---
+        function handleTangramEnter() {
+            isHovered = true;
+            updateTangramImage();
+        }
+
+        function handleTangramLeave() {
+            isHovered = false;
+            updateTangramImage();
+        }
+
+        tangramImg.addEventListener('mouseenter', handleTangramEnter);
+        tangramImg.addEventListener('mouseleave', handleTangramLeave);
+        tangramImg.addEventListener('touchstart', handleTangramEnter);
+        tangramImg.addEventListener('touchend', handleTangramLeave);
+        tangramImg.addEventListener('touchcancel', handleTangramLeave); // Important for mobile
+
+        // --- Event Listeners for Navigation Arrows ---
+        nextBtn.addEventListener('click', showNextFigure);
+        prevBtn.addEventListener('click', showPrevFigure);
+
+        // Initialize the first tangram figure on page load
+        updateTangramImage();
+    </script>
+
+</body>
+</html>
