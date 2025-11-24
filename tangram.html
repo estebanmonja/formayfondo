@@ -1,61 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Montessori Tangram Figures</title>
+<div id="tangram-site-wrapper" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #d0d0d0;">
+    
     <style>
+        /* CSS is inside the embed for scope */
         body {
+            /* Override potential external styles */
             height: 100vh;
             margin: 0;
-            /* Lighter grey background */
             background-color: #d0d0d0;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* Prevent scrollbars if content slightly exceeds viewport */
+            overflow: hidden; 
         }
 
         #tangram-display {
             display: flex;
-            align-items: center; /* Vertically align items in the center */
+            align-items: center; 
         }
 
         /* Abstract Tangram Arrow Styling */
         .arrow {
-            width: 80px; /* Width of the arrow */
-            height: 80px; /* Height of the arrow */
-            background-color: #a0a0a0; /* Grey color for the arrow */
+            width: 80px; 
+            height: 80px; 
+            background-color: #a0a0a0; 
             position: relative;
             cursor: pointer;
-            margin: 0 30px; /* Space between arrow and image */
+            margin: 0 30px; 
             transition: background-color 0.2s ease-in-out;
-            transform-origin: center center; /* Ensure rotation is centered */
+            /* Ensure the click target is the visible part of the triangle */
+            z-index: 10; 
         }
 
         .arrow:hover {
-            background-color: #808080; /* Darker grey on hover */
+            background-color: #808080; 
         }
 
-        /* Left Arrow - Pointing Left */
+        /* Left Arrow - Triangle pointing left */
         .arrow.left {
-            transform: rotate(-45deg); /* Rotate to make it point left (diamond shape) */
-            clip-path: polygon(100% 0, 100% 100%, 0% 50%); /* Triangle pointing left */
+            clip-path: polygon(100% 0, 100% 100%, 0% 50%); 
         }
 
-        /* Right Arrow - Pointing Right */
+        /* Right Arrow - Triangle pointing right */
         .arrow.right {
-            transform: rotate(45deg); /* Rotate to make it point right (diamond shape) */
-            clip-path: polygon(0% 0, 100% 50%, 0% 100%); /* Triangle pointing right */
+            clip-path: polygon(0% 0, 100% 50%, 0% 100%); 
         }
 
         #tangram-container {
-            width: 350px; /* Slightly larger container for the tangram */
+            width: 350px; 
             height: 350px;
             overflow: hidden;
-            display: flex; /* Use flex to center the image within its container */
+            display: flex; 
             justify-content: center;
             align-items: center;
+            /* Give it a little breathing room in case of Google Sites padding */
+            padding: 10px;
         }
 
         #tangram-img {
@@ -65,8 +63,6 @@
             transition: opacity 0.3s ease-in-out;
         }
     </style>
-</head>
-<body>
 
     <div id="tangram-display">
         <div id="prev-btn" class="arrow left"></div>
@@ -78,66 +74,68 @@
         <div id="next-btn" class="arrow right"></div>
     </div>
 
-    <script>
-        const tangramImg = document.getElementById('tangram-img');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
+</div>
 
-        // Define your tangram figures. Each figure has a default and a hover/touch image.
-        const figures = [
-            { default: '000camel0.png', hover: '000camel1.png', alt: 'Camel tangram' },
-            { default: '001swan0.png', hover: '001swan1.png', alt: 'Swan tangram' }
-            // Add more figures here following the pattern:
-            // { default: '002yourfigure0.png', hover: '002yourfigure1.png', alt: 'Your figure name' }
-        ];
+<script>
+    // This script must be placed after the HTML elements it targets
+    const tangramImg = document.getElementById('tangram-img');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
 
-        let currentIndex = 0; // Start with the first figure (camel)
-        let isHovered = false; // Track if the current tangram is hovered/touched
+    // !!! IMPORTANT: UPDATE THESE PATHS WITH YOUR PUBLICLY HOSTED IMAGE URLS !!!
+    const figures = [
+        { default: '0000.png', hover: '0001.png', alt: 'Camel tangram' },
+        { default: '0010.png', hover: '0011.png', alt: 'Swan tangram' }
+    ];
 
-        // Function to update the image displayed based on current index and hover state
-        function updateTangramImage() {
-            const currentFigure = figures[currentIndex];
-            tangramImg.src = isHovered ? currentFigure.hover : currentFigure.default;
-            tangramImg.alt = currentFigure.alt;
-        }
+    let currentIndex = 0; 
+    let isHovered = false; 
 
-        // --- Navigation Functions ---
-        function showNextFigure() {
-            currentIndex = (currentIndex + 1) % figures.length;
-            isHovered = false; // Reset hover state for the new figure
-            updateTangramImage();
-        }
+    function updateTangramImage() {
+        const currentFigure = figures[currentIndex];
+        tangramImg.src = isHovered ? currentFigure.hover : currentFigure.default;
+        tangramImg.alt = currentFigure.alt;
+    }
 
-        function showPrevFigure() {
-            currentIndex = (currentIndex - 1 + figures.length) % figures.length;
-            isHovered = false; // Reset hover state for the new figure
-            updateTangramImage();
-        }
+    function showNextFigure() {
+        currentIndex = (currentIndex + 1) % figures.length;
+        isHovered = false; 
+        updateTangramImage();
+    }
 
-        // --- Event Listeners for Tangram Image (Hover/Touch) ---
-        function handleTangramEnter() {
-            isHovered = true;
-            updateTangramImage();
-        }
+    function showPrevFigure() {
+        currentIndex = (currentIndex - 1 + figures.length) % figures.length;
+        isHovered = false; 
+        updateTangramImage();
+    }
 
-        function handleTangramLeave() {
-            isHovered = false;
-            updateTangramImage();
-        }
+    function handleTangramEnter() {
+        isHovered = true;
+        updateTangramImage();
+    }
 
+    function handleTangramLeave() {
+        isHovered = false;
+        updateTangramImage();
+    }
+
+    // Attach event listeners
+    if (tangramImg) {
         tangramImg.addEventListener('mouseenter', handleTangramEnter);
         tangramImg.addEventListener('mouseleave', handleTangramLeave);
         tangramImg.addEventListener('touchstart', handleTangramEnter);
         tangramImg.addEventListener('touchend', handleTangramLeave);
-        tangramImg.addEventListener('touchcancel', handleTangramLeave); // Important for mobile
+        tangramImg.addEventListener('touchcancel', handleTangramLeave); 
+    }
 
-        // --- Event Listeners for Navigation Arrows ---
+    if (nextBtn) {
         nextBtn.addEventListener('click', showNextFigure);
+    }
+    
+    if (prevBtn) {
         prevBtn.addEventListener('click', showPrevFigure);
+    }
 
-        // Initialize the first tangram figure on page load
-        updateTangramImage();
-    </script>
-
-</body>
-</html>
+    // Initialize
+    updateTangramImage();
+</script>
