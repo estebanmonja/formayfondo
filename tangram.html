@@ -1,141 +1,59 @@
-<div id="tangram-site-wrapper" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #d0d0d0;">
-    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sequential Figures</title>
     <style>
-        /* CSS is inside the embed for scope */
-        body {
-            /* Override potential external styles */
-            height: 100vh;
-            margin: 0;
-            background-color: #d0d0d0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; 
-        }
-
-        #tangram-display {
-            display: flex;
-            align-items: center; 
-        }
-
-        /* Abstract Tangram Arrow Styling */
-        .arrow {
-            width: 80px; 
-            height: 80px; 
-            background-color: #a0a0a0; 
-            position: relative;
-            cursor: pointer;
-            margin: 0 30px; 
-            transition: background-color 0.2s ease-in-out;
-            /* Ensure the click target is the visible part of the triangle */
-            z-index: 10; 
-        }
-
-        .arrow:hover {
-            background-color: #808080; 
-        }
-
-        /* Left Arrow - Triangle pointing left */
-        .arrow.left {
-            clip-path: polygon(100% 0, 100% 100%, 0% 50%); 
-        }
-
-        /* Right Arrow - Triangle pointing right */
-        .arrow.right {
-            clip-path: polygon(0% 0, 100% 50%, 0% 100%); 
-        }
-
-        #tangram-container {
-            width: 350px; 
-            height: 350px;
-            overflow: hidden;
-            display: flex; 
-            justify-content: center;
-            align-items: center;
-            /* Give it a little breathing room in case of Google Sites padding */
-            padding: 10px;
-        }
-
-        #tangram-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            transition: opacity 0.3s ease-in-out;
+        /* Optional: Basic styling for the images */
+        .figure-container img {
+            max-width: 200px;
+            margin: 5px;
+            border: 1px solid #ccc;
         }
     </style>
+</head>
+<body>
 
-    <div id="tangram-display">
-        <div id="prev-btn" class="arrow left"></div>
+    <h1>Figure Gallery</h1>
 
-        <div id="tangram-container">
-            <img id="tangram-img" src="" alt="Tangram figure">
+    <div id="figure-gallery" class="figure-container">
         </div>
 
-        <div id="next-btn" class="arrow right"></div>
-    </div>
+    <script>
+        const container = document.getElementById('figure-gallery');
+        const numFigures = 50; // 0 to 49
 
-</div>
+        // Loop through each of the 50 figures
+        for (let i = 0; i < numFigures; i++) {
+            // 1. Calculate the prefix (000, 001, ..., 049)
+            // padStart ensures the number is always 3 digits long, e.g., 1 becomes "001"
+            const prefix = String(i).padStart(3, '0');
+            
+            // 2. Black/Grayscale Figure (0000, 0010, etc.)
+            const filenameBlack = `${prefix}0.png`;
+            
+            // 3. Color Figure (0001, 0011, etc.)
+            const filenameColor = `${prefix}1.png`;
 
-<script>
-    // This script must be placed after the HTML elements it targets
-    const tangramImg = document.getElementById('tangram-img');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
+            // Function to create and append the image element
+            const createImageElement = (filename, description) => {
+                const img = document.createElement('img');
+                img.src = `images/${filename}`; // Assuming images are in an 'images/' directory
+                img.alt = `Figure ${i + 1} - ${description} (${filename})`;
+                img.title = filename;
+                container.appendChild(img);
 
-    // !!! IMPORTANT: UPDATE THESE PATHS WITH YOUR PUBLICLY HOSTED IMAGE URLS !!!
-    const figures = [
-        { default: '0000.png', hover: '0001.png', alt: 'Camel tangram' },
-        { default: '0010.png', hover: '0011.png', alt: 'Swan tangram' }
-    ];
+                // Optional: Add a label for clarity
+                const p = document.createElement('p');
+                p.textContent = filename;
+                container.appendChild(p);
+            };
 
-    let currentIndex = 0; 
-    let isHovered = false; 
+            // Create elements for the black and color versions
+            createImageElement(filenameBlack, 'Black/Grayscale');
+            createImageElement(filenameColor, 'Color');
+        }
+    </script>
 
-    function updateTangramImage() {
-        const currentFigure = figures[currentIndex];
-        tangramImg.src = isHovered ? currentFigure.hover : currentFigure.default;
-        tangramImg.alt = currentFigure.alt;
-    }
-
-    function showNextFigure() {
-        currentIndex = (currentIndex + 1) % figures.length;
-        isHovered = false; 
-        updateTangramImage();
-    }
-
-    function showPrevFigure() {
-        currentIndex = (currentIndex - 1 + figures.length) % figures.length;
-        isHovered = false; 
-        updateTangramImage();
-    }
-
-    function handleTangramEnter() {
-        isHovered = true;
-        updateTangramImage();
-    }
-
-    function handleTangramLeave() {
-        isHovered = false;
-        updateTangramImage();
-    }
-
-    // Attach event listeners
-    if (tangramImg) {
-        tangramImg.addEventListener('mouseenter', handleTangramEnter);
-        tangramImg.addEventListener('mouseleave', handleTangramLeave);
-        tangramImg.addEventListener('touchstart', handleTangramEnter);
-        tangramImg.addEventListener('touchend', handleTangramLeave);
-        tangramImg.addEventListener('touchcancel', handleTangramLeave); 
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', showNextFigure);
-    }
-    
-    if (prevBtn) {
-        prevBtn.addEventListener('click', showPrevFigure);
-    }
-
-    // Initialize
-    updateTangramImage();
-</script>
+</body>
+</html>
