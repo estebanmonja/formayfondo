@@ -1,161 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Interactive Figure Gallery</title>
-    <style>
-        /* --- Styling for the Interactive Gallery --- */
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
-
-        .figure-viewer {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 300px; /* Container width */
-            margin: 20px 0;
-            user-select: none;
-        }
-
-        #figure-display {
-            width: 250px;
-            height: 250px; /* Set a fixed height for consistency */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #333;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative; /* Needed for img size control */
-        }
-
-        #current-image {
-            max-width: 100%;
-            max-height: 100%;
-            display: block;
-            transition: transform 0.2s; /* Optional: smooth scale effect */
-        }
-
-        .nav-button {
-            background: none;
-            border: none;
-            color: #333;
-            font-size: 3em;
-            cursor: pointer;
-            padding: 0 10px;
-            transition: color 0.2s;
-        }
-
-        .nav-button:hover {
-            color: #007bff;
-        }
-
-        /* Styling for the displayed filename */
-        #filename-label {
-            margin-top: 10px;
-            font-size: 1em;
-            color: #555;
-            text-align: center;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forma y Fondo Taller</title>
+    <link rel="stylesheet" href="styles.css"> 
 </head>
 <body>
 
-    <h1>Figure Gallery</h1>
-    <p id="figure-caption">Figure 1 / 50</p>
+    <header class="main-header">
+        <div class="logo">Forma y Fondo Taller</div>
+        <nav class="main-nav">
+            <a href="#productos">Productos</a>
+            <a href="#filosofia">Filosofía</a>
+            <a href="#proyectos">Proyectos</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </header>
 
-    <div class="figure-viewer">
-        <button class="nav-button" id="prev-button">&lsaquo;</button> 
-        <div id="figure-display">
-            <img id="current-image" src="" alt="Current Figure">
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>La forma para entender el mundo.</h1>
+            <h2>El fondo para hacerlo durar.</h2>
+            <p>Fabricamos objetos, muebles y sistemas con un equilibrio entre tecnología CNC y artesanía contemporánea.</p>
+            <a href="#productos" class="cta-button">Ver Colección</a>
         </div>
-        <button class="nav-button" id="next-button">&rsaquo;</button>
-    </div>
-    
-    <div id="filename-label"></div>
+        </section>
 
-    <script>
-        const figureImage = document.getElementById('current-image');
-        const filenameLabel = document.getElementById('filename-label');
-        const figureCaption = document.getElementById('figure-caption');
-        const prevButton = document.getElementById('prev-button');
-        const nextButton = document.getElementById('next-button');
-        
-        const numFigures = 50; // Total number of unique figures (0 to 49)
-        let currentIndex = 0; // Starts at figure 0
+    <section id="productos" class="categories-section">
+        <h2>Colecciones Destacadas</h2>
+        <div class="category-grid">
+            <div class="category-card" id="cat-muebles">Muebles</div>
+            <div class="category-card" id="cat-objetos">Objetos</div>
+            <div class="category-card" id="cat-sistemas">Sistemas</div>
+        </div>
+    </section>
 
-        // Function to create the 4-digit filename
-        const createFilename = (index, variant) => {
-            // index: 0-49. variant: 0 (black) or 1 (color)
-            const prefix = String(index).padStart(3, '0');
-            return `${prefix}${variant}.png`;
-        };
-        
-        // --- Core Display Logic ---
-        const updateFigureDisplay = () => {
-            // Get the filename for the default (black) figure
-            const blackFilename = createFilename(currentIndex, 0);
-            
-            // Set the image source and alt text
-            // Note: Keep the 'images/' path if your structure requires it
-            figureImage.src = `images/${blackFilename}`; 
-            figureImage.alt = `Figure ${currentIndex + 1} Black/Grayscale`;
-            
-            // Update the text labels
-            figureCaption.textContent = `Figure ${currentIndex + 1} / ${numFigures}`;
-            filenameLabel.textContent = blackFilename;
-            
-            // Disable navigation buttons at the limits
-            prevButton.disabled = currentIndex === 0;
-            nextButton.disabled = currentIndex === numFigures - 1;
-        };
+    <section id="filosofia" class="philosophy-section">
+        <div class="philosophy-text">
+            <h2>Diseño en Equilibrio: CNC y Artesanía</h2>
+            <p>Nuestra esencia radica en la unión perfecta entre la precisión milimétrica de la tecnología CNC (Control Numérico Computarizado) y la calidez insustituible del trabajo manual. Utilizamos materiales de alta tecnología, como el Valchromat, para crear piezas paramétricas que no solo son estéticamente bellas, sino fundamentalmente duraderas y responsables con el entorno.</p>
+        </div>
+        <div class="philosophy-image-placeholder"></div>
+    </section>
 
-        // --- Interaction Logic (Hover/Touch) ---
-        const handleHoverIn = () => {
-            const colorFilename = createFilename(currentIndex, 1);
-            figureImage.src = `images/${colorFilename}`;
-            filenameLabel.textContent = colorFilename;
-        };
+    <section id="proyectos" class="featured-work-section">
+        <h2>Proyectos Seleccionados</h2>
+        <div class="work-gallery">
+            <div class="work-item" id="work-1">Pieza Paramétrica A</div>
+            <div class="work-item" id="work-2">Mesa de Centro</div>
+            <div class="work-item" id="work-3">Sistema Modular</div>
+        </div>
+    </section>
 
-        const handleHoverOut = () => {
-            // Revert to the black version
-            const blackFilename = createFilename(currentIndex, 0);
-            figureImage.src = `images/${blackFilename}`;
-            filenameLabel.textContent = blackFilename;
-        };
-
-        // Add event listeners for hover/touch
-        figureImage.addEventListener('mouseenter', handleHoverIn);
-        figureImage.addEventListener('mouseleave', handleHoverOut);
-        figureImage.addEventListener('touchstart', handleHoverIn, {passive: true});
-        figureImage.addEventListener('touchend', handleHoverOut, {passive: true});
-
-        // --- Navigation Logic ---
-        const goNext = () => {
-            if (currentIndex < numFigures - 1) {
-                currentIndex++;
-                updateFigureDisplay();
-            }
-        };
-
-        const goPrev = () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateFigureDisplay();
-            }
-        };
-        
-        // Add event listeners for buttons
-        nextButton.addEventListener('click', goNext);
-        prevButton.addEventListener('click', goPrev);
-        
-        // Initialize the display on page load
-        updateFigureDisplay();
-        
-    </script>
+    <footer id="contacto" class="main-footer">
+        <div class="footer-columns">
+            <div class="col-info">
+                <h4>VALERIA MUEBLES</h4>
+                <p>Innovación y Durabilidad.</p>
+            </div>
+            <div class="col-links">
+                <h4>Enlaces</h4>
+                <a href="#productos">Productos</a>
+                <a href="#filosofia">Filosofía</a>
+            </div>
+            <div class="col-social">
+                <h4>Síguenos</h4>
+                <a href="#">Instagram</a>
+                <a href="#">Pinterest</a>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Forma y Fondo Taller. Todos los derechos reservados.
+        </div>
+    </footer>
 
 </body>
 </html>

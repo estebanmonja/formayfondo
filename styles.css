@@ -1,0 +1,253 @@
+/* --- RESET AND BASE STYLES --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Use a modern, clean font stack */
+    line-height: 1.6;
+    color: #333;
+    background-color: #f7f7f7;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #5a5a5a; /* A subtle hover effect */
+}
+
+/* --- HEADER AND NAVIGATION --- */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+}
+
+.main-nav a {
+    margin-left: 25px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* --- HERO SECTION --- */
+.hero-section {
+    position: relative;
+    height: 90vh; /* Takes up most of the viewport height */
+    background-image: url('hero.png'); /* **PLACE YOUR IMAGE URL HERE** */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: flex-start; /* Start content from the left/center */
+}
+
+.hero-content {
+    background: rgba(255, 255, 255, 0.85); /* Semi-transparent white background */
+    padding: 3rem;
+    margin-left: 5%;
+    max-width: 500px;
+    border-left: 5px solid #000; /* Minimalistic border highlight */
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 300;
+}
+
+.hero-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 25px;
+    margin-top: 15px;
+    background-color: #000;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border: none;
+    cursor: pointer;
+}
+
+/* --- GENERAL SECTIONS --- */
+section {
+    padding: 80px 5%;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- CATEGORIES SECTION (CSS Grid) --- */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.category-card {
+    height: 300px;
+    background-color: #ddd; /* Placeholder background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+}
+
+/* --- PHILOSOPHY SECTION (Flexbox) --- */
+.philosophy-section {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 50px;
+    background-color: #fff;
+}
+
+.philosophy-text {
+    flex: 1;
+}
+
+.philosophy-image-placeholder {
+    flex: 1;
+    height: 400px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: italic;
+    color: #666;
+}
+
+/* --- FEATURED WORK GALLERY (CSS Grid) --- */
+.work-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.work-item {
+    height: 450px;
+    background-color: #ccc; /* Placeholder for images */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    color: white;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* --- FOOTER --- */
+.main-footer {
+    background-color: #222;
+    color: white;
+    padding: 50px 5%;
+    text-align: left;
+}
+
+.footer-columns {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.footer-columns > div {
+    min-width: 150px;
+    margin-bottom: 20px;
+}
+
+.main-footer h4 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.main-footer a, .main-footer p {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+.main-footer a:hover {
+    color: #fff;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+/* --- RESPONSIVENESS (Basic Media Query) --- */
+@media (max-width: 768px) {
+    .main-header {
+        flex-direction: column;
+        padding: 1rem 5%;
+    }
+    .main-nav a {
+        margin: 0 10px;
+    }
+
+    .hero-section {
+        height: 70vh;
+        justify-content: center;
+        text-align: center;
+    }
+    .hero-content {
+        margin: 0;
+        max-width: 90%;
+        padding: 2rem;
+        border-left: none;
+        border-top: 5px solid #000;
+    }
+
+    .philosophy-section {
+        flex-direction: column;
+    }
+    
+    .work-gallery {
+        grid-template-columns: 1fr; /* Stack items vertically on small screens */
+    }
+}
