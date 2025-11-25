@@ -2,57 +2,159 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sequential Figures</title>
+    <title>Interactive Figure Gallery</title>
     <style>
-        /* Optional: Basic styling for the images */
-        .figure-container img {
-            max-width: 200px;
-            margin: 5px;
-            border: 1px solid #ccc;
+        /* --- Styling for the Interactive Gallery --- */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .figure-viewer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 300px; /* Container width */
+            margin: 20px 0;
+            user-select: none;
+        }
+
+        #figure-display {
+            width: 250px;
+            height: 250px; /* Set a fixed height for consistency */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative; /* Needed for img size control */
+        }
+
+        #current-image {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            transition: transform 0.2s; /* Optional: smooth scale effect */
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 3em;
+            cursor: pointer;
+            padding: 0 10px;
+            transition: color 0.2s;
+        }
+
+        .nav-button:hover {
+            color: #007bff;
+        }
+
+        /* Styling for the displayed filename */
+        #filename-label {
+            margin-top: 10px;
+            font-size: 1em;
+            color: #555;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
     <h1>Figure Gallery</h1>
+    <p id="figure-caption">Figure 1 / 50</p>
 
-    <div id="figure-gallery" class="figure-container">
+    <div class="figure-viewer">
+        <button class="nav-button" id="prev-button">&lsaquo;</button> 
+        <div id="figure-display">
+            <img id="current-image" src="" alt="Current Figure">
         </div>
+        <button class="nav-button" id="next-button">&rsaquo;</button>
+    </div>
+    
+    <div id="filename-label"></div>
 
     <script>
-        const container = document.getElementById('figure-gallery');
-        const numFigures = 50; // 0 to 49
+        const figureImage = document.getElementById('current-image');
+        const filenameLabel = document.getElementById('filename-label');
+        const figureCaption = document.getElementById('figure-caption');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        
+        const numFigures = 50; // Total number of unique figures (0 to 49)
+        let currentIndex = 0; // Starts at figure 0
 
-        // Loop through each of the 50 figures
-        for (let i = 0; i < numFigures; i++) {
-            // 1. Calculate the prefix (000, 001, ..., 049)
-            // padStart ensures the number is always 3 digits long, e.g., 1 becomes "001"
-            const prefix = String(i).padStart(3, '0');
+        // Function to create the 4-digit filename
+        const createFilename = (index, variant) => {
+            // index: 0-49. variant: 0 (black) or 1 (color)
+            const prefix = String(index).padStart(3, '0');
+            return `${prefix}${variant}.png`;
+        };
+        
+        // --- Core Display Logic ---
+        const updateFigureDisplay = () => {
+            // Get the filename for the default (black) figure
+            const blackFilename = createFilename(currentIndex, 0);
             
-            // 2. Black/Grayscale Figure (0000, 0010, etc.)
-            const filenameBlack = `${prefix}0.png`;
+            // Set the image source and alt text
+            // Note: Keep the 'images/' path if your structure requires it
+            figureImage.src = `images/${blackFilename}`; 
+            figureImage.alt = `Figure ${currentIndex + 1} Black/Grayscale`;
             
-            // 3. Color Figure (0001, 0011, etc.)
-            const filenameColor = `${prefix}1.png`;
+            // Update the text labels
+            figureCaption.textContent = `Figure ${currentIndex + 1} / ${numFigures}`;
+            filenameLabel.textContent = blackFilename;
+            
+            // Disable navigation buttons at the limits
+            prevButton.disabled = currentIndex === 0;
+            nextButton.disabled = currentIndex === numFigures - 1;
+        };
 
-            // Function to create and append the image element
-            const createImageElement = (filename, description) => {
-                const img = document.createElement('img');
-                img.src = `images/${filename}`; // Assuming images are in an 'images/' directory
-                img.alt = `Figure ${i + 1} - ${description} (${filename})`;
-                img.title = filename;
-                container.appendChild(img);
+        // --- Interaction Logic (Hover/Touch) ---
+        const handleHoverIn = () => {
+            const colorFilename = createFilename(currentIndex, 1);
+            figureImage.src = `images/${colorFilename}`;
+            filenameLabel.textContent = colorFilename;
+        };
 
-                // Optional: Add a label for clarity
-                const p = document.createElement('p');
-                p.textContent = filename;
-                container.appendChild(p);
-            };
+        const handleHoverOut = () => {
+            // Revert to the black version
+            const blackFilename = createFilename(currentIndex, 0);
+            figureImage.src = `images/${blackFilename}`;
+            filenameLabel.textContent = blackFilename;
+        };
 
-            // Create elements for the black and color versions
-            createImageElement(filenameBlack, 'Black/Grayscale');
-            createImageElement(filenameColor, 'Color');
-        }
+        // Add event listeners for hover/touch
+        figureImage.addEventListener('mouseenter', handleHoverIn);
+        figureImage.addEventListener('mouseleave', handleHoverOut);
+        figureImage.addEventListener('touchstart', handleHoverIn, {passive: true});
+        figureImage.addEventListener('touchend', handleHoverOut, {passive: true});
+
+        // --- Navigation Logic ---
+        const goNext = () => {
+            if (currentIndex < numFigures - 1) {
+                currentIndex++;
+                updateFigureDisplay();
+            }
+        };
+
+        const goPrev = () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateFigureDisplay();
+            }
+        };
+        
+        // Add event listeners for buttons
+        nextButton.addEventListener('click', goNext);
+        prevButton.addEventListener('click', goPrev);
+        
+        // Initialize the display on page load
+        updateFigureDisplay();
+        
     </script>
 
 </body>
