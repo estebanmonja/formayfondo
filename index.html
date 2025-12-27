@@ -2,78 +2,246 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forma y Fondo Taller</title>
-    <link rel="stylesheet" href="styles.css"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Forma & Fondo | En Construcción</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22black%22/><text y=%22.9em%22 font-size=%2290%22 font-weight=%22bold%22 fill=%22white%22>F</text><circle cx=%2280%22 cy=%2280%22 r=%2212%22 fill=%22%2339ff14%22/></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: {
+                            500: '#39ff14', 
+                            900: '#1a6608',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'scan': 'scan 4s linear infinite',
+                    },
+                    keyframes: {
+                        scan: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            overscroll-behavior-y: none;
+        }
+        
+        body::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .cursor-follow {
+            pointer-events: none;
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #39ff14;
+            transform: translate(-50%, -50%);
+            z-index: 50;
+            mix-blend-mode: difference;
+            transition: width 0.2s, height 0.2s;
+        }
+        .cursor-follow.touch-active {
+            width: 80px;
+            height: 80px;
+            border-color: #fff;
+            background-color: rgba(57, 255, 20, 0.1);
+        }
+
+        .cursor-follow::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: #39ff14; }
+        .cursor-follow::after { content: ''; position: absolute; left: 50%; top: 0; height: 100%; width: 1px; background: #39ff14; }
+
+        .scanline {
+            width: 100%; height: 100vh; z-index: 10;
+            background: linear-gradient(to bottom, rgba(57,255,20,0), rgba(57,255,20,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            position: fixed; top: 0; left: 0; pointer-events: none; opacity: 0.15;
+        }
+    </style>
 </head>
 <body>
+    <div id="root"></div>
 
-    <header class="main-header">
-        <div class="logo">Forma y Fondo Taller</div>
-        <nav class="main-nav">
-            <a href="#productos">Productos</a>
-            <a href="#filosofia">Filosofía</a>
-            <a href="#proyectos">Proyectos</a>
-            <a href="#contacto">Contacto</a>
-        </nav>
-    </header>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
 
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1>La forma para entender el mundo.</h1>
-            <h2>El fondo para hacerlo durar.</h2>
-            <p>Fabricamos objetos, muebles y sistemas con un equilibrio entre tecnología CNC y artesanía contemporánea.</p>
-            <a href="#productos" class="cta-button">Ver Colección</a>
-        </div>
-        </section>
+        const ConstructionPage = () => {
+            const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+            const [isTouch, setIsTouch] = useState(false);
+            const [gCodeLines, setGCodeLines] = useState([]);
+            const [loadingWidth, setLoadingWidth] = useState(0);
+            
+            // --- Input Handlers ---
+            const handleInput = (x, y, touchType) => {
+                setCursorPos({ x, y });
+                if (touchType) setIsTouch(true);
+            };
 
-    <section id="productos" class="categories-section">
-        <h2>Colecciones Destacadas</h2>
-        <div class="category-grid">
-            <div class="category-card" id="cat-muebles">Muebles</div>
-            <div class="category-card" id="cat-objetos">Objetos</div>
-            <div class="category-card" id="cat-sistemas">Sistemas</div>
-        </div>
-    </section>
+            useEffect(() => {
+                const mouseMove = (e) => handleInput(e.clientX, e.clientY, false);
+                const touchMove = (e) => {
+                    const touch = e.touches[0];
+                    handleInput(touch.clientX, touch.clientY, true);
+                };
 
-    <section id="filosofia" class="philosophy-section">
-        <div class="philosophy-text">
-            <h2>Diseño en Equilibrio: CNC y Artesanía</h2>
-            <p>Nuestra esencia radica en la unión perfecta entre la precisión milimétrica de la tecnología CNC (Control Numérico Computarizado) y la calidez insustituible del trabajo manual. Utilizamos materiales de alta tecnología, como el Valchromat, para crear piezas paramétricas que no solo son estéticamente bellas, sino fundamentalmente duraderas y responsables con el entorno.</p>
-        </div>
-        <div class="philosophy-image-placeholder"></div>
-    </section>
+                window.addEventListener('mousemove', mouseMove);
+                window.addEventListener('touchmove', touchMove);
+                
+                return () => {
+                    window.removeEventListener('mousemove', mouseMove);
+                    window.removeEventListener('touchmove', touchMove);
+                };
+            }, []);
 
-    <section id="proyectos" class="featured-work-section">
-        <h2>Proyectos Seleccionados</h2>
-        <div class="work-gallery">
-            <div class="work-item" id="work-1">Pieza Paramétrica A</div>
-            <div class="work-item" id="work-2">Mesa de Centro</div>
-            <div class="work-item" id="work-3">Sistema Modular</div>
-        </div>
-    </section>
+            // Loading Bar Logic
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    setLoadingWidth(prev => (prev >= 100 ? 0 : prev + 2));
+                }, 100);
+                return () => clearInterval(interval);
+            }, []);
 
-    <footer id="contacto" class="main-footer">
-        <div class="footer-columns">
-            <div class="col-info">
-                <h4>VALERIA MUEBLES</h4>
-                <p>Innovación y Durabilidad.</p>
-            </div>
-            <div class="col-links">
-                <h4>Enlaces</h4>
-                <a href="#productos">Productos</a>
-                <a href="#filosofia">Filosofía</a>
-            </div>
-            <div class="col-social">
-                <h4>Síguenos</h4>
-                <a href="#">Instagram</a>
-                <a href="#">Pinterest</a>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; 2025 Forma y Fondo Taller. Todos los derechos reservados.
-        </div>
-    </footer>
+            // G-Code Generator
+            useEffect(() => {
+                const generateGCode = () => {
+                    const commands = ['G00', 'G01', 'G02', 'X', 'Y', 'Z', 'F'];
+                    const spacing = Array(Math.floor(Math.random() * 5)).fill("\u00A0").join(""); 
+                    const line = `${spacing}N${Math.floor(Math.random() * 999)} ${commands[Math.floor(Math.random() * commands.length)]} X${(Math.random() * 100).toFixed(1)}`;
+                    setGCodeLines(prev => {
+                        const newLines = [...prev, line];
+                        if (newLines.length > 30) newLines.shift(); 
+                        return newLines;
+                    });
+                };
+                const interval = setInterval(generateGCode, 150);
+                return () => clearInterval(interval);
+            }, []);
 
+            return (
+                <div className="relative min-h-[100dvh] w-full flex flex-col justify-between items-center bg-black overflow-hidden selection:bg-neon-500 selection:text-black">
+                    
+                    {/* Crosshair */}
+                    <div 
+                        className={`cursor-follow ${isTouch ? 'touch-active' : ''}`} 
+                        style={{ left: cursorPos.x, top: cursorPos.y, opacity: cursorPos.x < 0 ? 0 : 1 }}
+                    ></div>
+                    
+                    <div className="scanline"></div>
+
+                    {/* Background G-Code */}
+                    <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none select-none flex flex-col justify-center items-center">
+                        {gCodeLines.map((line, i) => (
+                            <div key={i} className="text-neon-500 font-mono text-xs md:text-sm whitespace-pre transition-opacity duration-300" style={{opacity: (i / gCodeLines.length)}}>
+                                {line}
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="h-12 w-full"></div>
+
+                    {/* Main Content */}
+                    <div className="relative z-20 flex flex-col items-center w-full px-6 max-w-lg">
+                        
+                        {/* Status Module */}
+                        <div className="w-full flex items-center justify-between mb-12 opacity-80">
+                            <div className="h-[1px] bg-neon-500 w-1/4"></div>
+                            <div className="flex flex-col items-center">
+                                <span className="text-neon-500 text-[10px] font-bold tracking-[0.3em] uppercase mb-1">
+                                    System Boot
+                                </span>
+                                <div className="w-24 h-1 bg-neutral-900">
+                                    <div className="h-full bg-neon-500 transition-all duration-200" style={{width: `${loadingWidth}%`}}></div>
+                                </div>
+                            </div>
+                            <div className="h-[1px] bg-neon-500 w-1/4"></div>
+                        </div>
+
+                        {/* Logo */}
+                        <div className="mb-8 relative group">
+                            <div className="w-20 h-20 border-2 border-white flex items-center justify-center relative bg-black z-10">
+                                <span className="text-5xl font-black text-white">F</span>
+                            </div>
+                            <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-neon-500 animate-pulse-slow z-20"></div>
+                            <div className="absolute top-2 left-2 w-20 h-20 border border-neon-900 z-0"></div>
+                        </div>
+
+                        {/* Headline */}
+                        <h1 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter text-center leading-[0.9] mb-8 text-white uppercase">
+                            Sitio en <br />
+                            <span className="text-neon-500">Construcción</span>
+                        </h1>
+
+                        <div className="flex flex-col gap-3 text-neutral-400 font-mono text-xs text-center tracking-widest uppercase">
+                            <div className="flex items-center justify-center gap-3">
+                                <span className="w-1.5 h-1.5 bg-neon-500 animate-ping"></span>
+                                Calibrando Ejes...
+                            </div>
+                            <div>Afilando Bits...</div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="mt-16 w-full flex flex-col gap-4 text-center relative z-50">
+                            <p className="text-neutral-500 text-xs mb-2 uppercase tracking-widest">¿Proyecto Urgente?</p>
+                            
+                            {/* Email Button */}
+                            <a href="mailto:hola@formayfondotaller.com" className="block w-full border border-neon-500 bg-black/80 backdrop-blur-md text-neon-500 px-8 py-4 font-bold uppercase tracking-widest hover:bg-neon-500 hover:text-black transition-all duration-300">
+                                Email
+                            </a>
+
+                            {/* WhatsApp Button */}
+                            <a href="https://wa.me/523300000000" className="block w-full border border-neutral-800 text-white px-8 py-4 font-bold uppercase tracking-widest hover:border-neon-500 hover:text-neon-500 transition-all duration-300">
+                                WhatsApp
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Footer / Coordinates */}
+                    <div className="relative z-20 w-full flex flex-col md:flex-row justify-between items-center md:items-end px-6 py-8 gap-4">
+                        <div className="text-[10px] text-neutral-400 font-mono text-center md:text-left">
+                            <span className="font-bold text-white">FORMA & FONDO TALLER</span>
+                            <span className="mx-2">::</span>
+                            <span>MX 2025</span>
+                        </div>
+                        
+                        {/* THE AXIS THINGY */}
+                        <div className="font-mono text-xs text-neon-500 bg-black/80 p-2 border border-neutral-800 w-full md:w-auto text-center md:text-right">
+                            <span className="mr-4">X: <span className="text-white">{cursorPos.x > 0 ? cursorPos.x.toFixed(1) : '---'}</span></span>
+                            <span>Y: <span className="text-white">{cursorPos.y > 0 ? cursorPos.y.toFixed(1) : '---'}</span></span>
+                        </div>
+                    </div>
+
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<ConstructionPage />);
+    </script>
 </body>
 </html>
