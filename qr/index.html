@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF CNC Pro | Final Build</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { neon: { 500: '#ff0098' } },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-preview { transition: all 0.4s ease; border-radius: 8px; }
+        
+        /* Material Textures */
+        .mat-mdf { background: #d2b48c; border: 12px solid #bfa07a !important; }
+        .mat-plywood { background: #e3d5b8; border: 12px solid #d4c4a1 !important; }
+        .mat-aluminum { background: #e2e2e2; border: 12px solid #999 !important; }
+        .mat-valchromat { background: #2a2a2a; border: 12px solid #1a1a1a !important; }
+        .mat-copper { background: #b87333; border: 12px solid #7a3e11 !important; }
+        .mat-acrylic { background: #ffffff; border: 12px solid #eee !important; }
+        .mat-phenolic { background: #4b2c20; border: 12px solid #361d15 !important; }
+
+        /* Fix para el dropdown */
+        select, input { 
+            border-radius: 0px !important; 
+            border-bottom: 2px solid #e5e7eb; 
+            outline: none; 
+            transition: 0.3s; 
+            appearance: none; 
+        }
+        select:focus { 
+            border-color: #ff0098 !important; 
+            background-color: #171717 !important; /* Mantiene el fondo oscuro de FF */
+            color: white !important;
+        }
+        input:focus { border-color: #ff0098; background: white; }
+        #canvas-container svg { background: transparent !important; }
+    </style>
+</head>
+<body class="bg-white text-neutral-900 p-4 md:p-8">
+
+    <div class="max-w-md mx-auto">
+        <header class="mb-6 border-b-4 border-black pb-4">
+            <h1 class="text-3xl font-black tracking-tighter uppercase leading-none">FF <span class="text-neon-500 italic">CNC Geometry</span></h1>
+            <p class="text-[10px] font-bold text-neutral-400 mt-2 uppercase tracking-widest">Personalización de Trayectorias</p>
+        </header>
+
+        <div class="grid grid-cols-2 gap-4 mb-6 p-4 bg-neutral-50 border border-neutral-200">
+            <div>
+                <label class="block text-[8px] font-black uppercase mb-1">Módulos (Bit)</label>
+                <select id="dots-style" onchange="updateQR()" class="w-full p-2 text-[10px] font-bold bg-white">
+                    <option value="square">Cuadrado</option>
+                    <option value="rounded">Redondeado</option>
+                    <option value="dots">Puntos</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-[8px] font-black uppercase mb-1">Esquinas (Frames)</label>
+                <select id="corners-style" onchange="updateQR()" class="w-full p-2 text-[10px] font-bold bg-white">
+                    <option value="square">Rectas</option>
+                    <option value="extra-rounded">Redondeadas</option>
+                    <option value="dot">Circulares</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="col-span-1">
+                <select id="material-select" onchange="updateMaterial()" class="w-full p-3 text-[10px] font-black uppercase bg-neutral-900 text-white focus:bg-neutral-900">
+                    <option value="mat-mdf">MDF</option>
+                    <option value="mat-plywood">Plywood</option>
+                    <option value="mat-aluminum">Aluminio</option>
+                    <option value="mat-valchromat">Valchromat</option>
+                    <option value="mat-copper">Cobre</option>
+                    <option value="mat-acrylic">Acrílico</option>
+                    <option value="mat-phenolic">Fenólico</option>
+                </select>
+            </div>
+            <label class="flex items-center gap-2 px-3 border-2 border-black bg-neutral-100 cursor-pointer hover:bg-white transition-colors">
+                <input type="checkbox" id="reserve-logo" onchange="updateQR()" class="accent-neon-500">
+                <span class="text-[9px] font-black uppercase">Hueco Logo</span>
+            </label>
+        </div>
+
+        <input type="text" id="url-input" placeholder="Ingresa URL o Datos..." oninput="updateQR()" class="w-full p-4 mb-8 border-2 border-black text-sm font-bold">
+
+        <div class="p-8 bg-neutral-100 flex justify-center items-center overflow-hidden border border-neutral-200">
+            <div id="material-frame" class="material-preview mat-mdf p-4 shadow-xl">
+                <div id="canvas-container"></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-8">
+            <button onclick="download('svg')" class="py-4 bg-black text-white text-[10px] font-black uppercase tracking-widest shadow-[6px_6px_0px_0px_#ff0098] active:translate-x-1 active:translate-y-1 active:shadow-none">SVG (Vectors)</button>
+            <button onclick="download('png')" class="py-4 border-2 border-black font-black text-[10px] uppercase">PNG (Preview)</button>
+        </div>
+
+        <footer class="mt-12 text-center opacity-30">
+            <p class="text-[8px] font-mono tracking-[0.5em] uppercase">Materia · Energía · Intención</p>
+        </footer>
+    </div>
+
+    <script>
+        const qrCode = new QRCodeStyling({
+            width: 280,
+            height: 280,
+            type: "svg",
+            data: "https://formafondo.com",
+            dotsOptions: { color: "#000000", type: "square" },
+            backgroundOptions: { color: "transparent" },
+            cornersSquareOptions: { type: "square", color: "#000000" },
+            qrOptions: { errorCorrectionLevel: "H" }
+        });
+
+        function updateMaterial() {
+            const mat = document.getElementById('material-select').value;
+            const frame = document.getElementById('material-frame');
+            frame.className = `material-preview ${mat} p-4 shadow-xl`;
+            
+            let color = "#1a1a1a";
+            if(mat === 'mat-valchromat' || mat === 'mat-phenolic') color = "#fdfdfd";
+            if(mat === 'mat-aluminum') color = "#333333";
+            if(mat === 'mat-copper') color = "#2a1a0a";
+            
+            qrCode.update({ 
+                dotsOptions: { color: color }, 
+                cornersSquareOptions: { color: color },
+                cornersDotOptions: { color: color }
+            });
+        }
+
+        function updateQR() {
+            const data = document.getElementById('url-input').value || "https://formafondo.com";
+            const dotStyle = document.getElementById('dots-style').value;
+            const cornerStyle = document.getElementById('corners-style').value;
+            const reserve = document.getElementById('reserve-logo').checked;
+
+            qrCode.update({
+                data: data,
+                dotsOptions: { type: dotStyle },
+                cornersSquareOptions: { type: cornerStyle },
+                cornersDotOptions: { type: cornerStyle === 'square' ? 'square' : 'dot' },
+                image: reserve ? "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" : "",
+                imageOptions: { hideBackgroundDots: reserve, imageSize: 0.35, margin: 5 }
+            });
+        }
+
+        function download(format) {
+            qrCode.download({ name: "FF-CNC-Design", extension: format });
+        }
+
+        qrCode.append(document.getElementById("canvas-container"));
+        updateMaterial();
+        updateQR();
+    </script>
+</body>
+</html>
