@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FF CNC Pro | Final Build</title>
+    <title>Forma & Fondo | CNC Pro & Identidad Material</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -17,108 +19,183 @@
             }
         }
     </script>
+    
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .material-preview { transition: all 0.4s ease; border-radius: 8px; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; }
         
-        /* Material Textures */
-        .mat-mdf { background: #d2b48c; border: 12px solid #bfa07a !important; }
-        .mat-plywood { background: #e3d5b8; border: 12px solid #d4c4a1 !important; }
-        .mat-aluminum { background: #e2e2e2; border: 12px solid #999 !important; }
-        .mat-valchromat { background: #2a2a2a; border: 12px solid #1a1a1a !important; }
-        .mat-copper { background: #b87333; border: 12px solid #7a3e11 !important; }
-        .mat-acrylic { background: #ffffff; border: 12px solid #eee !important; }
-        .mat-phenolic { background: #4b2c20; border: 12px solid #361d15 !important; }
+        /* Efectos Hero */
+        .text-stroke { -webkit-text-stroke: 1px white; color: transparent; }
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%);
+        }
+        .pink-glow {
+            box-shadow: 0 0 50px -10px rgba(255, 0, 152, 0.4);
+        }
 
-        /* Fix para el dropdown */
+        /* Estilos Simulador */
+        .material-preview { transition: all 0.4s ease; border-radius: 4px; overflow: hidden; }
+        .mat-mdf { background: #d2b48c; border: 8px solid #bfa07a !important; }
+        .mat-triplay { background: #e3d5b8; border: 8px solid #d4c4a1 !important; }
+        .mat-aluminum { background: #e2e2e2; background-image: linear-gradient(135deg, #ffffff 0%, #bcbcbc 100%); border: 8px solid #999 !important; }
+        .mat-valchromat { background: #1a1a1a; border: 8px solid #000 !important; }
+        .mat-phenolic { 
+            background: #b87333; 
+            background-image: linear-gradient(145deg, #d39359 0%, #b87333 50%, #8b4513 100%); 
+            border: 8px solid #8b4513 !important;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        /* UI Inputs */
         select, input { 
             border-radius: 0px !important; 
-            border-bottom: 2px solid #e5e7eb; 
+            border-bottom: 2px solid #333; 
             outline: none; 
             transition: 0.3s; 
-            appearance: none; 
+            background-color: #111;
+            color: white;
         }
-        select:focus { 
+        select:focus, input:focus { 
             border-color: #ff0098 !important; 
-            background-color: #171717 !important; /* Mantiene el fondo oscuro de FF */
-            color: white !important;
+            background-color: #1a1a1a !important; 
         }
-        input:focus { border-color: #ff0098; background: white; }
+        select option { background: #111; color: white; }
         #canvas-container svg { background: transparent !important; }
     </style>
 </head>
-<body class="bg-white text-neutral-900 p-4 md:p-8">
+<body class="antialiased">
 
-    <div class="max-w-md mx-auto">
-        <header class="mb-6 border-b-4 border-black pb-4">
-            <h1 class="text-3xl font-black tracking-tighter uppercase leading-none">FF <span class="text-neon-500 italic">CNC Geometry</span></h1>
-            <p class="text-[10px] font-bold text-neutral-400 mt-2 uppercase tracking-widest">Personalización de Trayectorias</p>
-        </header>
-
-        <div class="grid grid-cols-2 gap-4 mb-6 p-4 bg-neutral-50 border border-neutral-200">
-            <div>
-                <label class="block text-[8px] font-black uppercase mb-1">Módulos (Bit)</label>
-                <select id="dots-style" onchange="updateQR()" class="w-full p-2 text-[10px] font-bold bg-white">
-                    <option value="square">Cuadrado</option>
-                    <option value="rounded">Redondeado</option>
-                    <option value="dots">Puntos</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-[8px] font-black uppercase mb-1">Esquinas (Frames)</label>
-                <select id="corners-style" onchange="updateQR()" class="w-full p-2 text-[10px] font-bold bg-white">
-                    <option value="square">Rectas</option>
-                    <option value="extra-rounded">Redondeadas</option>
-                    <option value="dot">Circulares</option>
-                </select>
-            </div>
+    <section class="relative h-screen min-h-[700px] w-full overflow-hidden flex items-center">
+        <div class="absolute inset-0 z-0">
+            <img src="hero.jpg" alt="CNC Hero" class="w-full h-full object-cover">
+            <div class="absolute inset-0 hero-gradient"></div>
+            <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-neon-500/20 blur-[120px] rounded-full"></div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 mb-6">
-            <div class="col-span-1">
-                <select id="material-select" onchange="updateMaterial()" class="w-full p-3 text-[10px] font-black uppercase bg-neutral-900 text-white focus:bg-neutral-900">
-                    <option value="mat-mdf">MDF</option>
-                    <option value="mat-plywood">Plywood</option>
-                    <option value="mat-aluminum">Aluminio</option>
-                    <option value="mat-valchromat">Valchromat</option>
-                    <option value="mat-copper">Cobre</option>
-                    <option value="mat-acrylic">Acrílico</option>
-                    <option value="mat-phenolic">Fenólico</option>
-                </select>
-            </div>
-            <label class="flex items-center gap-2 px-3 border-2 border-black bg-neutral-100 cursor-pointer hover:bg-white transition-colors">
-                <input type="checkbox" id="reserve-logo" onchange="updateQR()" class="accent-neon-500">
-                <span class="text-[9px] font-black uppercase">Hueco Logo</span>
-            </label>
-        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full">
+            <div class="lg:w-2/3">
+                <div class="inline-flex items-center gap-3 mb-6 px-4 py-2 border border-white/20 bg-black/60 backdrop-blur-md">
+                    <span class="w-2 h-2 bg-neon-500 animate-pulse"></span>
+                    <span class="text-[10px] font-bold tracking-[0.4em] uppercase text-white">Manufactura Digital · Zapopan</span>
+                </div>
 
-        <input type="text" id="url-input" placeholder="Ingresa URL o Datos..." oninput="updateQR()" class="w-full p-4 mb-8 border-2 border-black text-sm font-bold">
+                <h1 class="text-6xl md:text-7xl lg:text-9xl font-black leading-[0.85] tracking-tighter text-white mb-8">
+                    PRECISIÓN <br/>
+                    <span class="text-neon-500 italic">TANGIBLE.</span> <br/>
+                    <span class="text-stroke hover:text-white transition-all duration-500 cursor-default">IDENTIDAD.</span>
+                </h1>
 
-        <div class="p-8 bg-neutral-100 flex justify-center items-center overflow-hidden border border-neutral-200">
-            <div id="material-frame" class="material-preview mat-mdf p-4 shadow-xl">
-                <div id="canvas-container"></div>
+                <p class="text-lg md:text-xl text-neutral-300 mb-10 max-w-xl leading-relaxed border-l-4 border-neon-500 pl-6">
+                    Codificamos tu visión en materia. Grabado de alta precisión en placa fenólica, metales no ferrosos y maderas densas.
+                    <span class="block mt-2 font-bold text-white uppercase tracking-wider text-sm italic">Energía convertida en forma.</span>
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#generador" class="px-10 py-5 bg-neon-500 text-white text-xs font-black uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] text-center">
+                        Configurar QR
+                    </a>
+                    <button class="px-10 py-5 border-2 border-white/30 text-white text-xs font-black uppercase tracking-[0.2em] hover:border-white hover:bg-white/10 transition-all text-center">
+                        Proyectos
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 mt-8">
-            <button onclick="download('svg')" class="py-4 bg-black text-white text-[10px] font-black uppercase tracking-widest shadow-[6px_6px_0px_0px_#ff0098] active:translate-x-1 active:translate-y-1 active:shadow-none">SVG (Vectors)</button>
-            <button onclick="download('png')" class="py-4 border-2 border-black font-black text-[10px] uppercase">PNG (Preview)</button>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+            <span class="text-[8px] font-bold uppercase tracking-[0.5em] text-white">Deslizar para simular</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-neon-500 to-transparent"></div>
         </div>
+    </section>
 
-        <footer class="mt-12 text-center opacity-30">
-            <p class="text-[8px] font-mono tracking-[0.5em] uppercase">Materia · Energía · Intención</p>
-        </footer>
-    </div>
+    <section id="generador" class="min-h-screen bg-neutral-950 py-24 px-6 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-neon-500/5 blur-[150px] pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
+                
+                <div class="space-y-8">
+                    <header class="border-b-4 border-white pb-4">
+                        <h2 class="text-3xl font-black tracking-tighter uppercase leading-none italic">
+                            CNC <span class="text-neon-500">PRO</span> SIMULATOR
+                        </h2>
+                        <p class="text-[10px] font-bold text-neutral-500 mt-2 uppercase tracking-widest italic">V-Bit 90° & End Mill Calibration</p>
+                    </header>
+
+                    <div class="grid grid-cols-2 gap-4 p-4 bg-white/5 border border-white/10">
+                        <div>
+                            <label class="block text-[8px] font-black uppercase mb-1 text-neutral-400">Módulos</label>
+                            <select id="dots-style" onchange="updateQR()" class="w-full p-2 text-[10px] font-bold">
+                                <option value="square">Cuadrado</option>
+                                <option value="rounded">V-Bit 90° Style</option>
+                                <option value="dots">Puntos</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[8px] font-black uppercase mb-1 text-neutral-400">Esquinas</label>
+                            <select id="corners-style" onchange="updateQR()" class="w-full p-2 text-[10px] font-bold">
+                                <option value="square">Rectas</option>
+                                <option value="extra-rounded">Redondeadas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <select id="material-select" onchange="updateMaterial()" class="p-3 text-[10px] font-black uppercase bg-white text-black focus:bg-neon-500 focus:text-white">
+                            <option value="mat-phenolic">Fenólico (Baquelita)</option>
+                            <option value="mat-mdf">MDF Natural</option>
+                            <option value="mat-triplay">Triplay</option>
+                            <option value="mat-aluminum">Aluminio</option>
+                            <option value="mat-valchromat">Valchromat Negro</option>
+                        </select>
+                        
+                        <label class="flex items-center gap-3 px-3 border border-white/20 bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
+                            <input type="checkbox" id="reserve-logo" onchange="updateQR()" class="accent-neon-500 w-4 h-4">
+                            <span class="text-[9px] font-black uppercase">Espacio Logo</span>
+                        </label>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-[8px] font-black uppercase text-neutral-500">Data Payload</label>
+                        <input type="text" id="url-input" placeholder="URL o Datos de contacto..." oninput="updateQR()" class="w-full p-5 bg-white text-black text-sm font-bold">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <button onclick="download('svg')" class="py-5 bg-neon-500 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">
+                            Exportar SVG
+                        </button>
+                        <button onclick="download('png')" class="py-5 border border-white/30 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all">
+                            Imagen PNG
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sticky top-12 flex flex-col items-center">
+                    <div class="p-1 text-[8px] font-black uppercase tracking-[0.3em] mb-4 text-neutral-500 border-b border-white/10 w-full text-center">
+                        Toolpath Preview
+                    </div>
+                    <div class="p-8 bg-neutral-900 border border-white/10 pink-glow">
+                        <div id="material-frame" class="material-preview mat-phenolic p-4 shadow-2xl">
+                            <div id="canvas-container"></div>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-[9px] text-neutral-500 font-mono uppercase tracking-widest">
+                        Z-Axis Precision: ±0.05mm
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <script>
         const qrCode = new QRCodeStyling({
-            width: 280,
-            height: 280,
+            width: 300,
+            height: 300,
             type: "svg",
             data: "https://formafondo.com",
-            dotsOptions: { color: "#000000", type: "square" },
+            dotsOptions: { color: "#4b2c20", type: "square" },
             backgroundOptions: { color: "transparent" },
-            cornersSquareOptions: { type: "square", color: "#000000" },
+            cornersSquareOptions: { type: "square", color: "#4b2c20" },
             qrOptions: { errorCorrectionLevel: "H" }
         });
 
@@ -128,9 +205,10 @@
             frame.className = `material-preview ${mat} p-4 shadow-xl`;
             
             let color = "#1a1a1a";
-            if(mat === 'mat-valchromat' || mat === 'mat-phenolic') color = "#fdfdfd";
+            if(mat === 'mat-phenolic') color = "#4b2c20";
+            if(mat === 'mat-valchromat') color = "#f0f0f0";
             if(mat === 'mat-aluminum') color = "#333333";
-            if(mat === 'mat-copper') color = "#2a1a0a";
+            if(mat === 'mat-triplay') color = "#5c4033";
             
             qrCode.update({ 
                 dotsOptions: { color: color }, 
