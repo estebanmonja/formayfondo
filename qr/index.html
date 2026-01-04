@@ -1,221 +1,232 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Forma & Fondo | Identidad Material</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { neon: { 500: '#ff0098' } },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    
-    <style>
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; margin: 0; padding: 0; width: 100vw; overflow-x: hidden; }
-        
-        .text-stroke { -webkit-text-stroke: 1px white; color: transparent; }
-        .hero-gradient { background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%); }
-        .pink-glow { box-shadow: 0 0 60px -15px rgba(255, 0, 152, 0.5); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forma & Fondo | Identidad Material</title>
 
-        /* FIX: Contenedor Responsivo para iPhone X */
-        .material-preview { 
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); 
-            border-radius: 12px; 
-            overflow: hidden; 
-            margin: 0 auto; 
-            width: 100%; 
-            max-width: 400px; /* Tamaño máximo en desktop */
-            aspect-ratio: 1.6 / 1; /* Mantiene proporción de tarjeta de crédito */
-            position: relative; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
-        /* Materiales */
-        .mat-phenolic { background: #b87333; background-image: linear-gradient(145deg, #d39359 0%, #b87333 50%, #8b4513 100%); border: 2px solid rgba(255,255,255,0.1); }
-        .mat-triplay { background: #e3d5b8; background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); border: 2px solid #d4c4a1; }
-        .mat-aluminum { background: #e2e2e2; background-image: linear-gradient(135deg, #ffffff 0%, #bcbcbc 100%); border: 2px solid #999; }
-        .mat-valchromat { background: #1a1a1a; border: 2px solid #333; }
-
-        input { border-radius: 0px !important; border-bottom: 1px solid #333; outline: none; background-color: transparent; color: white; width: 100%; }
-        input:focus { border-color: #ff0098; }
-        .tab-active { color: #ff0098; border-bottom: 2px solid #ff0098; }
-        
-        /* Ajuste del canvas para que nunca desborde */
-        #canvas-container canvas, #canvas-container svg {
-            max-width: 80% !important; /* El QR nunca ocupará más del 80% de la tarjeta */
-            height: auto !important;
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: { neon: { 500: '#ff0098' } },
+            fontFamily: { sans: ['Inter', 'sans-serif'] }
         }
+    }
+}
+</script>
 
-        .try-me-badge {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background: #ff0098;
-            color: white;
-            padding: 2px 8px;
-            font-size: 8px;
-            font-weight: 900;
-            text-transform: uppercase;
-            border-radius: 20px;
-            animation: pulse-neon 2s infinite;
-        }
+<style>
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #000;
+    color: white;
+}
 
-        @keyframes pulse-neon {
-            0% { box-shadow: 0 0 0 0 rgba(255, 0, 152, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 0, 152, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 0, 152, 0); }
-        }
-    </style>
+/* Card */
+.card-container {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 1.58 / 1;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,.6);
+}
+
+/* Materials */
+.mat-phenolic { background: linear-gradient(145deg,#d39359,#8b4513); }
+.mat-triplay { background:#e3d5b8; }
+.mat-aluminum { background: linear-gradient(135deg,#eee,#999); }
+.mat-valchromat { background:#111; }
+
+/* 🔒 TRUE SQUARE LOCK */
+.qr-square {
+    width: 75%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* QR renderer */
+#canvas-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#canvas-container svg {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Badge */
+.try-me-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: #ff0098;
+    padding: 6px 14px;
+    font-size: 10px;
+    font-weight: 900;
+    border-radius: 999px;
+}
+
+/* Inputs */
+input {
+    background: transparent;
+    border-bottom: 1px solid #333;
+    padding: 14px 0;
+    width: 100%;
+    color: white;
+}
+
+input:focus {
+    outline: none;
+    border-color: #ff0098;
+}
+
+.tab-active {
+    color: #ff0098;
+    border-bottom: 2px solid #ff0098;
+}
+</style>
 </head>
-<body class="antialiased">
 
-    <section class="relative h-screen w-full flex items-center">
-        <div class="absolute inset-0 z-0">
-            <img src="hero.jpg" alt="CNC Hero" class="w-full h-full object-cover opacity-80">
-            <div class="absolute inset-0 hero-gradient"></div>
-        </div>
-        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full text-center md:text-left">
-            <div class="lg:w-2/3">
-                <h1 class="text-5xl md:text-8xl lg:text-9xl font-black leading-[0.85] tracking-tighter text-white mb-6 uppercase">
-                    PRECISIÓN <br/> <span class="text-neon-500 italic">TANGIBLE.</span> <br/> <span class="text-stroke">IDENTIDAD.</span>
-                </h1>
-                <p class="text-sm md:text-xl text-neutral-400 mb-8 max-w-lg mx-auto md:mx-0 font-bold italic uppercase">
-                    Tarjetas digitales grabadas en CNC.
-                </p>
-                <a href="#configurador" class="inline-block px-10 py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.3em]">Personalizar</a>
+<body>
+
+<section class="min-h-screen flex items-center justify-center p-8">
+<div class="max-w-6xl w-full grid lg:grid-cols-2 gap-16 items-center">
+
+<!-- LEFT -->
+<div class="flex flex-col items-center gap-6">
+    <div class="w-full bg-neutral-900 p-4 rounded-2xl">
+        <div id="material-frame" class="card-container mat-aluminum">
+            <div class="try-me-badge">ESCANEA</div>
+
+            <!-- 🔒 SQUARE LOCK -->
+            <div class="qr-square">
+                <div id="canvas-container"></div>
             </div>
         </div>
-    </section>
 
-    <section id="configurador" class="min-h-screen bg-black py-12 px-4">
-        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12 items-center">
-            
-            <div class="w-full lg:w-3/5 order-1 lg:order-1">
-                <div class="relative p-4 md:p-8 bg-neutral-900/50 pink-glow border border-white/5">
-                    <div id="material-frame" class="material-preview mat-phenolic">
-                        <div class="try-me-badge">Escanea</div>
-                        <div id="canvas-container"></div>
-                    </div>
-                    <div class="mt-4 flex justify-between items-center text-[8px] font-bold text-neutral-500 uppercase tracking-widest">
-                        <span>Preview</span>
-                        <span id="mat-label">Fenólico / PCB</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-full lg:w-2/5 order-2 lg:order-2 space-y-8">
-                <header class="text-center lg:text-left">
-                    <h2 class="text-3xl font-black uppercase italic text-neon-500">Configuración</h2>
-                </header>
-
-                <div class="space-y-6">
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="updateMaterial('mat-phenolic', 'Fenólico / PCB')" class="py-2 border border-white/10 text-[8px] font-bold uppercase hover:bg-white hover:text-black">PCB Cobre</button>
-                        <button onclick="updateMaterial('mat-valchromat', 'Valchromat Negro')" class="py-2 border border-white/10 text-[8px] font-bold uppercase hover:bg-white hover:text-black">Valchromat</button>
-                        <button onclick="updateMaterial('mat-triplay', 'Triplay de Pino')" class="py-2 border border-white/10 text-[8px] font-bold uppercase hover:bg-white hover:text-black">Triplay</button>
-                        <button onclick="updateMaterial('mat-aluminum', 'Aluminio Cepillado')" class="py-2 border border-white/10 text-[8px] font-bold uppercase hover:bg-white hover:text-black">Aluminio</button>
-                    </div>
-
-                    <div class="flex gap-4 border-b border-white/10">
-                        <button onclick="switchMode('url')" id="btn-url" class="pb-2 text-[9px] font-black uppercase tab-active">Web</button>
-                        <button onclick="switchMode('vcard')" id="btn-vcard" class="pb-2 text-[9px] font-black uppercase text-neutral-500">Contacto</button>
-                    </div>
-
-                    <div id="inputs-container">
-                        <div id="url-fields" class="space-y-4">
-                            <input type="text" id="url-input" placeholder="URL de Instagram / Web" oninput="updateQR()" class="py-3 text-xs">
-                        </div>
-                        <div id="vcard-fields" class="hidden space-y-3">
-                            <div class="grid grid-cols-2 gap-2">
-                                <input type="text" id="fname" placeholder="Nombre" oninput="updateQR()" class="py-2 text-xs">
-                                <input type="text" id="lname" placeholder="Apellidos" oninput="updateQR()" class="py-2 text-xs">
-                            </div>
-                            <input type="text" id="company" placeholder="Empresa" oninput="updateQR()" class="py-2 text-xs">
-                            <input type="text" id="email" placeholder="Correo" oninput="updateQR()" class="py-2 text-xs">
-                            <input type="text" id="tel" placeholder="WhatsApp" oninput="updateQR()" class="py-2 text-xs">
-                        </div>
-                    </div>
-
-                    <button onclick="sendWhatsApp()" class="w-full py-4 bg-neon-500 text-white font-black uppercase text-[10px] tracking-[0.2em] active:scale-95 transition-all">
-                        Solicitar Cotización
-                    </button>
-                </div>
-            </div>
-
+        <div class="mt-4 flex justify-between text-xs uppercase text-neutral-500">
+            <span>Previsualización digital</span>
+            <span id="mat-label">Aluminio cepillado</span>
         </div>
-    </section>
+    </div>
 
-    <script>
-        let mode = 'url';
-        const qrCode = new QRCodeStyling({
-            width: 300,
-            height: 300,
-            type: "svg",
-            data: "https://formafondo.com",
-            dotsOptions: { color: "#4b2c20", type: "rounded" },
-            backgroundOptions: { color: "transparent" },
-            cornersSquareOptions: { type: "extra-rounded", color: "#4b2c20" },
-            qrOptions: { errorCorrectionLevel: "H" }
-        });
+    <p class="text-neon-500 text-xs font-black tracking-widest uppercase">
+        ¡Pruébalo con tu cámara!
+    </p>
+</div>
 
-        function switchMode(newMode) {
-            mode = newMode;
-            document.getElementById('url-fields').classList.toggle('hidden', mode !== 'url');
-            document.getElementById('vcard-fields').classList.toggle('hidden', mode !== 'vcard');
-            document.getElementById('btn-url').className = mode === 'url' ? "pb-2 text-[9px] font-black uppercase tab-active" : "pb-2 text-[9px] font-black uppercase text-neutral-500";
-            document.getElementById('btn-vcard').className = mode === 'vcard' ? "pb-2 text-[9px] font-black uppercase tab-active" : "pb-2 text-[9px] font-black uppercase text-neutral-500";
-            updateQR();
-        }
+<!-- RIGHT -->
+<div class="space-y-10">
+    <h2 class="text-6xl font-black italic uppercase">
+        Configu<span class="text-neon-500">ración</span>
+    </h2>
 
-        function updateMaterial(matClass, label) {
-            const frame = document.getElementById('material-frame');
-            document.getElementById('mat-label').innerText = label;
-            frame.className = `material-preview ${matClass}`;
-            let color = "#1a1a1a";
-            if(matClass === 'mat-phenolic') color = "#4b2c20";
-            if(matClass === 'mat-valchromat') color = "#ffffff";
-            if(matClass === 'mat-triplay') color = "#5c4033";
-            if(matClass === 'mat-aluminum') color = "#333333";
-            qrCode.update({ dotsOptions: { color: color }, cornersSquareOptions: { color: color } });
-        }
+    <div class="grid grid-cols-2 gap-4">
+        <button onclick="updateMaterial('mat-phenolic','Fenólico / PCB')" class="border p-4 text-xs uppercase">PCB cobre</button>
+        <button onclick="updateMaterial('mat-valchromat','Valchromat')" class="border p-4 text-xs uppercase">Valchromat</button>
+        <button onclick="updateMaterial('mat-triplay','Triplay')" class="border p-4 text-xs uppercase">Triplay</button>
+        <button onclick="updateMaterial('mat-aluminum','Aluminio')" class="border p-4 text-xs uppercase">Aluminio</button>
+    </div>
 
-        function updateQR() {
-            let data = "";
-            if (mode === 'url') {
-                data = document.getElementById('url-input').value || "https://formafondo.com";
-            } else {
-                const f = document.getElementById('fname').value;
-                const l = document.getElementById('lname').value;
-                const o = document.getElementById('company').value;
-                const e = document.getElementById('email').value;
-                const t = document.getElementById('tel').value;
-                data = `BEGIN:VCARD\nVERSION:3.0\nN:${l};${f};;;\nFN:${f} ${l}\nORG:${o}\nEMAIL:${e}\nTEL:${t}\nEND:VCARD`;
-            }
-            qrCode.update({ data: data });
-        }
+    <div class="flex gap-8 border-b border-white/10">
+        <button id="btn-url" onclick="switchMode('url')" class="pb-3 tab-active text-xs uppercase">Web / RRSS</button>
+        <button id="btn-vcard" onclick="switchMode('vcard')" class="pb-3 text-xs uppercase text-neutral-500">Contacto pro</button>
+    </div>
 
-        function sendWhatsApp() {
-            const mat = document.getElementById('mat-label').innerText;
-            const name = document.getElementById('fname').value || "Cliente";
-            const msg = `¡Hola Forma & Fondo! Vengo del configurador.\n\nPROYECTO: Tarjeta CNC\nMATERIAL: ${mat}\nNOMBRE: ${name}`;
-            window.open(`https://wa.me/523315305043?text=${encodeURIComponent(msg)}`, '_blank');
-        }
+    <div id="url-fields">
+        <input id="url-input" oninput="updateQR()" placeholder="Tu URL (ej: instagram.com/formayfondotaller)">
+    </div>
 
-        qrCode.append(document.getElementById("canvas-container"));
-        updateQR();
-    </script>
+    <div id="vcard-fields" class="hidden space-y-4">
+        <input id="fname" oninput="updateQR()" placeholder="Nombre">
+        <input id="lname" oninput="updateQR()" placeholder="Apellidos">
+        <input id="company" oninput="updateQR()" placeholder="Empresa">
+        <input id="email" oninput="updateQR()" placeholder="Correo">
+        <input id="tel" oninput="updateQR()" placeholder="Teléfono">
+    </div>
+
+    <button onclick="sendWhatsApp()" class="w-full py-6 bg-neon-500 font-black uppercase tracking-widest">
+        Solicitar cotización
+    </button>
+</div>
+
+</div>
+</section>
+
+<script>
+let mode = 'url';
+
+const qrCode = new QRCodeStyling({
+    width: 500,
+    height: 500,
+    type: "svg",
+    data: "https://formayfondotaller.com",
+    qrOptions: {
+        errorCorrectionLevel: "H",
+        margin: 16
+    },
+    dotsOptions: { type: "rounded", color: "#333" },
+    backgroundOptions: { color: "transparent" }
+});
+
+qrCode.append(document.getElementById("canvas-container"));
+
+function switchMode(m) {
+    mode = m;
+    document.getElementById("url-fields").classList.toggle("hidden", m !== "url");
+    document.getElementById("vcard-fields").classList.toggle("hidden", m !== "vcard");
+    document.getElementById("btn-url").className = m === "url" ? "pb-3 tab-active text-xs uppercase" : "pb-3 text-xs uppercase text-neutral-500";
+    document.getElementById("btn-vcard").className = m === "vcard" ? "pb-3 tab-active text-xs uppercase" : "pb-3 text-xs uppercase text-neutral-500";
+    updateQR();
+}
+
+function updateMaterial(cls,label){
+    document.getElementById("material-frame").className = `card-container ${cls}`;
+    document.getElementById("mat-label").innerText = label;
+}
+
+function updateQR() {
+    let data;
+    if(mode === 'url'){
+        data = document.getElementById("url-input").value || "https://formayfondotaller.com";
+    } else {
+        data =
+`BEGIN:VCARD
+VERSION:3.0
+FN:${fname.value} ${lname.value}
+ORG:${company.value}
+EMAIL:${email.value}
+TEL:${tel.value}
+END:VCARD`;
+    }
+    qrCode.update({ data });
+}
+
+function sendWhatsApp(){
+    const msg = `Hola Forma & Fondo, vengo del configurador de tarjetas CNC.`;
+    window.open(`https://wa.me/5213300000000?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+updateQR();
+</script>
+
 </body>
 </html>
