@@ -24,12 +24,11 @@
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; background-color: #000; color: white; margin: 0; padding: 0; width: 100vw; overflow-x: hidden; }
         
-        /* Estilos Hero */
         .text-stroke { -webkit-text-stroke: 1px white; color: transparent; }
         .hero-gradient { background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%); }
         .pink-glow { box-shadow: 0 0 60px -15px rgba(255, 0, 152, 0.5); }
 
-        /* Estilos Configurador Cuadrado */
+        /* Contenedor Cuadrado con Blind Space Garantizado */
         .preview-square {
             position: relative;
             width: 100%;
@@ -40,7 +39,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             margin: 0 auto;
         }
 
@@ -49,17 +48,16 @@
         .mat-triplay { background-color: #e3d5b8; background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); }
         .mat-aluminum { background: linear-gradient(135deg, #f0f0f0, #bcbcbc, #888); }
 
+        /* Contenedor del QR: El 'Blind Space' se maneja por JS para evitar clipping */
         #canvas-container {
-            width: 80%;
-            height: 80%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255,255,255,0.03);
-            border-radius: 4px;
+            width: 80%; /* Blind space del 10% por lado */
+            height: 80%;
         }
 
-        #canvas-container svg, #canvas-container canvas {
+        #canvas-container svg {
             width: 100% !important;
             height: 100% !important;
         }
@@ -76,7 +74,7 @@
             text-transform: uppercase;
             border-radius: 4px;
             animation: pulse-neon 2s infinite;
-            z-index: 10;
+            z-index: 20;
         }
 
         @keyframes pulse-neon {
@@ -97,14 +95,13 @@
             <img src="hero.jpg" alt="CNC Hero" class="w-full h-full object-cover opacity-80">
             <div class="absolute inset-0 hero-gradient"></div>
         </div>
-
         <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full text-center md:text-left">
             <div class="lg:w-2/3">
                 <h1 class="text-6xl md:text-8xl lg:text-9xl font-black leading-[0.85] tracking-tighter text-white mb-8 uppercase">
                     PRECISIÓN <br/> <span class="text-neon-500 italic">TANGIBLE.</span> <br/> <span class="text-stroke">IDENTIDAD.</span>
                 </h1>
                 <p class="text-lg md:text-xl text-neutral-300 mb-10 max-w-lg mx-auto md:mx-0 leading-relaxed font-bold italic uppercase tracking-wider">
-                    Tarjetas de presentación digitales grabadas en CNC. Tu red de contactos materializada en sustratos premium.
+                    Tarjetas de presentación digitales grabadas en CNC. Tu red de contactos materializada.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                     <a href="#configurador" class="px-12 py-5 bg-white text-black text-xs font-black uppercase tracking-[0.3em] hover:bg-neon-500 hover:text-white transition-all shadow-xl">
@@ -119,7 +116,7 @@
         <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-20 items-center">
             
             <div class="w-full lg:w-3/5 order-2 lg:order-1 flex flex-col items-center">
-                <div class="w-full max-w-[450px] p-6 bg-neutral-900 border border-white/5 pink-glow rounded-2xl">
+                <div class="w-full max-w-[420px] p-4 md:p-6 bg-neutral-900 border border-white/5 pink-glow rounded-2xl">
                     <div id="material-frame" class="preview-square mat-phenolic">
                         <div class="try-me-badge">Try Me</div>
                         <div id="canvas-container"></div>
@@ -138,7 +135,6 @@
             <div class="w-full lg:w-2/5 order-1 lg:order-2 space-y-10">
                 <header>
                     <h2 class="text-4xl font-black tracking-tighter uppercase italic text-neon-500 leading-none">Configura tu <br>identidad</h2>
-                    <p class="text-neutral-400 text-[10px] uppercase tracking-[0.2em] mt-4">Personalización Atómica para Profesionales</p>
                 </header>
 
                 <div class="space-y-8">
@@ -156,7 +152,7 @@
 
                     <div id="inputs-container">
                         <div id="url-fields" class="space-y-4">
-                            <input type="text" id="url-input" placeholder="Tu Link (Instagram, LinkedIn, Portafolio)" oninput="updateQR()" class="py-4 text-sm font-bold">
+                            <input type="text" id="url-input" placeholder="Tu URL (Instagram, LinkedIn)" oninput="updateQR()" class="py-4 text-sm font-bold">
                         </div>
                         <div id="vcard-fields" class="hidden space-y-4">
                             <div class="grid grid-cols-2 gap-3">
@@ -180,9 +176,16 @@
 
     <script>
         let mode = 'url';
+        
+        // Función para calcular el tamaño óptimo del QR basado en el contenedor real
+        function getOptimalSize() {
+            const container = document.getElementById('canvas-container');
+            return container ? container.offsetWidth : 300;
+        }
+
         const qrCode = new QRCodeStyling({
-            width: 600,
-            height: 600,
+            width: getOptimalSize(),
+            height: getOptimalSize(),
             type: "svg",
             data: "https://formafondo.com",
             dotsOptions: { color: "#4b2c20", type: "rounded" },
@@ -224,15 +227,28 @@
                 const t = document.getElementById('tel').value;
                 data = `BEGIN:VCARD\nVERSION:3.0\nN:${l};${f};;;\nFN:${f} ${l}\nORG:${o}\nEMAIL:${e}\nTEL:${t}\nEND:VCARD`;
             }
-            qrCode.update({ data: data });
+            // Forzamos actualización de tamaño al mismo tiempo que los datos para móvil
+            qrCode.update({ 
+                data: data,
+                width: getOptimalSize(),
+                height: getOptimalSize()
+            });
         }
 
         function sendWhatsApp() {
             const mat = document.getElementById('mat-label').innerText;
             const name = document.getElementById('fname').value || "Interesado";
-            const msg = `¡Hola Forma & Fondo! Vengo del configurador vCard.\n\nMaterial: ${mat}\nNombre: ${name}\nModo: ${mode.toUpperCase()}`;
-            window.open(`https://wa.me/5213300000000?text=${encodeURIComponent(msg)}`, '_blank');
+            const msg = `¡Hola Forma & Fondo! Vengo del configurador vCard.\n\nMaterial: ${mat}\nNombre: ${name}`;
+            window.open(`https://wa.me/523315305043?text=${encodeURIComponent(msg)}`, '_blank');
         }
+
+        // Evento para redimensionar el QR si el usuario gira el teléfono
+        window.addEventListener('resize', () => {
+            qrCode.update({
+                width: getOptimalSize(),
+                height: getOptimalSize()
+            });
+        });
 
         qrCode.append(document.getElementById("canvas-container"));
         updateQR();
