@@ -28,7 +28,7 @@
         .hero-gradient { background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%); }
         .pink-glow { box-shadow: 0 0 60px -15px rgba(255, 0, 152, 0.5); }
 
-        .material-preview { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 12px; overflow: hidden; margin: 0 auto; max-width: 100%; }
+        .material-preview { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 12px; overflow: hidden; margin: 0 auto; max-width: 100%; position: relative; }
         .mat-phenolic { background: #b87333; background-image: linear-gradient(145deg, #d39359 0%, #b87333 50%, #8b4513 100%); border: 2px solid rgba(255,255,255,0.1); }
         .mat-triplay { background: #e3d5b8; background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); border: 2px solid #d4c4a1; }
         .mat-aluminum { background: #e2e2e2; background-image: linear-gradient(135deg, #ffffff 0%, #bcbcbc 100%); border: 2px solid #999; }
@@ -46,6 +46,28 @@
         input:focus { border-color: #ff0098; }
         .tab-active { color: #ff0098; border-bottom: 2px solid #ff0098; }
         .qr-dark-mix { mix-blend-screen: 0.9; }
+
+        /* Badge Try Me */
+        .try-me-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #ff0098;
+            color: white;
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 20px;
+            animation: pulse-neon 2s infinite;
+        }
+
+        @keyframes pulse-neon {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 152, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 0, 152, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 152, 0); }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -57,8 +79,8 @@
         </div>
         <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full text-center md:text-left">
             <div class="lg:w-2/3">
-                <h1 class="text-6xl md:text-8xl lg:text-9xl font-black leading-[0.85] tracking-tighter text-white mb-8 uppercase">
-                    PRECISIÓN <br/> <span class="text-neon-500 italic">TANGIBLE.</span> <br/> <span class="text-stroke">IDENTIDAD.</span>
+                <h1 class="text-6xl md:text-8xl lg:text-9xl font-black leading-[0.85] tracking-tighter text-white mb-8 uppercase text-balance">
+                    PRECISIÓN <br/> <span class="text-neon-500 italic text-nowrap">TANGIBLE.</span> <br/> <span class="text-stroke">IDENTIDAD.</span>
                 </h1>
                 <p class="text-lg md:text-xl text-neutral-400 mb-10 max-w-lg mx-auto md:mx-0 leading-relaxed font-bold italic uppercase tracking-wider">
                     Tarjetas de presentación digitales grabadas en CNC. Personalización atómica en sustratos premium.
@@ -74,6 +96,7 @@
             <div class="w-full lg:w-3/5 order-2 lg:order-1">
                 <div class="relative p-6 md:p-12 bg-neutral-900/50 pink-glow border border-white/5 backdrop-blur-sm">
                     <div id="material-frame" class="material-preview mat-phenolic aspect-[1.6/1] flex items-center justify-center p-6 md:p-12">
+                        <div class="try-me-badge">Escanea con tu cámara</div>
                         <div id="canvas-container"></div>
                     </div>
                     <div class="mt-8 flex justify-between items-center text-[10px] font-bold tracking-[0.2em] text-neutral-500 uppercase">
@@ -81,6 +104,9 @@
                         <span id="mat-label">Fenólico / PCB Copper</span>
                     </div>
                 </div>
+                <p class="mt-6 text-center text-neon-500 text-[10px] font-black uppercase tracking-[0.3em] animate-pulse">
+                    ¡Pruébalo! El código funciona en tiempo real.
+                </p>
             </div>
 
             <div class="w-full lg:w-2/5 order-1 lg:order-2 space-y-10">
