@@ -28,7 +28,6 @@
         .hero-gradient { background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%); }
         .pink-glow { box-shadow: 0 0 60px -15px rgba(255, 0, 152, 0.5); }
 
-        /* Materiales */
         .material-preview { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 12px; overflow: hidden; margin: 0 auto; max-width: 100%; }
         .mat-phenolic { background: #b87333; background-image: linear-gradient(145deg, #d39359 0%, #b87333 50%, #8b4513 100%); border: 2px solid rgba(255,255,255,0.1); }
         .mat-triplay { background: #e3d5b8; background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); border: 2px solid #d4c4a1; }
@@ -46,7 +45,6 @@
         }
         input:focus { border-color: #ff0098; }
         .tab-active { color: #ff0098; border-bottom: 2px solid #ff0098; }
-        
         .qr-dark-mix { mix-blend-screen: 0.9; }
     </style>
 </head>
@@ -60,8 +58,11 @@
         <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full text-center md:text-left">
             <div class="lg:w-2/3">
                 <h1 class="text-6xl md:text-8xl lg:text-9xl font-black leading-[0.85] tracking-tighter text-white mb-8 uppercase">
-                    Diseño <br/> <span class="text-neon-500 italic">Atómico.</span> <br/> <span class="text-stroke">Objetos.</span>
+                    PRECISIÓN <br/> <span class="text-neon-500 italic">TANGIBLE.</span> <br/> <span class="text-stroke">IDENTIDAD.</span>
                 </h1>
+                <p class="text-lg md:text-xl text-neutral-400 mb-10 max-w-lg mx-auto md:mx-0 leading-relaxed font-bold italic uppercase tracking-wider">
+                    Tarjetas de presentación digitales grabadas en CNC. Personalización atómica en sustratos premium.
+                </p>
                 <a href="#configurador" class="inline-block px-12 py-5 bg-white text-black text-xs font-black uppercase tracking-[0.3em] hover:bg-neon-500 hover:text-white transition-all shadow-xl">Personalizar</a>
             </div>
         </div>
@@ -180,7 +181,6 @@
                 const o = document.getElementById('company').value;
                 const e = document.getElementById('email').value;
                 const t = document.getElementById('tel').value;
-                // Formato vCard 3.0 estándar
                 data = `BEGIN:VCARD\nVERSION:3.0\nN:${l};${f};;;\nFN:${f} ${l}\nORG:${o}\nEMAIL:${e}\nTEL:${t}\nEND:VCARD`;
             }
             qrCode.update({ data: data });
@@ -189,8 +189,8 @@
         function sendWhatsApp() {
             const mat = document.getElementById('mat-label').innerText;
             const name = document.getElementById('fname').value || "Cliente";
-            const msg = `¡Hola Forma & Fondo! Vengo del configurador.\n\nPROYECTO: Tarjeta CNC\nMATERIAL: ${mat}\nNOMBRE: ${name}\nMODO: ${mode.toUpperCase()}`;
-            window.open(`https://wa.me/523315305043?text=${encodeURIComponent(msg)}`, '_blank');
+            const msg = `¡Hola Forma & Fondo! Vengo del configurador.\n\nPROYECTO: Tarjeta CNC Digital\nMATERIAL: ${mat}\nNOMBRE: ${name}\nMODO: ${mode.toUpperCase()}`;
+            window.open(`https://wa.me/5213300000000?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         qrCode.append(document.getElementById("canvas-container"));
