@@ -40,19 +40,10 @@ body {
 /* ===============================
    SCROLLBAR (PINK THEME)
 ================================ */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--white);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--pink);
-  border-radius: 0px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--black);
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--white); }
+::-webkit-scrollbar-thumb { background: var(--pink); }
+::-webkit-scrollbar-thumb:hover { background: var(--black); }
 
 /* ===============================
    FIXED HEADER
@@ -64,7 +55,7 @@ header {
   width: 100%;
   height: var(--header-height);
   background: var(--white);
-  border-bottom: 1px solid var(--black);
+  border-bottom: 2px solid var(--cyan);
   z-index: 10000; 
   display: flex;
   align-items: center;
@@ -87,33 +78,25 @@ header {
   align-items: center;
 }
 
-.logo-sign img { 
-  height: 100%; 
-  width: auto;
-  display: block; 
-}
+.logo-sign img { height: 100%; width: auto; display: block; }
 
 /* ===============================
-   DROPDOWN (PINK HOVER)
+   DROPDOWN (PINK BUTTON)
 ================================ */
 nav { position: relative; }
 
 nav details summary {
   cursor: pointer;
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--black);
+  padding: 0.5rem 1.2rem;
+  background: var(--pink);
+  color: var(--white);
+  border: 1px solid var(--pink);
   font-size: 0.75rem;
   font-weight: bold;
   text-transform: uppercase;
   list-style: none;
-  transition: all 0.2s ease;
 }
 nav details summary::-webkit-details-marker { display: none; }
-nav details summary:hover {
-  background: var(--pink);
-  color: var(--white);
-  border-color: var(--pink);
-}
 
 nav ul {
   position: absolute;
@@ -125,7 +108,7 @@ nav ul {
   background: var(--white);
   border: 1px solid var(--black);
   list-style: none;
-  box-shadow: 8px 8px 0px var(--pink); /* Changed to Pink shadow */
+  box-shadow: 8px 8px 0px var(--pink);
 }
 
 nav li a {
@@ -136,14 +119,13 @@ nav li a {
   font-size: 0.85rem;
   border-bottom: 1px solid rgba(0,0,0,0.05);
 }
-
 nav li a:hover { background: var(--cyan); }
 
 /* ===============================
    MAIN CONTENT & ANIMATIONS
 ================================ */
 @keyframes fadeInLogo {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -155,14 +137,11 @@ main {
 
 .hero-logo {
   max-width: 400px;
-  margin-bottom: 2rem;
-  animation: fadeInLogo 1.2s ease forwards; /* Fade-in effect */
+  margin: 0 auto 2rem auto; /* Centered Fix */
+  animation: fadeInLogo 1.2s ease forwards;
 }
 
-.hero-logo img {
-  width: 100%;
-  height: auto;
-}
+.hero-logo img { width: 100%; height: auto; display: block; }
 
 section {
   padding: 2.5rem 0;
@@ -174,13 +153,12 @@ h2 {
   font-size: 1.4rem; 
   margin-bottom: 1.5rem; 
   display: inline-block;
-  border-bottom: 4px solid var(--pink); /* Changed to Pink line */
+  border-bottom: 4px solid var(--pink);
   text-transform: uppercase;
 }
 
-/* Flash Highlight Animation (Keep Cyan for contrast or change to Pink?) */
 .flash-highlight {
-  background-color: rgba(255, 0, 152, 0.1) !important; /* Soft Pink Flash */
+  background-color: rgba(255, 0, 152, 0.1) !important;
 }
 
 footer { 
@@ -190,13 +168,13 @@ footer {
   opacity: 0.5;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--pink); /* Subtle Pink in footer text */
 }
 
 @media (max-width: 768px) {
   :root { --header-height: 70px; }
   .logo-sign { height: 30px; }
   .hero-logo { max-width: 280px; }
+  main { padding: 3rem 1.25rem; }
 }
 </style>
 </head>
@@ -242,7 +220,7 @@ footer {
     <img src="logo-forma-fondo.svg" alt="Forma & Fondo Taller Logo Completo">
   </div>
   
-  <p><strong>Sistema de Logotipo — Lógica, Construcción y Teoría</strong></p>
+  <p style="text-align: center;"><strong>Sistema de Logotipo — Lógica, Construcción y Teoría</strong></p>
   <hr style="margin: 3rem 0; border: none; border-top: 2px solid var(--black);">
 
   <section id="p1"><h2>1. Propósito del Signo</h2><p>El logotipo de Forma & Fondo Taller está concebido como un sistema funcional, no como un signo decorativo. Su función es operar como una herramienta visual que encarna la metodología del taller: construcción mediante restricción, significado mediante estructura e identidad mediante proceso.</p></section>
@@ -275,6 +253,12 @@ footer {
   document.addEventListener('click', (e) => {
     if (!details.contains(e.target)) details.removeAttribute('open');
   });
+
+  window.addEventListener('scroll', () => {
+    if (details.hasAttribute('open')) {
+      details.removeAttribute('open');
+    }
+  }, { passive: true });
 
   document.querySelectorAll('#index-links a').forEach(link => {
     link.addEventListener('click', (e) => {
