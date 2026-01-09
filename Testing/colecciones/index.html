@@ -2,26 +2,44 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Colecciones | Forma & Fondo</title>
     <style>
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; }
-        header { background: #1a1a1a; color: white; padding: 1rem 0; }
-        nav { display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; }
-        .nav-links a { color: #ccc; text-decoration: none; margin-left: 20px; }
+        /* BASE & NAV */
+        * { box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; line-height: 1.6; }
+        header { background: #1a1a1a; color: white; padding: 1rem 0; position: sticky; top:0; z-index:100; }
+        nav { display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; margin-bottom: 10px; }
+        .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; padding: 5px; }
+        @media (min-width: 768px) { nav { flex-direction: row; justify-content: space-between; } .logo{margin-bottom:0;} }
         
-        .gallery-header { text-align: center; padding: 60px 20px; background: #f9f9f9; }
-        .gallery-container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        /* GALLERY STYLES */
+        .gallery-header { text-align: center; padding: 40px 20px; background: #f9f9f9; }
+        .gallery-header h1 { margin-bottom: 10px; font-size: 2rem; }
         
-        .category-section { margin-bottom: 60px; }
-        .category-title { font-size: 2rem; border-bottom: 1px solid #ddd; margin-bottom: 30px; padding-bottom: 10px; }
+        .gallery-container { max-width: 1000px; margin: 0 auto; padding: 20px 20px; }
         
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; }
-        .product-card { border: 1px solid #eee; border-radius: 8px; overflow: hidden; transition: transform 0.2s; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .product-img { height: 200px; background: #eee; display: flex; align-items: center; justify-content: center; color: #aaa; }
-        .product-info { padding: 15px; }
-        .product-title { font-weight: bold; margin-bottom: 5px; display: block; }
+        .category-section { margin-bottom: 50px; }
+        .category-title { font-size: 1.5rem; border-bottom: 1px solid #ddd; margin-bottom: 25px; padding-bottom: 10px; color: #2C3E50; }
+        
+        /* RESPONSIVE GRID */
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; /* Mobile: 1 column */
+            gap: 25px; 
+        }
+        
+        @media (min-width: 600px) { .product-grid { grid-template-columns: repeat(2, 1fr); } } /* Tablet: 2 cols */
+        @media (min-width: 900px) { .product-grid { grid-template-columns: repeat(3, 1fr); } } /* Desktop: 3 cols */
+        
+        .product-card { border: 1px solid #eee; border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .product-card:active { transform: scale(0.98); } /* Visual feedback on touch */
+        
+        .product-img { height: 220px; background: #eee; display: flex; align-items: center; justify-content: center; color: #aaa; font-weight: bold; }
+        .product-info { padding: 20px; }
+        .product-title { font-weight: bold; margin-bottom: 5px; display: block; font-size: 1.1rem; }
         .product-desc { font-size: 0.9rem; color: #666; }
     </style>
 </head>
@@ -32,7 +50,7 @@
             <div class="nav-links">
                 <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
                 <a href="../servicios/marketing.html">Marketing</a>
-                <a href="index.html" style="color:white;">Colecciones</a>
+                <a href="index.html" style="color:white; border-bottom: 1px solid white;">Colecciones</a>
                 <a href="../aliados/index.html">Aliados</a>
                 <a href="../contacto/index.html">Contacto</a>
             </div>

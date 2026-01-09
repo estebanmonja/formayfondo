@@ -2,20 +2,47 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Taller | Forma & Fondo</title>
     <style>
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; line-height: 1.8; }
-        header { background: #1a1a1a; color: white; padding: 1rem 0; }
-        nav { display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; }
-        .nav-links a { color: #ccc; text-decoration: none; margin-left: 20px; }
+        /* BASE & NAV */
+        * { box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; line-height: 1.6; }
+        header { background: #1a1a1a; color: white; padding: 1rem 0; position: sticky; top:0; z-index:100;}
+        nav { display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; margin-bottom: 10px; }
+        .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; padding: 5px; }
+        @media (min-width: 768px) { nav { flex-direction: row; justify-content: space-between; } .logo{margin-bottom:0;} }
         
-        .bio-section { max-width: 800px; margin: 60px auto; padding: 0 20px; }
-        .highlight { font-size: 1.4rem; color: #2C3E50; font-weight: bold; margin-bottom: 30px; display: block; border-left: 5px solid #E67E22; padding-left: 20px; }
+        .bio-section { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        h1 { font-size: 2rem; margin-bottom: 20px; }
         
-        .values-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 50px; }
-        .value-box { background: #f4f4f4; padding: 20px; border-radius: 5px; }
-        .value-box h4 { margin-top: 0; color: #E67E22; }
+        .highlight { 
+            font-size: 1.2rem; 
+            color: #2C3E50; 
+            font-weight: bold; 
+            margin-bottom: 30px; 
+            display: block; 
+            border-left: 5px solid #E67E22; 
+            padding-left: 15px; 
+            font-style: italic;
+        }
+        
+        /* VALUES GRID */
+        .values-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; /* Mobile: Stacked */
+            gap: 20px; 
+            margin-top: 50px; 
+            margin-bottom: 50px;
+        }
+        
+        @media (min-width: 600px) { .values-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .value-box { background: #f4f4f4; padding: 25px; border-radius: 5px; text-align: center; }
+        .value-box h4 { margin-top: 0; color: #E67E22; font-size: 1.1rem; }
+        .value-box p { font-size: 0.9rem; margin-bottom: 0; }
     </style>
 </head>
 <body>
@@ -26,7 +53,7 @@
                 <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
                 <a href="../colecciones/index.html">Colecciones</a>
                 <a href="../aliados/index.html">Aliados</a>
-                <a href="index.html" style="color:white;">El Taller</a>
+                <a href="index.html" style="color:white; border-bottom: 1px solid white;">El Taller</a>
                 <a href="../contacto/index.html">Contacto</a>
             </div>
         </nav>
@@ -34,25 +61,25 @@
 
     <div class="bio-section">
         <h1>Artesanía Digital</h1>
-        [cite_start]<span class="highlight">"Creamos con intención, combinando forma y fondo para que cada pieza tenga significado." [cite: 6]</span>
+        <span class="highlight">"Creamos con intención, combinando forma y fondo para que cada pieza tenga significado."</span>
         
-        <p><strong>Forma & Fondo Taller</strong> es un proyecto dirigido por <strong>Esteban De la Monja</strong>, artista visual y músico experimental. [cite_start]Esta dirección artística nos permite abordar cada proyecto industrial con sensibilidad creativa[cite: 23].</p>
+        <p><strong>Forma & Fondo Taller</strong> es un proyecto dirigido por <strong>Esteban De la Monja</strong>, artista visual y músico experimental. Esta dirección artística nos permite abordar cada proyecto industrial con sensibilidad creativa.</p>
         
         <h3>Dos Sedes, Un Corazón</h3>
-        <p>Operamos con la capacidad técnica de <strong>Zapopan</strong> y la inspiración natural de <strong>Tapalpa</strong> (Pueblo Mágico). [cite_start]Esta dualidad nos permite ser tecnológicamente competitivos y creativamente libres[cite: 54, 26].</p>
+        <p>Operamos con la capacidad técnica de <strong>Zapopan</strong> y la inspiración natural de <strong>Tapalpa</strong> (Pueblo Mágico). Esta dualidad nos permite ser tecnológicamente competitivos y creativamente libres.</p>
 
         <div class="values-grid">
             <div class="value-box">
                 <h4>Creatividad</h4>
-                [cite_start]<p>Buscamos soluciones innovadoras y estéticas[cite: 9].</p>
+                <p>Buscamos soluciones innovadoras y estéticas.</p>
             </div>
             <div class="value-box">
                 <h4>Artesanía</h4>
-                [cite_start]<p>Respetamos la tradición y el detalle manual[cite: 10].</p>
+                <p>Respetamos la tradición y el detalle manual.</p>
             </div>
             <div class="value-box">
                 <h4>Sostenibilidad</h4>
-                [cite_start]<p>Materiales y procesos responsables[cite: 11].</p>
+                <p>Materiales y procesos responsables.</p>
             </div>
         </div>
     </div>
