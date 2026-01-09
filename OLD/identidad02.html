@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Forma & Fondo Taller — Sistema de Logotipo</title>
+
+<style>
+/* =========================
+   BRAND VARIABLES
+========================= */
+:root {
+  --black: #0e1114;
+  --cyan: #00ffff;
+  --pink: #ff0098;
+  --border: rgba(14,17,20,0.15);
+}
+
+/* =========================
+   SMOOTH SCROLL
+========================= */
+html {
+  scroll-behavior: smooth;
+}
+
+/* =========================
+   SCROLLBARS (WEBKIT)
+========================= */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pink);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cyan);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--pink) var(--black);
+}
+
+/* =========================
+   BASE
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  background: #ffffff;
+  color: var(--black);
+  line-height: 1.6;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+.wrapper {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* =========================
+   NAV / INDEX (DESKTOP)
+========================= */
+nav {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 2rem 1.5rem;
+  border-right: 1px solid var(--border);
+  background: #fff;
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.logo {
+  margin-bottom: 2rem;
+}
+
+.logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+nav h1 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 1.5rem 0 1rem 0;
+}
+
+nav a {
+  display: block;
+  font-size: 0.82rem;
+  text-decoration: none;
+  color: var(--black);
+  opacity: 0.55;
+  margin-bottom: 0.55rem;
+}
+
+nav a.active,
+nav a:hover {
+  opacity: 1;
+  color: var(--pink);
+}
+
+/* =========================
+   MOBILE NAV
+========================= */
+.mobile-nav {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 1rem;
+}
+
+.mobile-logo {
+  margin-bottom: 0.75rem;
+}
+
+.mobile-logo img {
+  width: 180px;
+  max-width: 100%;
+}
+
+.mobile-nav select {
+  width: 100%;
+  font-size: 0.9rem;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--black);
+}
+
+/* =========================
+   CONTENT
+========================= */
+main {
+  position: relative;
+  padding: 4rem 4rem 6rem 4rem;
+  max-width: 900px;
+}
+
+/* =========================
+   GEOMETRY FIELD
+========================= */
+.geometry-field {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 45vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.geometry-field img {
+  position: absolute;
+  width: 120%;
+  right: -15%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.12;
+}
+
+/* =========================
+   HEADER
+========================= */
+header {
+  margin-bottom: 4rem;
+}
+
+header h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 0 0 0.5rem 0;
+}
+
+header p {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+section {
+  margin-bottom: 4rem;
+  scroll-margin-top: 5rem;
+}
+
+section h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+section p,
+section ul {
+  font-size: 0.95rem;
+}
+
+ul {
+  padding-left: 1.2rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* =========================
+   PLANES
+========================= */
+.cyan {
+  background: rgba(0,255,255,0.08);
+  padding: 1.5rem;
+}
+
+.pink {
+  background: rgba(255,0,152,0.08);
+  padding: 1.5rem;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 900px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  nav {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: block;
+  }
+
+  main {
+    padding: 2.5rem 1.5rem 4rem 1.5rem;
+  }
+
+  .geometry-field {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: 3rem 0;
+  }
+
+  .geometry-field img {
+    position: relative;
+    width: 100%;
+    right: 0;
+    top: 0;
+    transform: none;
+    opacity: 0.18;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav">
+  <div class="mobile-logo">
+    <img src="forma-fondo-wordmark.svg" alt="Forma & Fondo Taller">
+  </div>
+  <select id="sectionSelect">
+    <option value="">Índice</option>
+    <option value="#s1">1. Propósito del Signo</option>
+    <option value="#s2">2. Correlación Central</option>
+    <option value="#s3">3. Sistema</option>
+    <option value="#s4">4. Geometría</option>
+    <option value="#s5">5. Álgebra</option>
+    <option value="#s6">6. Mecánica</option>
+    <option value="#s7">7. Física</option>
+    <option value="#s8">8. Electrónica</option>
+    <option value="#s9">9. Cognición</option>
+    <option value="#s10">10. Filosofía</option>
+    <option value="#s11">11. Linaje</option>
+    <option value="#s12">12. Minimalismo</option>
+    <option value="#s13">13. Color</option>
+    <option value="#s14">14. Material</option>
+    <option value="#s15">15. Movimiento</option>
+    <option value="#s16">16. Semiótica</option>
+    <option value="#s17">17. Reglas</option>
+    <option value="#s18">18. Expansión</option>
+    <option value="#s19">19. No Es</option>
+    <option value="#s20">20. Declaración</option>
+  </select>
+</div>
+
+<div class="wrapper">
+
+<nav>
+  <div class="logo">
+    <img src="forma-fondo-wordmark.svg" alt="Forma & Fondo Taller">
+  </div>
+
+  <h1>Índice</h1>
+  <a href="#s1">1. Propósito del Signo</a>
+  <a href="#s2">2. Correlación Central</a>
+  <a href="#s3">3. Sistema</a>
+  <a href="#s4">4. Geometría</a>
+  <a href="#s5">5. Álgebra</a>
+  <a href="#s6">6. Mecánica</a>
+  <a href="#s7">7. Física</a>
+  <a href="#s8">8. Electrónica</a>
+  <a href="#s9">9. Cognición</a>
+  <a href="#s10">10. Filosofía</a>
+  <a href="#s11">11. Linaje</a>
+  <a href="#s12">12. Minimalismo</a>
+  <a href="#s13">13. Color</a>
+  <a href="#s14">14. Material</a>
+  <a href="#s15">15. Movimiento</a>
+  <a href="#s16">16. Semiótica</a>
+  <a href="#s17">17. Reglas</a>
+  <a href="#s18">18. Expansión</a>
+  <a href="#s19">19. No Es</a>
+  <a href="#s20">20. Declaración</a>
+</nav>
+
+<main>
+
+<div class="geometry-field">
+  <img src="forma-fondo-geometry.svg" alt="" aria-hidden="true">
+</div>
+
+<header>
+  <h2>Forma & Fondo Taller</h2>
+  <p>Sistema de Logotipo — Lógica, Construcción y Teoría</p>
+</header>
+
+<!-- SECTIONS (UNCHANGED CONTENT PLACEHOLDERS) -->
+<section id="s1"><h3>1. Propósito del Signo</h3><p>El logotipo de Forma & Fondo Taller está concebido como un sistema funcional...</p></section>
+<section id="s2"><h3>2. Correlación Central</h3><p>Forma & Fondo Taller trabaja en la intersección...</p></section>
+<section id="s3"><h3>3. Sistema</h3><p>El logotipo es un sistema cerrado...</p></section>
+<section id="s4"><h3>4. Geometría</h3><p>El signo se construye a partir de primitivas...</p></section>
+<section id="s5"><h3>5. Álgebra</h3><p>En su núcleo, el logotipo es algebraico...</p></section>
+<section id="s6"><h3>6. Mecánica</h3><p>Desde una lectura mecánica...</p></section>
+<section id="s7"><h3>7. Física</h3><p>El signo sugiere distribución de cargas...</p></section>
+<section id="s8"><h3>8. Electrónica</h3><p>Desde la electrónica...</p></section>
+<section id="s9"><h3>9. Cognición</h3><p>Cognitivamente...</p></section>
+<section id="s10"><h3>10. Filosofía</h3><p>La identidad no es una forma fija...</p></section>
+<section id="s11"><h3>11. Linaje</h3><p>De la Bauhaus...</p></section>
+<section id="s12"><h3>12. Minimalismo</h3><p>Nada puede retirarse...</p></section>
+<section id="s13" class="cyan"><h3>13. Sistema de Color</h3><p>El color en Forma & Fondo Taller...</p></section>
+<section id="s14"><h3>14. Traducción Material</h3><p>El logotipo está optimizado...</p></section>
+<section id="s15"><h3>15. Movimiento</h3><p>El movimiento no decora...</p></section>
+<section id="s16"><h3>16. Semiótica</h3><p>El signo evita la referencia literal...</p></section>
+<section id="s17"><h3>17. Reglas</h3><p>Una configuración es válida si...</p></section>
+<section id="s18"><h3>18. Expansión</h3><p>El logotipo es una semilla...</p></section>
+<section id="s19" class="pink"><h3>19. No Es</h3><p>No es ilustrativo...</p></section>
+<section id="s20"><h3>20. Declaración Final</h3><p>Este logotipo es una herramienta...</p></section>
+
+</main>
+</div>
+
+<script>
+/* Active desktop index */
+const links = document.querySelectorAll("nav a");
+const sections = document.querySelectorAll("section");
+
+window.addEventListener("scroll", () => {
+  let current = "";
+  sections.forEach(section => {
+    if (scrollY >= section.offsetTop - 140) current = section.id;
+  });
+  links.forEach(link => {
+    link.classList.toggle("active", link.getAttribute("href") === "#" + current);
+  });
+});
+
+/* Mobile dropdown navigation */
+document.getElementById("sectionSelect").addEventListener("change", function () {
+  if (this.value) {
+    document.querySelector(this.value).scrollIntoView({ behavior: "smooth" });
+  }
+});
+</script>
+
+</body>
+</html>
