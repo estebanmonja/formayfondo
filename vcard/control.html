@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Control</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; background: #222; color: white; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        button {
+            padding: 30px; font-size: 18px; border: none; border-radius: 12px; 
+            cursor: pointer; color: white; font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <h2>Control Panel</h2>
+    <div class="btn-grid">
+        <button onclick="setColor('#FF5733')" style="background-color: #FF5733;">Red</button>
+        <button onclick="setColor('#33FF57')" style="background-color: #33FF57;">Green</button>
+        <button onclick="setColor('#3357FF')" style="background-color: #3357FF;">Blue</button>
+        <button onclick="setColor('#F333FF')" style="background-color: #F333FF;">Purple</button>
+        <button onclick="setColor('#000000')" style="background-color: #444;">Black</button>
+        <button onclick="setColor('#FFFFFF')" style="background-color: #FFF; color: black;">White</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // --- PASTE YOUR FIREBASE CONFIG HERE ---
+        const firebaseConfig = {
+  apiKey: "AIzaSyCuQl3fcJBIbSERG5BllWZJQxL7uIV5dHs",
+  authDomain: "vcard-9a336.firebaseapp.com",
+  databaseURL: "https://vcard-9a336-default-rtdb.firebaseio.com",
+  projectId: "vcard-9a336",
+  storageBucket: "vcard-9a336.firebasestorage.app",
+  messagingSenderId: "629638484734",
+  appId: "1:629638484734:web:a13eed59cc8f4949c54baf",
+  measurementId: "G-PNJ8878TP0"
+};
+        // ---------------------------------------
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        
+        window.setColor = (colorCode) => {
+            set(ref(db, 'pageState/color'), colorCode);
+        };
+    </script>
+</body>
+</html>
