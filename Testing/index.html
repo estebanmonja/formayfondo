@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Forma & Fondo Taller | Inicio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forma & Fondo Taller | Inicio</title>
     <style>
         /* RESET & BASE */
         * { box-sizing: border-box; }
@@ -40,7 +41,7 @@
             .btn-group { flex-direction: row; }
         }
 
-        /* CARDS GRID */
+        /* CARDS GRID (NAVIGATION SHORTCUTS) */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
         .grid-3 { display: grid; grid-template-columns: 1fr; gap: 20px; } /* Mobile First: 1 column */
         
@@ -48,10 +49,36 @@
             .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 30px; }
         }
 
-        .card { background: white; border: 1px solid #eee; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .card h3 { margin-top: 0; color: #2C3E50; }
+        /* Nav Cards Styling */
+        .nav-card { 
+            display: block; 
+            text-decoration: none; 
+            color: inherit;
+            background: white; 
+            border: 1px solid #eee; 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            position: relative;
+        }
+
+        .nav-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1); 
+            border-color: #e67e22;
+        }
+
+        .nav-card h3 { margin-top: 0; color: #2C3E50; display: flex; justify-content: space-between; align-items: center; }
+        .nav-card p { color: #666; margin-bottom: 0; font-size: 0.95rem; }
+        .arrow { color: #e67e22; font-weight: bold; }
         
-        footer { background: #1a1a1a; color: #777; text-align: center; padding: 40px 20px; margin-top: 60px; font-size: 0.9rem; }
+        /* FOOTER */
+        footer { background: #1a1a1a; color: #999; text-align: center; padding: 60px 20px; margin-top: 60px; font-size: 0.9rem; }
+        .footer-content { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .footer-name { color: white; font-weight: bold; font-size: 1.1rem; margin-bottom: 10px; letter-spacing: 1px; }
+        .footer-link { color: #e67e22; text-decoration: none; }
+        .copyright { margin-top: 30px; font-size: 0.8rem; color: #555; }
     </style>
 </head>
 <body>
@@ -72,7 +99,7 @@
 
     <section class="hero">
         <h1>Donde la Visión Artística Encuentra la Precisión Industrial.</h1>
-        <p>Taller creativo de fabricación CNC y diseño. Transformamos materiales en objetos con significado, desde Zapopan hasta Tapalpa.</p>
+        <p>Taller creativo de fabricación CNC y diseño. Transformamos materiales en objetos con significado.</p>
         <div class="btn-group">
             <a href="servicios/tu-proyecto.html" class="btn">Iniciar Proyecto</a>
             <a href="colecciones/index.html" class="btn-outline">Ver Colecciones</a>
@@ -81,23 +108,36 @@
 
     <div class="container">
         <div class="grid-3">
-            <div class="card">
-                <h3>Manufactura</h3>
+            
+            <a href="servicios/tu-proyecto.html" class="nav-card">
+                <h3>Manufactura <span class="arrow">&rarr;</span></h3>
                 <p>Corte CNC, maquila y soluciones técnicas de precisión para tu proyecto.</p>
-            </div>
-            <div class="card">
-                <h3>Diseño & Forma</h3>
-                <p>Mobiliario, objetos y juguetes creados con intención artística.</p>
-            </div>
-            <div class="card">
-                <h3>Identidad</h3>
+            </a>
+
+            <a href="servicios/marketing.html" class="nav-card">
+                <h3>Identidad <span class="arrow">&rarr;</span></h3>
                 <p>Branding físico, tarjetas inteligentes y señalización para empresas.</p>
-            </div>
+            </a>
+
+            <a href="colecciones/index.html" class="nav-card">
+                <h3>Diseño & Forma <span class="arrow">&rarr;</span></h3>
+                <p>Mobiliario, objetos y juguetes creados con intención artística.</p>
+            </a>
+
         </div>
     </div>
 
     <footer>
-        <p>Forma & Fondo Taller &copy; 2026. Zapopan - Tapalpa.</p>
+        <div class="footer-content">
+            <div class="footer-name">Forma & Fondo Taller</div>
+            <div>Galeana 468, Paraisos del Colli, Zapopan.</div>
+            <div>Hidalgo 135, Tapalpa Centro, Tapalpa.</div>
+            <div><a href="mailto:hola@formayfondotaller.com" class="footer-link">hola@formayfondotaller.com</a></div>
+            
+            <div class="copyright">
+                &copy; 2026 Forma & Fondo Taller. Todos los derechos reservados.
+            </div>
+        </div>
     </footer>
 
 </body>
