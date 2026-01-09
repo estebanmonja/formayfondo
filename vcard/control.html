@@ -98,13 +98,17 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   document.getElementById("addProfile").onclick = () => {
-    const id = document.getElementById("newProfile").value.trim();
-    if (!id) return;
+  const id = document.getElementById("newProfile").value.trim();
+  if (!id) return;
 
-    set(ref(db, `profiles/${id}`), {})
-      .then(() => document.getElementById("newProfile").value = "");
-  };
-});
+  set(ref(db, `profiles/${id}`), {
+    firstName: "",
+    lastName: ""
+  }).then(() => {
+    document.getElementById("newProfile").value = "";
+  });
+};
+
 </script>
 
 </body>
