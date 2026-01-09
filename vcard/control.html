@@ -11,17 +11,32 @@
 <body class="bg-neutral-100 min-h-screen flex items-center justify-center">
 
 <div class="bg-white border-2 border-black p-6 w-full max-w-md">
-  <h1 class="font-black text-xl mb-4">vCard Control</h1>
+  <h1 class="font-black text-xl mb-6">vCard Control</h1>
 
-  <select id="profileId" class="w-full mb-4 border p-2"></select>
-
+  <!-- CREATE PROFILE (comes FIRST) -->
   <div class="flex gap-2 mb-6">
-    <input id="newProfile" placeholder="New ID (e.g. 003)"
-      class="border p-2 flex-1">
-    <button id="addProfile"
-      class="bg-[#ff0098] px-4 font-black text-white">+</button>
+    <input
+      id="newProfile"
+      placeholder="New profile ID (e.g. 001)"
+      class="border p-2 flex-1"
+    />
+    <button
+      id="addProfile"
+      class="bg-[#ff0098] px-4 font-black text-white"
+    >
+      +
+    </button>
   </div>
 
+  <!-- PROFILE SELECT -->
+  <select
+    id="profileId"
+    class="w-full mb-6 border p-2"
+  >
+    <option value="">Select profile…</option>
+  </select>
+
+  <!-- FIELDS -->
   <div class="space-y-3">
     <input id="firstName" placeholder="First name" class="w-full border p-2">
     <input id="lastName" placeholder="Last name" class="w-full border p-2">
@@ -31,16 +46,25 @@
     <input id="email" placeholder="Email" class="w-full border p-2">
   </div>
 
-  <button id="saveBtn"
-    class="mt-6 w-full bg-black text-white py-3 font-black uppercase">
+  <button
+    id="saveBtn"
+    class="mt-6 w-full bg-black text-white py-3 font-black uppercase"
+  >
     Save Profile
   </button>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  set,
+  get
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+/* 🔥 YOUR REAL CONFIG (already correct) */
 const firebaseConfig = {
   apiKey: "AIzaSyCuQl3fcJBIbSERG5BllWZJQxL7uIV5dHs",
   authDomain: "vcard-9a336.firebaseapp.com",
@@ -54,61 +78,69 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-document.addEventListener("DOMContentLoaded", () => {
-  const selector = document.getElementById("profileId");
-  const fields = ["firstName","lastName","role","company","phone","email"];
+const fields = ["firstName","lastName","role","company","phone","email"];
 
-  const profilesRef = ref(db, "profiles");
+const selector   = document.getElementById("profileId");
+const addBtn     = document.getElementById("addProfile");
+const saveBtn    = document.getElementById("saveBtn");
+const newInput   = document.getElementById("newProfile");
 
-  onValue(profilesRef, snap => {
-    selector.innerHTML = "";
+/* 🔁 Populate dropdown */
+const refreshProfiles = () => {
+  onValue(ref(db, "profiles"), snap => {
+    selector.innerHTML = `<option value="">Select profile…</option>`;
     snap.forEach(child => {
-      const o = document.createElement("option");
-      o.value = child.key;
-      o.textContent = child.key;
-      selector.appendChild(o);
+      const opt = document.createElement("option");
+      opt.value = child.key;
+      opt.textContent = child.key;
+      selector.appendChild(opt);
     });
-    loadProfile();
   });
+};
 
-  const loadProfile = () => {
-    const id = selector.value;
-    if (!id) return;
-
-    onValue(ref(db, `profiles/${id}`), snap => {
-      const p = snap.val() || {};
-      fields.forEach(f => {
-        document.getElementById(f).value = p[f] || "";
-      });
-    }, { onlyOnce: true });
-  };
-
-  selector.addEventListener("change", loadProfile);
-
-  document.getElementById("saveBtn").onclick = () => {
-    const id = selector.value;
-    if (!id) return alert("No profile selected");
-
-    const data = {};
-    fields.forEach(f => data[f] = document.getElementById(f).value);
-
-    set(ref(db, `profiles/${id}`), data)
-      .then(() => alert("Profile saved"))
-      .catch(err => alert(err.message));
-  };
-
-  document.getElementById("addProfile").onclick = () => {
-  const id = document.getElementById("newProfile").value.trim();
-  if (!id) return;
+/* ➕ Create profile */
+addBtn.onclick = () => {
+  const id = newInput.value.trim();
+  if (!id) return alert("Enter an ID");
 
   set(ref(db, `profiles/${id}`), {
     firstName: "",
     lastName: ""
   }).then(() => {
-    document.getElementById("newProfile").value = "";
+    newInput.value = "";
+    selector.value = id;
+    loadProfile(id);
   });
 };
 
+/* 📥 Load profile */
+const loadProfile = (id) => {
+  if (!id) return;
+
+  get(ref(db, `profiles/${id}`)).then(snap => {
+    const data = snap.val() || {};
+    fields.forEach(f => {
+      document.getElementById(f).value = data[f] || "";
+    });
+  });
+};
+
+selector.onchange = () => loadProfile(selector.value);
+
+/* 💾 Save profile */
+saveBtn.onclick = () => {
+  const id = selector.value;
+  if (!id) return alert("Select a profile first");
+
+  const data = {};
+  fields.forEach(f => data[f] = document.getElementById(f).value);
+
+  set(ref(db, `profiles/${id}`), data)
+    .then(() => alert("Profile saved"));
+};
+
+/* Init */
+refreshProfiles();
 </script>
 
 </body>
