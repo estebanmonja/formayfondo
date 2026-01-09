@@ -1,150 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact Card</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Forma & Fondo — Contact</title>
 
-<!-- Tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        neon: {
-          500: '#ff0098'
-        }
-      },
-      fontFamily: {
-        sans: ['Inter', 'sans-serif']
-      }
-    }
-  }
-}
-</script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-</head>
-
-<body class="bg-white text-neutral-900 font-sans antialiased selection:bg-neon-500 selection:text-white">
-
-<main class="min-h-screen flex items-center justify-center px-6">
-  <div class="w-full max-w-sm border-2 border-black p-6">
-
-    <!-- Logo -->
-   <div class="mb-8">
-  <img
-    src="./assets/logo-horizontal.png"
-    alt="Forma & Fondo Taller"
-    class="w-full max-h-16 object-contain object-left"
-  />
-</div>
-
-    <!-- Name -->
-    <h1 class="text-3xl font-black tracking-tight leading-tight">
-      <span id="firstName">—</span><br>
-      <span id="lastName">—</span>
-    </h1>
-
-    <!-- Role -->
-    <p id="role" class="mt-2 text-sm font-bold uppercase tracking-widest text-neon-500">
-      —
-    </p>
-
-    <!-- Divider -->
-    <div class="h-1 w-12 bg-black my-6"></div>
-
-    <!-- Info -->
-    <div class="space-y-3 text-sm font-medium">
-      <div>
-        <span class="block text-xs uppercase tracking-widest text-neutral-400">Company</span>
-        <span id="company">—</span>
-      </div>
-
-      <div>
-        <span class="block text-xs uppercase tracking-widest text-neutral-400">Email</span>
-        <a id="email" href="#" class="hover:text-neon-500 transition-colors">—</a>
-      </div>
-
-      <div>
-        <span class="block text-xs uppercase tracking-widest text-neutral-400">Phone</span>
-        <a id="phone" href="#" class="hover:text-neon-500 transition-colors">—</a>
-      </div>
-
-      <div>
-        <span class="block text-xs uppercase tracking-widest text-neutral-400">Website</span>
-        <a id="website" href="#" target="_blank" class="hover:text-neon-500 transition-colors">—</a>
-      </div>
-
-      <div>
-        <span class="block text-xs uppercase tracking-widest text-neutral-400">LinkedIn</span>
-        <a id="linkedin" href="#" target="_blank" class="hover:text-neon-500 transition-colors">—</a>
-      </div>
-    </div>
-
-    <!-- Notes -->
-    <p id="notes" class="mt-6 text-xs text-neutral-500 leading-relaxed"></p>
-
-    <!-- CTA -->
-    <button
-      onclick="downloadVCard()"
-      class="mt-8 w-full py-4 bg-black text-white font-black uppercase tracking-widest text-xs hover:bg-neon-500 transition-colors"
-    >
-      Save to Contacts
-    </button>
-
-  </div>
-</main>
-
+<!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCuQl3fcJBIbSERG5BllWZJQxL7uIV5dHs",
-  authDomain: "vcard-9a336.firebaseapp.com",
-  databaseURL: "https://vcard-9a336-default-rtdb.firebaseio.com",
-  projectId: "vcard-9a336",
-  storageBucket: "vcard-9a336.firebasestorage.app",
-  messagingSenderId: "629638484734",
-  appId: "1:629638484734:web:a13eed59cc8f4949c54baf"
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  databaseURL: "YOUR_DB_URL",
+  projectId: "YOUR_ID",
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const profileRef = ref(db, "profile");
 
-let profileData = {};
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id") || "001";
 
-onValue(profileRef, (snapshot) => {
-  const p = snapshot.val();
-  if (!p) return;
-  profileData = p;
+const profileRef = ref(db, `profiles/${id}`);
 
-  firstName.textContent = p.firstName || "";
-  lastName.textContent  = p.lastName  || "";
-  role.textContent      = p.role      || "";
-  company.textContent   = p.company   || "";
-
-  email.textContent = p.email || "";
-  email.href = p.email ? `mailto:${p.email}` : "#";
-
-  phone.textContent = p.phone || "";
-  phone.href = p.phone ? `tel:${p.phone}` : "#";
-
-  website.textContent = p.website || "";
-  website.href = p.website || "#";
-
-  linkedin.textContent = p.linkedin || "";
-  linkedin.href = p.linkedin || "#";
-
-  notes.textContent = p.notes || "";
+onValue(profileRef, snap => {
+  if (!snap.exists()) return;
+  window.profile = snap.val();
+  renderProfile();
 });
 
+window.renderProfile = () => {
+  const p = window.profile;
+  document.getElementById("name").textContent = `${p.firstName} ${p.lastName}`;
+  document.getElementById("role").textContent = p.role || "";
+  document.getElementById("company").textContent = p.company || "";
+  document.getElementById("email").textContent = p.email || "";
+  document.getElementById("phone").textContent = p.phone || "";
+};
+
 window.downloadVCard = () => {
-  const p = profileData;
-  if (!p.firstName || !p.lastName) return;
+  const p = window.profile;
+  if (!p) return;
 
   const vcard = `
 BEGIN:VCARD
@@ -155,21 +55,73 @@ ORG:${p.company || ""}
 TITLE:${p.role || ""}
 TEL;TYPE=CELL:${p.phone || ""}
 EMAIL:${p.email || ""}
-URL:${p.website || ""}
+URL:${window.location.href}
 END:VCARD
 `.trim();
 
   const blob = new Blob([vcard], { type: "text/vcard" });
-  const url = URL.createObjectURL(blob);
-
   const a = document.createElement("a");
-  a.href = url;
+  a.href = URL.createObjectURL(blob);
   a.download = `${p.firstName}_${p.lastName}.vcf`;
   a.click();
 
-  URL.revokeObjectURL(url);
+  document.getElementById("preview").textContent = `
+${p.firstName} ${p.lastName}
+${p.role}
+${p.company}
+${p.phone}
+${p.email}
+  `.trim();
+
+  document.getElementById("qr").src =
+    `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(window.location.href)}`;
+
+  document.getElementById("splash").classList.remove("hidden");
+};
+
+window.closeSplash = () => {
+  document.getElementById("splash").classList.add("hidden");
 };
 </script>
+</head>
+
+<body class="bg-neutral-100 min-h-screen flex items-center justify-center">
+
+<div class="w-full max-w-sm bg-white border-2 border-black p-6 text-left">
+  <!-- Logo -->
+  <img src="/logo-horizontal.png" alt="Forma & Fondo" class="w-full mb-6" />
+
+  <h1 id="name" class="text-2xl font-black mb-1"></h1>
+  <p id="role" class="text-sm font-bold text-[#ff0098]"></p>
+  <p id="company" class="text-sm mb-4"></p>
+
+  <div class="text-sm space-y-1 mb-6">
+    <p id="phone"></p>
+    <p id="email"></p>
+  </div>
+
+  <button onclick="downloadVCard()"
+    class="w-full bg-black text-white py-3 font-black uppercase tracking-widest hover:bg-[#ff0098]">
+    Save Contact
+  </button>
+</div>
+
+<!-- Splash -->
+<div id="splash" class="fixed inset-0 bg-white z-50 hidden flex items-center justify-center px-6">
+  <div class="max-w-sm w-full border-2 border-black p-6">
+    <h2 class="font-black text-xl mb-4">Contact saved</h2>
+
+    <pre id="preview"
+      class="text-xs bg-neutral-100 p-3 mb-4 whitespace-pre-wrap"></pre>
+
+    <img id="qr" class="w-full mb-4" />
+
+    <button onclick="closeSplash()"
+      class="w-full bg-black text-white py-3 font-black">
+      Close
+    </button>
+  </div>
+</div>
 
 </body>
 </html>
