@@ -1,53 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Control</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; padding: 20px; background: #222; color: white; }
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        button {
-            padding: 30px; font-size: 18px; border: none; border-radius: 12px; 
-            cursor: pointer; color: white; font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile Control</title>
+
+<style>
+    body {
+        font-family: system-ui, sans-serif;
+        background: #111;
+        color: white;
+        padding: 20px;
+        max-width: 500px;
+        margin: auto;
+    }
+
+    h2 { margin-bottom: 20px; }
+
+    label {
+        display: block;
+        font-size: .9rem;
+        margin-bottom: 4px;
+        opacity: .8;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 16px;
+        border-radius: 8px;
+        border: none;
+        background: #1e1e1e;
+        color: white;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 10px;
+        background: #6fd2ff;
+        color: #000;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
 </head>
+
 <body>
-    <h2>Control Panel</h2>
-    <div class="btn-grid">
-        <button onclick="setColor('#FF5733')" style="background-color: #FF5733;">Red</button>
-        <button onclick="setColor('#33FF57')" style="background-color: #33FF57;">Green</button>
-        <button onclick="setColor('#3357FF')" style="background-color: #3357FF;">Blue</button>
-        <button onclick="setColor('#F333FF')" style="background-color: #F333FF;">Purple</button>
-        <button onclick="setColor('#000000')" style="background-color: #444;">Black</button>
-        <button onclick="setColor('#FFFFFF')" style="background-color: #FFF; color: black;">White</button>
-    </div>
+<h2>Profile Control Panel</h2>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<label>First Name</label>
+<input id="firstName">
 
-        // --- PASTE YOUR FIREBASE CONFIG HERE ---
-        const firebaseConfig = {
+<label>Last Name</label>
+<input id="lastName">
+
+<label>Role</label>
+<input id="role">
+
+<label>Company</label>
+<input id="company">
+
+<label>Email</label>
+<input id="email">
+
+<label>Phone</label>
+<input id="phone">
+
+<label>Website</label>
+<input id="website">
+
+<label>LinkedIn</label>
+<input id="linkedin">
+
+<label>Notes</label>
+<textarea id="notes" rows="3"></textarea>
+
+<button onclick="save()">Save</button>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig = {
   apiKey: "AIzaSyCuQl3fcJBIbSERG5BllWZJQxL7uIV5dHs",
   authDomain: "vcard-9a336.firebaseapp.com",
   databaseURL: "https://vcard-9a336-default-rtdb.firebaseio.com",
   projectId: "vcard-9a336",
   storageBucket: "vcard-9a336.firebasestorage.app",
   messagingSenderId: "629638484734",
-  appId: "1:629638484734:web:a13eed59cc8f4949c54baf",
-  measurementId: "G-PNJ8878TP0"
+  appId: "1:629638484734:web:a13eed59cc8f4949c54baf"
 };
-        // ---------------------------------------
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        
-        window.setColor = (colorCode) => {
-            set(ref(db, 'pageState/color'), colorCode);
-        };
-    </script>
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const profileRef = ref(db, "profile");
+
+// preload existing data
+onValue(profileRef, (snapshot) => {
+    const p = snapshot.val();
+    if (!p) return;
+    Object.keys(p).forEach(key => {
+        const el = document.getElementById(key);
+        if (el) el.value = p[key];
+    });
+});
+
+window.save = () => {
+    set(profileRef, {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        role: role.value,
+        company: company.value,
+        email: email.value,
+        phone: phone.value,
+        website: website.value,
+        linkedin: linkedin.value,
+        notes: notes.value
+    });
+};
+</script>
 </body>
 </html>
