@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>vCard Control</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-neutral-100 min-h-screen flex items-center justify-center">
+
+<div class="bg-white border-2 border-black p-6 w-full max-w-md">
+  <h1 class="font-black text-xl mb-6">vCard Control</h1>
+
+  <!-- CREATE PROFILE -->
+  <div class="flex gap-2 mb-6">
+    <input
+      id="newProfile"
+      placeholder="New profile ID (e.g. 001)"
+      class="border p-2 flex-1"
+    />
+    <button
+      id="addProfile"
+      class="bg-[#ff0098] px-4 font-black text-white"
+    >+</button>
+  </div>
+
+  <!-- PROFILE SELECT -->
+  <select id="profileId" class="w-full mb-6 border p-2">
+    <option value="">Select profile…</option>
+  </select>
+
+  <!-- FIELDS -->
+  <div class="space-y-3">
+    <input id="firstName" placeholder="First name" class="w-full border p-2">
+    <input id="lastName" placeholder="Last name" class="w-full border p-2">
+    <input id="role" placeholder="Role" class="w-full border p-2">
+    <input id="company" placeholder="Company" class="w-full border p-2">
+    <input id="phone" placeholder="Phone" class="w-full border p-2">
+    <input id="email" placeholder="Email" class="w-full border p-2">
+  </div>
+
+  <button
+    id="saveBtn"
+    class="mt-6 w-full bg-black text-white py-3 font-black uppercase"
+  >
+    Save Profile
+  </button>
+
+  <!-- 🔎 PREVIEW -->
+  <div id="previewBlock" class="mt-6 hidden">
+    <p class="font-black text-sm mb-2">Public URL</p>
+    <input id="publicUrl" readonly class="w-full border p-2 text-xs mb-4">
+
+    <img id="qr" class="w-full border" />
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCuQl3fcJBIbSERG5BllWZJQxL7uIV5dHs",
+  authDomain: "vcard-9a336.firebaseapp.com",
+  databaseURL: "https://vcard-9a336-default-rtdb.firebaseio.com",
+  projectId: "vcard-9a336",
+  storageBucket: "vcard-9a336.firebasestorage.app",
+  messagingSenderId: "629638484734",
+  appId: "1:629638484734:web:a13eed59cc8f4949c54baf"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const fields = ["firstName","lastName","role","company","phone","email"];
+
+const selector = document.getElementById("profileId");
+const newInput = document.getElementById("newProfile");
+const preview  = document.getElementById("previewBlock");
+const urlField = document.getElementById("publicUrl");
+const qrImg    = document.getElementById("qr");
+
+/* Populate dropdown */
+onValue(ref(db, "profiles"), snap => {
+  selector.innerHTML = `<option value="">Select profile…</option>`;
+  snap.forEach(child => {
+    const o = document.createElement("option");
+    o.value = child.key;
+    o.textContent = child.key;
+    selector.appendChild(o);
+  });
+});
+
+/* Create profile */
+addProfile.onclick = () => {
+  const id = newInput.value.trim();
+  if (!id) return;
+
+  set(ref(db, `profiles/${id}`), {
+    firstName: "",
+    lastName: ""
+  }).then(() => {
+    newInput.value = "";
+    selector.value = id;
+    loadProfile(id);
+  });
+};
+
+/* Load profile */
+const loadProfile = (id) => {
+  if (!id) return;
+
+  get(ref(db, `profiles/${id}`)).then(snap => {
+    const data = snap.val() || {};
+    fields.forEach(f =>
+      document.getElementById(f).value = data[f] || ""
+    );
+    updatePreview(id);
+  });
+};
+
+selector.onchange = () => loadProfile(selector.value);
+
+/* Save */
+saveBtn.onclick = () => {
+  const id = selector.value;
+  if (!id) return alert("Select profile first");
+
+  const data = {};
+  fields.forEach(f => data[f] = document.getElementById(f).value);
+
+  set(ref(db, `profiles/${id}`), data).then(() => {
+    updatePreview(id);
+  });
+};
+
+/* Preview */
+const updatePreview = (id) => {
+  const url = `${location.origin}/vcard/?id=${id}`;
+  urlField.value = url;
+  qrImg.src =
+    `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}`;
+  preview.classList.remove("hidden");
+};
+</script>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Forma & Fondo — Contact</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCuQl3fcJBIbSERG5BllWZJQxL7uIV5dHs",
+  authDomain: "vcard-9a336.firebaseapp.com",
+  databaseURL: "https://vcard-9a336-default-rtdb.firebaseio.com",
+  projectId: "vcard-9a336",
+  storageBucket: "vcard-9a336.firebasestorage.app",
+  messagingSenderId: "629638484734",
+  appId: "1:629638484734:web:a13eed59cc8f4949c54baf"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id") || "001";
+
+const profileRef = ref(db, `profiles/${id}`);
+
+onValue(profileRef, snap => {
+  if (!snap.exists()) return;
+  window.profile = snap.val();
+  renderProfile();
+});
+
+window.renderProfile = () => {
+  const p = window.profile;
+  document.getElementById("name").textContent = `${p.firstName} ${p.lastName}`;
+  document.getElementById("role").textContent = p.role || "";
+  document.getElementById("company").textContent = p.company || "";
+  document.getElementById("email").textContent = p.email || "";
+  document.getElementById("phone").textContent = p.phone || "";
+};
+
+window.downloadVCard = () => {
+  const p = window.profile;
+  if (!p) return;
+
+  const vcard = `
+BEGIN:VCARD
+VERSION:3.0
+N:${p.lastName};${p.firstName};;;
+FN:${p.firstName} ${p.lastName}
+ORG:${p.company || ""}
+TITLE:${p.role || ""}
+TEL;TYPE=CELL:${p.phone || ""}
+EMAIL:${p.email || ""}
+URL:${window.location.href}
+END:VCARD
+`.trim();
+
+  const blob = new Blob([vcard], { type: "text/vcard" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `${p.firstName}_${p.lastName}.vcf`;
+  a.click();
+
+  document.getElementById("preview").textContent = `
+${p.firstName} ${p.lastName}
+${p.role}
+${p.company}
+${p.phone}
+${p.email}
+  `.trim();
+
+  document.getElementById("qr").src =
+    `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(window.location.href)}`;
+
+  document.getElementById("splash").classList.remove("hidden");
+};
+
+window.closeSplash = () => {
+  document.getElementById("splash").classList.add("hidden");
+};
+</script>
+</head>
+
+<body class="bg-neutral-100 min-h-screen flex items-center justify-center">
+
+<div class="w-full max-w-sm bg-white border-2 border-black p-6 text-left">
+  <!-- Logo -->
+  <img src="/logo-horizontal.png" alt="Forma & Fondo" class="w-full mb-6" />
+
+  <h1 id="name" class="text-2xl font-black mb-1"></h1>
+  <p id="role" class="text-sm font-bold text-[#ff0098]"></p>
+  <p id="company" class="text-sm mb-4"></p>
+
+  <div class="text-sm space-y-1 mb-6">
+    <p id="phone"></p>
+    <p id="email"></p>
+  </div>
+
+  <button onclick="downloadVCard()"
+    class="w-full bg-black text-white py-3 font-black uppercase tracking-widest hover:bg-[#ff0098]">
+    Save Contact
+  </button>
+</div>
+
+<!-- Splash -->
+<div id="splash" class="fixed inset-0 bg-white z-50 hidden flex items-center justify-center px-6">
+  <div class="max-w-sm w-full border-2 border-black p-6">
+    <h2 class="font-black text-xl mb-4">Contact saved</h2>
+
+    <pre id="preview"
+      class="text-xs bg-neutral-100 p-3 mb-4 whitespace-pre-wrap"></pre>
+
+    <img id="qr" class="w-full mb-4" />
+
+    <button onclick="closeSplash()"
+      class="w-full bg-black text-white py-3 font-black">
+      Close
+    </button>
+  </div>
+</div>
+
+</body>
+</html>
