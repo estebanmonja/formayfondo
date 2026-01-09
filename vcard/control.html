@@ -6,76 +6,6 @@
 <title>vCard Control</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getDatabase, ref, onValue, set
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  databaseURL: "YOUR_DB_URL",
-  projectId: "YOUR_ID",
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const profilesRef = ref(db, "profiles");
-
-const fields = [
-  "firstName",
-  "lastName",
-  "role",
-  "company",
-  "phone",
-  "email"
-];
-
-const selector = document.getElementById("profileId");
-
-onValue(profilesRef, snap => {
-  selector.innerHTML = "";
-  snap.forEach(child => {
-    const o = document.createElement("option");
-    o.value = child.key;
-    o.textContent = child.key;
-    selector.appendChild(o);
-  });
-  loadProfile();
-});
-
-window.loadProfile = () => {
-  const id = selector.value;
-  if (!id) return;
-
-  onValue(ref(db, `profiles/${id}`), snap => {
-    const p = snap.val() || {};
-    fields.forEach(f => {
-      document.getElementById(f).value = p[f] || "";
-    });
-  }, { onlyOnce: true });
-};
-
-window.saveProfile = () => {
-  const id = selector.value;
-  if (!id) return;
-
-  const data = {};
-  fields.forEach(f => data[f] = document.getElementById(f).value);
-
-  set(ref(db, `profiles/${id}`), data);
-  alert("Saved");
-};
-
-window.createProfile = () => {
-  const id = document.getElementById("newProfile").value.trim();
-  if (!id) return;
-  set(ref(db, `profiles/${id}`), {});
-  document.getElementById("newProfile").value = "";
-};
-</script>
 </head>
 
 <body class="bg-neutral-100 min-h-screen flex items-center justify-center">
@@ -83,13 +13,12 @@ window.createProfile = () => {
 <div class="bg-white border-2 border-black p-6 w-full max-w-md">
   <h1 class="font-black text-xl mb-4">vCard Control</h1>
 
-  <select id="profileId" onchange="loadProfile()"
-    class="w-full mb-4 border p-2"></select>
+  <select id="profileId" class="w-full mb-4 border p-2"></select>
 
   <div class="flex gap-2 mb-6">
     <input id="newProfile" placeholder="New ID (e.g. 003)"
       class="border p-2 flex-1">
-    <button onclick="createProfile()"
+    <button id="addProfile"
       class="bg-[#ff0098] px-4 font-black text-white">+</button>
   </div>
 
@@ -102,11 +31,78 @@ window.createProfile = () => {
     <input id="email" placeholder="Email" class="w-full border p-2">
   </div>
 
-  <button onclick="saveProfile()"
+  <button id="saveBtn"
     class="mt-6 w-full bg-black text-white py-3 font-black uppercase">
     Save Profile
   </button>
 </div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  databaseURL: "YOUR_DB_URL",
+  projectId: "YOUR_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const selector = document.getElementById("profileId");
+  const fields = ["firstName","lastName","role","company","phone","email"];
+
+  const profilesRef = ref(db, "profiles");
+
+  onValue(profilesRef, snap => {
+    selector.innerHTML = "";
+    snap.forEach(child => {
+      const o = document.createElement("option");
+      o.value = child.key;
+      o.textContent = child.key;
+      selector.appendChild(o);
+    });
+    loadProfile();
+  });
+
+  const loadProfile = () => {
+    const id = selector.value;
+    if (!id) return;
+
+    onValue(ref(db, `profiles/${id}`), snap => {
+      const p = snap.val() || {};
+      fields.forEach(f => {
+        document.getElementById(f).value = p[f] || "";
+      });
+    }, { onlyOnce: true });
+  };
+
+  selector.addEventListener("change", loadProfile);
+
+  document.getElementById("saveBtn").onclick = () => {
+    const id = selector.value;
+    if (!id) return alert("No profile selected");
+
+    const data = {};
+    fields.forEach(f => data[f] = document.getElementById(f).value);
+
+    set(ref(db, `profiles/${id}`), data)
+      .then(() => alert("Profile saved"))
+      .catch(err => alert(err.message));
+  };
+
+  document.getElementById("addProfile").onclick = () => {
+    const id = document.getElementById("newProfile").value.trim();
+    if (!id) return;
+
+    set(ref(db, `profiles/${id}`), {})
+      .then(() => document.getElementById("newProfile").value = "");
+  };
+});
+</script>
 
 </body>
 </html>
