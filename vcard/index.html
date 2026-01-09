@@ -5,90 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact Card</title>
 
-<style>
-    body {
-        margin: 0;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        background: #111;
-        color: #f5f5f5;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        neon: {
+          500: '#ff0098'
+        }
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif']
+      }
     }
+  }
+}
+</script>
 
-    .card {
-        max-width: 360px;
-        width: 90%;
-        background: #1a1a1a;
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 10px 30px rgba(0,0,0,.4);
-    }
-
-    h1 {
-        margin: 0 0 4px;
-        font-size: 1.6rem;
-    }
-
-    h2 {
-        margin: 0 0 16px;
-        font-weight: 400;
-        font-size: 1rem;
-        opacity: .8;
-    }
-
-    .item {
-        margin-bottom: 12px;
-        word-break: break-word;
-    }
-
-    a {
-        color: #6fd2ff;
-        text-decoration: none;
-    }
-
-    .notes {
-        margin-top: 16px;
-        font-size: .9rem;
-        opacity: .75;
-        border-top: 1px solid rgba(255,255,255,.1);
-        padding-top: 12px;
-    }
-
-    button {
-        width: 100%;
-        margin-top: 20px;
-        padding: 14px;
-        font-size: 1rem;
-        font-weight: bold;
-        border-radius: 12px;
-        border: none;
-        background: #6fd2ff;
-        color: #000;
-        cursor: pointer;
-    }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 </head>
 
-<body>
-<div class="card">
-    <h1>
-        <span id="firstName">—</span>
-        <span id="lastName">—</span>
-    </h1>
-    <h2 id="role">—</h2>
+<body class="bg-white text-neutral-900 font-sans antialiased selection:bg-neon-500 selection:text-white">
 
-    <div class="item"><strong>Company:</strong> <span id="company">—</span></div>
-    <div class="item"><strong>Email:</strong> <a id="email" href="#">—</a></div>
-    <div class="item"><strong>Phone:</strong> <a id="phone" href="#">—</a></div>
-    <div class="item"><strong>Website:</strong> <a id="website" target="_blank">—</a></div>
-    <div class="item"><strong>LinkedIn:</strong> <a id="linkedin" target="_blank">—</a></div>
+<main class="min-h-screen flex items-center justify-center px-6">
+  <div class="w-full max-w-sm border-2 border-black p-6">
 
-    <div class="notes" id="notes"></div>
-
-    <button onclick="downloadVCard()">Save to Contacts</button>
+    <!-- Logo -->
+   <div class="mb-8">
+  <img
+    src="./assets/logo-horizontal.png"
+    alt="Forma & Fondo Taller"
+    class="w-full max-h-16 object-contain object-left"
+  />
 </div>
+
+    <!-- Name -->
+    <h1 class="text-3xl font-black tracking-tight leading-tight">
+      <span id="firstName">—</span><br>
+      <span id="lastName">—</span>
+    </h1>
+
+    <!-- Role -->
+    <p id="role" class="mt-2 text-sm font-bold uppercase tracking-widest text-neon-500">
+      —
+    </p>
+
+    <!-- Divider -->
+    <div class="h-1 w-12 bg-black my-6"></div>
+
+    <!-- Info -->
+    <div class="space-y-3 text-sm font-medium">
+      <div>
+        <span class="block text-xs uppercase tracking-widest text-neutral-400">Company</span>
+        <span id="company">—</span>
+      </div>
+
+      <div>
+        <span class="block text-xs uppercase tracking-widest text-neutral-400">Email</span>
+        <a id="email" href="#" class="hover:text-neon-500 transition-colors">—</a>
+      </div>
+
+      <div>
+        <span class="block text-xs uppercase tracking-widest text-neutral-400">Phone</span>
+        <a id="phone" href="#" class="hover:text-neon-500 transition-colors">—</a>
+      </div>
+
+      <div>
+        <span class="block text-xs uppercase tracking-widest text-neutral-400">Website</span>
+        <a id="website" href="#" target="_blank" class="hover:text-neon-500 transition-colors">—</a>
+      </div>
+
+      <div>
+        <span class="block text-xs uppercase tracking-widest text-neutral-400">LinkedIn</span>
+        <a id="linkedin" href="#" target="_blank" class="hover:text-neon-500 transition-colors">—</a>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <p id="notes" class="mt-6 text-xs text-neutral-500 leading-relaxed"></p>
+
+    <!-- CTA -->
+    <button
+      onclick="downloadVCard()"
+      class="mt-8 w-full py-4 bg-black text-white font-black uppercase tracking-widest text-xs hover:bg-neon-500 transition-colors"
+    >
+      Save to Contacts
+    </button>
+
+  </div>
+</main>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -111,35 +118,35 @@ const profileRef = ref(db, "profile");
 let profileData = {};
 
 onValue(profileRef, (snapshot) => {
-    const p = snapshot.val();
-    if (!p) return;
-    profileData = p;
+  const p = snapshot.val();
+  if (!p) return;
+  profileData = p;
 
-    firstName.textContent = p.firstName || "";
-    lastName.textContent  = p.lastName  || "";
-    role.textContent      = p.role      || "";
-    company.textContent   = p.company   || "";
+  firstName.textContent = p.firstName || "";
+  lastName.textContent  = p.lastName  || "";
+  role.textContent      = p.role      || "";
+  company.textContent   = p.company   || "";
 
-    email.textContent = p.email || "";
-    email.href = p.email ? `mailto:${p.email}` : "#";
+  email.textContent = p.email || "";
+  email.href = p.email ? `mailto:${p.email}` : "#";
 
-    phone.textContent = p.phone || "";
-    phone.href = p.phone ? `tel:${p.phone}` : "#";
+  phone.textContent = p.phone || "";
+  phone.href = p.phone ? `tel:${p.phone}` : "#";
 
-    website.textContent = p.website || "";
-    website.href = p.website || "#";
+  website.textContent = p.website || "";
+  website.href = p.website || "#";
 
-    linkedin.textContent = p.linkedin || "";
-    linkedin.href = p.linkedin || "#";
+  linkedin.textContent = p.linkedin || "";
+  linkedin.href = p.linkedin || "#";
 
-    notes.textContent = p.notes || "";
+  notes.textContent = p.notes || "";
 });
 
 window.downloadVCard = () => {
-    const p = profileData;
-    if (!p.firstName || !p.lastName) return;
+  const p = profileData;
+  if (!p.firstName || !p.lastName) return;
 
-    const vcard = `
+  const vcard = `
 BEGIN:VCARD
 VERSION:3.0
 N:${p.lastName};${p.firstName};;;
@@ -149,20 +156,20 @@ TITLE:${p.role || ""}
 TEL;TYPE=CELL:${p.phone || ""}
 EMAIL:${p.email || ""}
 URL:${p.website || ""}
-NOTE:${p.notes || ""}
 END:VCARD
 `.trim();
 
-    const blob = new Blob([vcard], { type: "text/vcard" });
-    const url = URL.createObjectURL(blob);
+  const blob = new Blob([vcard], { type: "text/vcard" });
+  const url = URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${p.firstName}_${p.lastName}.vcf`;
-    a.click();
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${p.firstName}_${p.lastName}.vcf`;
+  a.click();
 
-    URL.revokeObjectURL(url);
+  URL.revokeObjectURL(url);
 };
 </script>
+
 </body>
 </html>
