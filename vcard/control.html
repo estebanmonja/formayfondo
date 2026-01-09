@@ -1,45 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Control</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>vCard Control</title>
 
-<style>
-body {
-  font-family: system-ui, sans-serif;
-  background: #222;
-  color: white;
-  padding: 20px;
-}
-select, input, button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-</style>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="bg-neutral-100 min-h-screen flex items-center justify-center">
 
-<h3>Profiles</h3>
+<div class="bg-white border-2 border-black p-6 w-full max-w-md">
+  <h1 class="font-black text-xl mb-6">vCard Control</h1>
 
-<input id="newProfile" placeholder="New profile ID (e.g. 001)">
-<button id="addProfile">+</button>
+  <!-- CREATE PROFILE -->
+  <div class="flex gap-2 mb-6">
+    <input
+      id="newProfile"
+      placeholder="New profile ID (e.g. 001)"
+      class="border p-2 flex-1"
+    />
+    <button
+      id="addProfile"
+      class="bg-[#ff0098] px-4 font-black text-white"
+    >+</button>
+  </div>
 
-<select id="profileSelect"></select>
+  <!-- PROFILE SELECT -->
+  <select id="profileId" class="w-full mb-6 border p-2">
+    <option value="">Select profile…</option>
+  </select>
 
-<input id="firstName" placeholder="First name">
-<input id="lastName" placeholder="Last name">
-<input id="role" placeholder="Role">
-<input id="phone" placeholder="Phone">
-<input id="email" placeholder="Email">
+  <!-- FIELDS -->
+  <div class="space-y-3">
+    <input id="firstName" placeholder="First name" class="w-full border p-2">
+    <input id="lastName" placeholder="Last name" class="w-full border p-2">
+    <input id="role" placeholder="Role" class="w-full border p-2">
+    <input id="company" placeholder="Company" class="w-full border p-2">
+    <input id="phone" placeholder="Phone" class="w-full border p-2">
+    <input id="email" placeholder="Email" class="w-full border p-2">
+  </div>
 
-<button id="save">Save profile</button>
+  <button
+    id="saveBtn"
+    class="mt-6 w-full bg-black text-white py-3 font-black uppercase"
+  >
+    Save Profile
+  </button>
+
+  <!-- 🔎 PREVIEW -->
+  <div id="previewBlock" class="mt-6 hidden">
+    <p class="font-black text-sm mb-2">Public URL</p>
+    <input id="publicUrl" readonly class="w-full border p-2 text-xs mb-4">
+
+    <img id="qr" class="w-full border" />
+  </div>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCuQl3fcJBIbSERG5BllWZJQxL7uIV5dHs",
@@ -54,60 +74,75 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const selector = document.getElementById("profileSelect");
-const profilesRef = ref(db, "profiles");
+const fields = ["firstName","lastName","role","company","phone","email"];
 
-onValue(profilesRef, snap => {
-  selector.innerHTML = "";
-  snap.forEach(c => {
+const selector = document.getElementById("profileId");
+const newInput = document.getElementById("newProfile");
+const preview  = document.getElementById("previewBlock");
+const urlField = document.getElementById("publicUrl");
+const qrImg    = document.getElementById("qr");
+
+/* Populate dropdown */
+onValue(ref(db, "profiles"), snap => {
+  selector.innerHTML = `<option value="">Select profile…</option>`;
+  snap.forEach(child => {
     const o = document.createElement("option");
-    o.value = c.key;
-    o.textContent = c.key;
+    o.value = child.key;
+    o.textContent = child.key;
     selector.appendChild(o);
   });
 });
 
-document.getElementById("addProfile").onclick = () => {
-  const id = document.getElementById("newProfile").value.trim();
+/* Create profile */
+addProfile.onclick = () => {
+  const id = newInput.value.trim();
   if (!id) return;
 
   set(ref(db, `profiles/${id}`), {
     firstName: "",
     lastName: ""
+  }).then(() => {
+    newInput.value = "";
+    selector.value = id;
+    loadProfile(id);
   });
-
-  document.getElementById("newProfile").value = "";
 };
 
-selector.onchange = loadProfile;
-
-function loadProfile() {
-  const id = selector.value;
+/* Load profile */
+const loadProfile = (id) => {
   if (!id) return;
 
-  onValue(ref(db, `profiles/${id}`), snap => {
-    const p = snap.val();
-    if (!p) return;
-
-    firstName.value = p.firstName || "";
-    lastName.value = p.lastName || "";
-    role.value = p.role || "";
-    phone.value = p.phone || "";
-    email.value = p.email || "";
-  }, { onlyOnce: true });
-}
-
-document.getElementById("save").onclick = () => {
-  const id = selector.value;
-  if (!id) return;
-
-  set(ref(db, `profiles/${id}`), {
-    firstName: firstName.value,
-    lastName: lastName.value,
-    role: role.value,
-    phone: phone.value,
-    email: email.value
+  get(ref(db, `profiles/${id}`)).then(snap => {
+    const data = snap.val() || {};
+    fields.forEach(f =>
+      document.getElementById(f).value = data[f] || ""
+    );
+    updatePreview(id);
   });
+};
+
+selector.onchange = () => loadProfile(selector.value);
+
+/* Save */
+saveBtn.onclick = () => {
+  const id = selector.value;
+  if (!id) return alert("Select profile first");
+
+  const data = {};
+  fields.forEach(f => data[f] = document.getElementById(f).value);
+
+  set(ref(db, `profiles/${id}`), data).then(() => {
+    updatePreview(id);
+  });
+};
+
+/* Preview */
+const updatePreview = (id) => {
+  const url = `${location.origin}/vcard/?id=${id}`;
+  urlField.value = url;
+  qrImg.src =
+    `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}`;
+  preview.classList.remove("hidden");
 };
 </script>
 

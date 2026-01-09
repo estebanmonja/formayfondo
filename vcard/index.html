@@ -1,80 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Forma & Fondo — Contact</title>
 
-<style>
-body {
-  font-family: system-ui, sans-serif;
-  background: #f4f4f4;
-  margin: 0;
-  padding: 20px;
-}
-.card {
-  max-width: 420px;
-  margin: auto;
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-}
-.logo img {
-  width: 100%;
-  max-height: 80px;
-  object-fit: contain;
-  display: block;
-  margin-bottom: 20px;
-}
-.field {
-  margin-bottom: 10px;
-}
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-}
-#splash {
-  position: fixed;
-  inset: 0;
-  background: white;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  z-index: 9999;
-}
-#preview {
-  white-space: pre-line;
-  text-align: left;
-  margin-bottom: 20px;
-}
-</style>
-</head>
+<script src="https://cdn.tailwindcss.com"></script>
 
-<body>
-
-<div class="card">
-  <div class="logo">
-    <img src="logo-horizontal.png" alt="Logo">
-  </div>
-
-  <div class="field"><strong id="name"></strong></div>
-  <div class="field" id="role"></div>
-  <div class="field" id="phone"></div>
-  <div class="field" id="email"></div>
-
-  <button onclick="shareProfile()">Share contact</button>
-</div>
-
-<div id="splash">
-  <h3>Contact ready</h3>
-  <div id="preview"></div>
-  <img id="qr" width="220" height="220">
-  <button onclick="closeSplash()">Close</button>
-</div>
-
+<!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
@@ -93,55 +26,105 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 const params = new URLSearchParams(window.location.search);
-const currentProfileId = params.get("id");
+const id = params.get("id") || "001";
 
-if (!currentProfileId) {
-  document.body.innerHTML = "<p>No profile selected.</p>";
-  throw "";
-}
-
-const profileRef = ref(db, `profiles/${currentProfileId}`);
+const profileRef = ref(db, `profiles/${id}`);
 
 onValue(profileRef, snap => {
-  const p = snap.val();
-  if (!p) return;
-
-  document.getElementById("name").innerText =
-    `${p.firstName || ""} ${p.lastName || ""}`.trim();
-  document.getElementById("role").innerText = p.role || "";
-  document.getElementById("phone").innerText = p.phone || "";
-  document.getElementById("email").innerText = p.email || "";
-
-  showSplash(p);
+  if (!snap.exists()) return;
+  window.profile = snap.val();
+  renderProfile();
 });
 
-window.shareProfile = () => {
-  const url = `${location.origin}${location.pathname}?id=${currentProfileId}`;
-  if (navigator.share) {
-    navigator.share({ title: "Contact", url });
-  } else {
-    navigator.clipboard.writeText(url);
-    alert("Link copied");
-  }
+window.renderProfile = () => {
+  const p = window.profile;
+  document.getElementById("name").textContent = `${p.firstName} ${p.lastName}`;
+  document.getElementById("role").textContent = p.role || "";
+  document.getElementById("company").textContent = p.company || "";
+  document.getElementById("email").textContent = p.email || "";
+  document.getElementById("phone").textContent = p.phone || "";
 };
 
-window.showSplash = (p) => {
-  const url = `${location.origin}${location.pathname}?id=${currentProfileId}`;
-  document.getElementById("preview").innerText =
-`${p.firstName} ${p.lastName}
-${p.role || ""}
-${p.phone || ""}
-${p.email || ""}`;
+window.downloadVCard = () => {
+  const p = window.profile;
+  if (!p) return;
+
+  const vcard = `
+BEGIN:VCARD
+VERSION:3.0
+N:${p.lastName};${p.firstName};;;
+FN:${p.firstName} ${p.lastName}
+ORG:${p.company || ""}
+TITLE:${p.role || ""}
+TEL;TYPE=CELL:${p.phone || ""}
+EMAIL:${p.email || ""}
+URL:${window.location.href}
+END:VCARD
+`.trim();
+
+  const blob = new Blob([vcard], { type: "text/vcard" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `${p.firstName}_${p.lastName}.vcf`;
+  a.click();
+
+  document.getElementById("preview").textContent = `
+${p.firstName} ${p.lastName}
+${p.role}
+${p.company}
+${p.phone}
+${p.email}
+  `.trim();
 
   document.getElementById("qr").src =
-    `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}`;
+    `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(window.location.href)}`;
 
-  document.getElementById("splash").style.display = "flex";
+  document.getElementById("splash").classList.remove("hidden");
 };
 
-window.closeSplash = () =>
-  document.getElementById("splash").style.display = "none";
+window.closeSplash = () => {
+  document.getElementById("splash").classList.add("hidden");
+};
 </script>
+</head>
+
+<body class="bg-neutral-100 min-h-screen flex items-center justify-center">
+
+<div class="w-full max-w-sm bg-white border-2 border-black p-6 text-left">
+  <!-- Logo -->
+  <img src="/logo-horizontal.png" alt="Forma & Fondo" class="w-full mb-6" />
+
+  <h1 id="name" class="text-2xl font-black mb-1"></h1>
+  <p id="role" class="text-sm font-bold text-[#ff0098]"></p>
+  <p id="company" class="text-sm mb-4"></p>
+
+  <div class="text-sm space-y-1 mb-6">
+    <p id="phone"></p>
+    <p id="email"></p>
+  </div>
+
+  <button onclick="downloadVCard()"
+    class="w-full bg-black text-white py-3 font-black uppercase tracking-widest hover:bg-[#ff0098]">
+    Save Contact
+  </button>
+</div>
+
+<!-- Splash -->
+<div id="splash" class="fixed inset-0 bg-white z-50 hidden flex items-center justify-center px-6">
+  <div class="max-w-sm w-full border-2 border-black p-6">
+    <h2 class="font-black text-xl mb-4">Contact saved</h2>
+
+    <pre id="preview"
+      class="text-xs bg-neutral-100 p-3 mb-4 whitespace-pre-wrap"></pre>
+
+    <img id="qr" class="w-full mb-4" />
+
+    <button onclick="closeSplash()"
+      class="w-full bg-black text-white py-3 font-black">
+      Close
+    </button>
+  </div>
+</div>
 
 </body>
 </html>
