@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Colecciones | Forma & Fondo</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; }
+        header { background: #1a1a1a; color: white; padding: 1rem 0; }
+        nav { display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; }
+        .nav-links a { color: #ccc; text-decoration: none; margin-left: 20px; }
+        
+        .gallery-header { text-align: center; padding: 60px 20px; background: #f9f9f9; }
+        .gallery-container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        
+        .category-section { margin-bottom: 60px; }
+        .category-title { font-size: 2rem; border-bottom: 1px solid #ddd; margin-bottom: 30px; padding-bottom: 10px; }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; }
+        .product-card { border: 1px solid #eee; border-radius: 8px; overflow: hidden; transition: transform 0.2s; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .product-img { height: 200px; background: #eee; display: flex; align-items: center; justify-content: center; color: #aaa; }
+        .product-info { padding: 15px; }
+        .product-title { font-weight: bold; margin-bottom: 5px; display: block; }
+        .product-desc { font-size: 0.9rem; color: #666; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">FORMA & FONDO</a>
+            <div class="nav-links">
+                <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+                <a href="../servicios/marketing.html">Marketing</a>
+                <a href="index.html" style="color:white;">Colecciones</a>
+                <a href="../aliados/index.html">Aliados</a>
+                <a href="../contacto/index.html">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="gallery-header">
+        <h1>El Alma del Taller</h1>
+        <p>Objetos que nacen de nuestra curiosidad creativa y exploración geométrica.</p>
+    </div>
+
+    <div class="gallery-container">
+        
+        <div class="category-section">
+            <h2 class="category-title">1. Nuestras Formas (Objetos y Juguetes)</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-img">Torre de Hanoi</div>
+                    <div class="product-info">
+                        <span class="product-title">La Torre de Hanoi</span>
+                        <span class="product-desc">Desafío lógico escultórico.</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">Tangram</div>
+                    <div class="product-info">
+                        <span class="product-title">Tangram</span>
+                        <span class="product-desc">Geometría interactiva para la creatividad.</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">Las Aves</div>
+                    <div class="product-info">
+                        <span class="product-title">Las Aves</span>
+                        <span class="product-desc">Piezas decorativas inspiradas en la naturaleza.</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">Yin Yang</div>
+                    <div class="product-info">
+                        <span class="product-title">Yin Yang</span>
+                        <span class="product-desc">Equilibrio y forma.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">2. Diseño (Mobiliario y Arte)</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-img">Paneles</div>
+                    <div class="product-info">
+                        <span class="product-title">Paneles Decorativos</span>
+                        <span class="product-desc">Celosías y divisores de espacio.</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">Muebles</div>
+                    <div class="product-info">
+                        <span class="product-title">Mobiliario de Autor</span>
+                        <span class="product-desc">Ensamble digital y acabado manual.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

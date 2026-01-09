@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacto | Forma & Fondo</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; }
+        header { background: #1a1a1a; color: white; padding: 1rem 0; }
+        nav { display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; }
+        .nav-links a { color: #ccc; text-decoration: none; margin-left: 20px; }
+        
+        .contact-container { display: flex; max-width: 1000px; margin: 60px auto; padding: 0 20px; gap: 50px; }
+        .contact-info { flex: 1; }
+        .contact-form { flex: 1; background: #f9f9f9; padding: 30px; border-radius: 8px; }
+        
+        input, select, textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        .submit-btn { background: #1a1a1a; color: white; padding: 12px 20px; border: none; cursor: pointer; width: 100%; font-weight: bold; }
+        .submit-btn:hover { background: #333; }
+        
+        .method { margin-bottom: 20px; }
+        .method h4 { margin-bottom: 5px; color: #E67E22; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">FORMA & FONDO</a>
+            <div class="nav-links">
+                <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+                <a href="../colecciones/index.html">Colecciones</a>
+                <a href="../aliados/index.html">Aliados</a>
+                <a href="../taller/index.html">El Taller</a>
+                <a href="index.html" style="color:white;">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="contact-container">
+        <div class="contact-info">
+            <h1>Iniciemos tu Proyecto</h1>
+            <p>Cuéntanos tu idea. Ya sea un archivo listo para corte o un concepto por desarrollar.</p>
+            
+            <div class="method">
+                <h4>WhatsApp</h4>
+                <p>+52 (XXX) XXX XXXX (Chat Directo)</p>
+            </div>
+            <div class="method">
+                <h4>Correo Electrónico</h4>
+                [cite_start]<p>emonja@gmail.com [cite: 18]</p>
+            </div>
+            <div class="method">
+                <h4>Ubicación</h4>
+                <p>Zapopan (Producción) & Tapalpa (Showroom), Jalisco.</p>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <form>
+                <label for="name">Nombre / Empresa</label>
+                <input type="text" id="name" placeholder="Tu nombre">
+                
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="contacto@ejemplo.com">
+                
+                <label for="interest">Interés</label>
+                <select id="interest">
+                    <option>Corte & Grabado CNC</option>
+                    <option>Diseño & Muebles</option>
+                    <option>Marketing / Branding</option>
+                    <option>Comprar Productos</option>
+                </select>
+                
+                <label for="message">Mensaje</label>
+                <textarea id="message" rows="5" placeholder="Detalles del proyecto..."></textarea>
+                
+                <button type="submit" class="submit-btn">ENVIAR PROPUESTA</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
