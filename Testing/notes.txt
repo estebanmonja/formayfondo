@@ -1,0 +1,23 @@
+[ROOT DOMAIN] formayfondotaller.com/
+│
+├── index.html (Home Page)
+│
+├── servicios/ (Directory)
+│   ├── tu-proyecto.html  (Page: Tu Proyecto)
+│   └── marketing.html    (Page: Marketing)
+│
+├── colecciones/ (Directory)
+│   └── index.html        (Page: Colecciones Main landing)
+│
+├── aliados/ (Directory)
+│   └── index.html        (Page: Aliados Main landing)
+│
+├── taller/ (Directory)
+│   └── index.html        (Page: El Taller Main landing)
+│
+├── contacto/ (Directory)
+│   └── index.html        (Page: Contact Form)
+│       │
+│       └── [ACTION: Form Submit] --> /gracias.html (Redirects here upon success)
+│
+└── gracias.html (AUXILIARY PAGE: Thank You / Success message)

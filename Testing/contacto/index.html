@@ -23,6 +23,7 @@
             margin: 30px auto; 
             padding: 0 20px; 
             gap: 40px; 
+            min-height: 60vh;
         }
         
         @media (min-width: 800px) { .contact-container { flex-direction: row; gap: 60px; margin-top: 60px; } }
@@ -30,7 +31,8 @@
         .contact-info { flex: 1; }
         .contact-form { flex: 1; background: #f9f9f9; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         
-        h1 { font-size: 2rem; margin-bottom: 20px; line-height: 1.2; }
+        h1 { font-size: 2rem; margin-bottom: 20px; line-height: 1.2; color: #2C3E50; }
+        .intro { margin-bottom: 30px; color: #555; }
         
         /* FORM ELEMENTS */
         input, select, textarea { 
@@ -46,7 +48,7 @@
         label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.9rem; }
         
         .submit-btn { 
-            background: #1a1a1a; 
+            background: #2C3E50; 
             color: white; 
             padding: 15px 20px; 
             border: none; 
@@ -55,13 +57,22 @@
             font-weight: bold; 
             font-size: 1rem;
             border-radius: 4px;
+            transition: background 0.3s;
         }
-        .submit-btn:hover { background: #333; }
+        .submit-btn:hover { background: #e67e22; }
         
-        .method { margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .method { margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
         .method:last-child { border-bottom: none; }
         .method h4 { margin: 0 0 5px 0; color: #E67E22; font-size: 1.1rem; }
-        .method p { margin: 0; }
+        .method p { margin: 0; font-size: 1.1rem; }
+        .method a { color: #333; text-decoration: none; font-weight: bold; }
+        .method a:hover { color: #e67e22; text-decoration: underline; }
+
+        /* FOOTER */
+        footer { background: #1a1a1a; color: #999; text-align: center; padding: 60px 20px; margin-top: 60px; font-size: 0.9rem; }
+        .footer-content { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .footer-link { color: #e67e22; text-decoration: none; }
+        .copyright { margin-top: 30px; font-size: 0.8rem; color: #555; }
     </style>
 </head>
 <body>
@@ -70,6 +81,7 @@
             <a href="../index.html" class="logo">FORMA & FONDO</a>
             <div class="nav-links">
                 <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+                <a href="../servicios/marketing.html">Marketing</a>
                 <a href="../colecciones/index.html">Colecciones</a>
                 <a href="../aliados/index.html">Aliados</a>
                 <a href="../taller/index.html">El Taller</a>
@@ -79,46 +91,62 @@
     </header>
 
     <div class="contact-container">
+        
         <div class="contact-info">
             <h1>Iniciemos tu Proyecto</h1>
-            <p style="margin-bottom: 30px;">Cuéntanos tu idea. Ya sea un archivo listo para corte o un concepto por desarrollar.</p>
+            <p class="intro">Cuéntanos tu idea. Ya sea un archivo listo para corte o un concepto por desarrollar.</p>
             
             <div class="method">
                 <h4>WhatsApp</h4>
-                <p>+52 (XXX) XXX XXXX (Chat Directo)</p>
+                <p><a href="https://wa.me/523315305043" target="_blank">+52 33 1530 5043</a></p>
             </div>
+            
             <div class="method">
                 <h4>Correo Electrónico</h4>
-                <p>emonja@gmail.com</p>
+                <p><a href="mailto:dime@formayfondotaller.com">dime@formayfondotaller.com</a></p>
             </div>
+            
             <div class="method">
                 <h4>Ubicación</h4>
-                <p>Zapopan (Producción) & Tapalpa (Showroom), Jalisco.</p>
+                <p>Zapopan (Taller) & Tapalpa (Estudio/Showroom), Jalisco.</p>
             </div>
         </div>
 
         <div class="contact-form">
-            <form>
-                <label for="name">Nombre / Empresa</label>
-                <input type="text" id="name" placeholder="Tu nombre">
-                
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="contacto@ejemplo.com">
-                
-                <label for="interest">Interés</label>
-                <select id="interest">
-                    <option>Corte & Grabado CNC</option>
-                    <option>Diseño & Muebles</option>
-                    <option>Marketing / Branding</option>
-                    <option>Comprar Productos</option>
-                </select>
-                
-                <label for="message">Mensaje</label>
-                <textarea id="message" rows="5" placeholder="Detalles del proyecto..."></textarea>
-                
-                <button type="submit" class="submit-btn">ENVIAR PROPUESTA</button>
-            </form>
-        </div>
+    <form action="https://formspree.io/f/mkoowdyr" method="POST">
+        
+        <input type="hidden" name="_next" value="https://www.google.com">
+
+        <label for="name">Nombre / Empresa</label>
+        <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="contacto@ejemplo.com" required>
+        
+        <label for="interest">Interés</label>
+        <select id="interest" name="interest">
+            <option value="Corte CNC">Corte & Grabado CNC</option>
+            <option value="Diseño">Diseño & Muebles</option>
+            <option value="Marketing">Marketing / Branding</option>
+            <option value="Productos">Comprar Productos</option>
+        </select>
+        
+        <label for="message">Mensaje</label>
+        <textarea id="message" name="message" rows="5" placeholder="Detalles del proyecto..." required></textarea>
+        
+        <button type="submit" class="submit-btn">ENVIAR PROPUESTA</button>
+    </form>
+</div>
     </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-name">Forma & Fondo Taller</div>
+            <div>Galeana 468, Paraisos del Colli, Zapopan.</div>
+            <div>Hidalgo 135, Tapalpa Centro, Tapalpa.</div>
+            <div><a href="mailto:dime@formayfondotaller.com" class="footer-link">dime@formayfondotaller.com</a></div>
+            <div class="copyright">&copy; 2026 Forma & Fondo Taller. Todos los derechos reservados.</div>
+        </div>
+    </footer>
 </body>
 </html>

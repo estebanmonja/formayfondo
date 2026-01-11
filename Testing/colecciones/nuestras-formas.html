@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestras Formas | Forma & Fondo</title>
+    <style>
+        /* BASE & NAV */
+        * { box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; line-height: 1.6; }
+        header { background: #1a1a1a; color: white; padding: 1rem 0; position: sticky; top:0; z-index:100;}
+        nav { display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; margin-bottom: 10px; }
+        .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; padding: 5px; }
+        @media (min-width: 768px) { nav { flex-direction: row; justify-content: space-between; } .logo{margin-bottom:0;} }
+
+        /* MINISITE HEADER */
+        .shop-header {
+            padding: 40px 20px;
+            text-align: center;
+            background: #f9f9f9;
+            border-bottom: 1px solid #eee;
+        }
+        .shop-header h1 { margin: 0; color: #2C3E50; font-size: 2rem; }
+        .shop-header p { color: #666; margin-top: 10px; }
+        .back-link { display: inline-block; margin-top: 20px; color: #e67e22; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        /* SHOP GRID */
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 30px; 
+        }
+        @media (min-width: 600px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 900px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        /* PRODUCT CARD */
+        .product-card {
+            border: 1px solid #eee;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .product-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .prod-img {
+            height: 250px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-weight: bold;
+        }
+        .prod-info { padding: 20px; text-align: center; }
+        .prod-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; display: block; }
+        .prod-desc { font-size: 0.9rem; color: #777; margin-bottom: 15px; }
+        .prod-btn { 
+            display: block; width: 100%; 
+            padding: 10px; background: #2C3E50; color: white; 
+            text-decoration: none; border-radius: 4px; font-weight: bold; 
+            transition: background 0.3s;
+        }
+        .prod-btn:hover { background: #e67e22; }
+
+        /* FOOTER */
+        footer { background: #1a1a1a; color: #999; text-align: center; padding: 60px 20px; margin-top: 60px; font-size: 0.9rem; }
+        .footer-content { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .footer-link { color: #e67e22; text-decoration: none; }
+        .copyright { margin-top: 30px; font-size: 0.8rem; color: #555; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">FORMA & FONDO</a>
+            <div class="nav-links">
+                <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+                <a href="../servicios/marketing.html">Marketing</a>
+                <a href="index.html" style="color:white; border-bottom: 1px solid white;">Colecciones</a>
+                <a href="../aliados/index.html">Aliados</a>
+                <a href="../taller/index.html">El Taller</a>
+                <a href="../contacto/index.html">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="shop-header">
+        <a href="index.html" class="back-link">&larr; Volver a Colecciones</a>
+        <h1>Nuestras Formas</h1>
+        <p>Objetos, juguetes y piezas de desarrollo humano. La geometría hecha tangible.</p>
+    </div>
+
+    <div class="container">
+        <div class="product-grid">
+            
+            <div class="product-card">
+                <div class="prod-img">[IMG: Torre de Hanoi]</div>
+                <div class="prod-info">
+                    <span class="prod-title">La Torre de Hanoi</span>
+                    <p class="prod-desc">Desafío lógico escultórico en madera y acrílico.</p>
+                    <a href="../contacto/index.html" class="prod-btn">Consultar / Pedir</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="prod-img">[IMG: Tangram]</div>
+                <div class="prod-info">
+                    <span class="prod-title">Tangram</span>
+                    <p class="prod-desc">7 piezas geométricas para la creatividad infinita.</p>
+                    <a href="../contacto/index.html" class="prod-btn">Consultar / Pedir</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="prod-img">[IMG: El Cubo]</div>
+                <div class="prod-info">
+                    <span class="prod-title">El Cubo Soma</span>
+                    <p class="prod-desc">Rompecabezas tridimensional de ensamble.</p>
+                    <a href="../contacto/index.html" class="prod-btn">Consultar / Pedir</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="prod-img">[IMG: Las Aves]</div>
+                <div class="prod-info">
+                    <span class="prod-title">Las Aves</span>
+                    <p class="prod-desc">Siluetas decorativas inspiradas en vuelo.</p>
+                    <a href="../contacto/index.html" class="prod-btn">Consultar / Pedir</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="prod-img">[IMG: Yin Yang]</div>
+                <div class="prod-info">
+                    <span class="prod-title">Yin Yang</span>
+                    <p class="prod-desc">Equilibrio visual en dos tonos de madera.</p>
+                    <a href="../contacto/index.html" class="prod-btn">Consultar / Pedir</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-name">Forma & Fondo Taller</div>
+            <div>Galeana 468, Paraisos del Colli, Zapopan.</div>
+            <div>Hidalgo 135, Tapalpa Centro, Tapalpa.</div>
+            <div><a href="mailto:hola@formayfondotaller.com" class="footer-link">hola@formayfondotaller.com</a></div>
+            <div class="copyright">&copy; 2026 Forma & Fondo Taller. Todos los derechos reservados.</div>
+        </div>
+    </footer>
+</body>
+</html>
