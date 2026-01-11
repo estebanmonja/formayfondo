@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forma & Fondo Taller | Tu Proyecto</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.7;
+            background-color: #fff;
+        }
+
+        header {
+            background: #1a1a1a;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 5px;
+        }
+
+        .nav-links a:hover { color: white; }
+
+        @media (min-width: 768px) {
+            nav { flex-direction: row; justify-content: space-between; }
+            .logo { margin-bottom: 0; }
+        }
+
+        .hero {
+            background: #f4f4f4;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .hero p {
+            max-width: 760px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+            color: #555;
+        }
+
+        @media (min-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+        }
+
+        .section {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .section p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .process {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .process { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .process-step {
+            border-left: 4px solid #e67e22;
+            padding-left: 20px;
+        }
+
+        .process-step h3 {
+            margin-top: 0;
+            color: #2C3E50;
+        }
+
+        .cta {
+            background: #1a1a1a;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #ccc;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #e67e22;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        .btn:hover { background: #d35400; }
+
+        footer {
+            background: #1a1a1a;
+            color: #999;
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 0.9rem;
+        }
+
+        .footer-name {
+            color: white;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="../index.html" class="logo">FORMA & FONDO</a>
+        <div class="nav-links">
+            <a href="tu-proyecto.html">Tu Proyecto</a>
+            <a href="marketing.html">Producción para Marcas</a>
+            <a href="../colecciones/index.html">Colecciones</a>
+            <a href="../aliados/index.html">Aliados</a>
+            <a href="../taller/index.html">El Taller</a>
+            <a href="../contacto/index.html">Contacto</a>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Tu proyecto empieza aquí.</h1>
+    <p>
+        No necesitas planos finales, lenguaje técnico ni respuestas claras.
+        En este taller trabajamos con ideas en proceso — y las acompañamos
+        hasta encontrar su forma material.
+    </p>
+</section>
+
+<section class="section">
+    <h2>Cómo trabajamos</h2>
+    <p>
+        Cada proyecto es distinto, pero el punto de partida es siempre el mismo:
+        escuchar, entender y traducir una intención en materia.
+    </p>
+
+    <div class="process">
+        <div class="process-step">
+            <h3>1. Conversar</h3>
+            <p>
+                Hablamos sobre tu idea, tus referencias y tus dudas.
+                Aquí no se evalúa, se explora.
+            </p>
+        </div>
+
+        <div class="process-step">
+            <h3>2. Definir</h3>
+            <p>
+                Juntos delimitamos materiales, escalas, procesos y alcances,
+                cuidando que cada decisión tenga sentido.
+            </p>
+        </div>
+
+        <div class="process-step">
+            <h3>3. Hacer</h3>
+            <p>
+                Producimos con precisión y atención al detalle,
+                respetando tanto la idea como el material.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2>Qué necesitas traer (y qué no)</h2>
+    <p>
+        Puedes llegar con un boceto, una referencia, una imagen,
+        o incluso solo una inquietud.
+    </p>
+    <p>
+        No necesitas conocer procesos, máquinas ni términos técnicos.
+        De eso nos encargamos aquí.
+    </p>
+</section>
+
+<section class="cta">
+    <p>
+        Si tienes algo en mente — aunque todavía no sepas cómo explicarlo —
+        podemos empezar por ahí.
+    </p>
+    <a href="../contacto/index.html" class="btn">Iniciar conversación</a>
+</section>
+
+<footer>
+    <div class="footer-name">Forma & Fondo Taller</div>
+    <div>&copy; 2026 Forma & Fondo Taller</div>
+</footer>
+
+</body>
+</html>

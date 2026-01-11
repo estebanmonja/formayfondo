@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colecciones | Forma & Fondo</title>
+    <style>
+        /* BASE & NAV */
+        * { box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; line-height: 1.6; }
+        header { background: #1a1a1a; color: white; padding: 1rem 0; position: sticky; top:0; z-index:100;}
+        nav { display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; margin-bottom: 10px; }
+        .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; padding: 5px; }
+        @media (min-width: 768px) { nav { flex-direction: row; justify-content: space-between; } .logo{margin-bottom:0;} }
+
+        /* HERO SECTION */
+        .collection-hero {
+            background-color: #eee; /* Placeholder Color */
+            /* background-image: url('path-to-hero.jpg'); */ 
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .collection-hero h1 { 
+            font-size: 2.5rem; 
+            background: rgba(255,255,255,0.9); 
+            padding: 20px 40px; 
+            border-radius: 4px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin: 0;
+            color: #2C3E50;
+        }
+
+        /* GRID CATEGORIES */
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; min-height: 50vh; }
+        .category-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        @media (min-width: 768px) { .category-grid { grid-template-columns: 1fr 1fr; } }
+
+        /* CATEGORY CARD (BUTTON) */
+        .cat-card {
+            position: relative;
+            height: 350px;
+            background: #f4f4f4;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end; /* Text at bottom */
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: white;
+        }
+        .cat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+
+        /* Image Placeholder for Cards */
+        .cat-img-bg {
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            background-color: #7f8c8d; /* Placeholder Grey */
+            /* background-image: url('...'); */
+            background-size: cover;
+            transition: transform 0.5s;
+        }
+        .cat-card:hover .cat-img-bg { transform: scale(1.05); }
+
+        .cat-overlay {
+            position: relative; z-index: 2;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            width: 100%; padding: 30px;
+        }
+        .cat-overlay h2 { margin: 0 0 5px 0; font-size: 1.8rem; color: #fff; }
+        .cat-overlay p { margin: 0; color: #ddd; font-size: 1rem; }
+        .btn-fake { 
+            display: inline-block; margin-top: 15px; 
+            background: #e67e22; color: white; padding: 8px 15px; 
+            border-radius: 4px; font-weight: bold; font-size: 0.9rem; 
+        }
+
+        /* FOOTER */
+        footer { background: #1a1a1a; color: #999; text-align: center; padding: 60px 20px; margin-top: 60px; font-size: 0.9rem; }
+        .footer-content { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .footer-link { color: #e67e22; text-decoration: none; }
+        .copyright { margin-top: 30px; font-size: 0.8rem; color: #555; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">FORMA & FONDO</a>
+            <div class="nav-links">
+                <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+                <a href="../servicios/marketing.html">Marketing</a>
+                <a href="index.html" style="color:white; border-bottom: 1px solid white;">Colecciones</a>
+                <a href="../aliados/index.html">Aliados</a>
+                <a href="../taller/index.html">El Taller</a>
+                <a href="../contacto/index.html">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="collection-hero">
+        <h1>[IMG: Hero Colecciones]</h1>
+    </div>
+
+    <div class="container">
+        <div class="category-grid">
+            
+            <a href="nuestras-formas.html" class="cat-card">
+                <div class="cat-img-bg" style="background-color: #34495e;">
+                    <span style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:rgba(255,255,255,0.2); font-size:2rem; font-weight:bold;">[IMG]</span>
+                </div>
+                <div class="cat-overlay">
+                    <h2>Nuestras Formas</h2>
+                    <p>Objetos, juguetes y piezas de desarrollo humano.</p>
+                    <span class="btn-fake">Ver Catálogo &rarr;</span>
+                </div>
+            </a>
+
+            <a href="diseno.html" class="cat-card">
+                <div class="cat-img-bg" style="background-color: #e67e22;">
+                    <span style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:rgba(255,255,255,0.2); font-size:2rem; font-weight:bold;">[IMG]</span>
+                </div>
+                <div class="cat-overlay">
+                    <h2>Diseño & Mobiliario</h2>
+                    <p>Paneles, iluminación y muebles de autor.</p>
+                    <span class="btn-fake">Ver Catálogo &rarr;</span>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-name">Forma & Fondo Taller</div>
+            <div>Galeana 468, Paraisos del Colli, Zapopan.</div>
+            <div>Hidalgo 135, Tapalpa Centro, Tapalpa.</div>
+            <div><a href="mailto:hola@formayfondotaller.com" class="footer-link">hola@formayfondotaller.com</a></div>
+            <div class="copyright">&copy; 2026 Forma & Fondo Taller. Todos los derechos reservados.</div>
+        </div>
+    </footer>
+</body>
+</html>

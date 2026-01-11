@@ -21,7 +21,3 @@
 │       └── [ACTION: Form Submit] --> /gracias.html (Redirects here upon success)
 │
 └── gracias.html (AUXILIARY PAGE: Thank You / Success message)
-
-
-**Arreglar materiales.
-**Lavar patio.

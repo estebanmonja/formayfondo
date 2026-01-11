@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aliados | Forma & Fondo</title>
+    <style>
+        /* BASE & NAV */
+        * { box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; line-height: 1.6; }
+        header { background: #1a1a1a; color: white; padding: 1rem 0; position: sticky; top:0; z-index:100;}
+        nav { display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; margin-bottom: 10px; }
+        .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; padding: 5px; }
+        @media (min-width: 768px) { nav { flex-direction: row; justify-content: space-between; } .logo{margin-bottom:0;} }
+
+        /* PAGE CONTENT */
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; min-height: 60vh; }
+        h1 { font-size: 2rem; color: #2C3E50; border-bottom: 2px solid #E67E22; padding-bottom: 10px; }
+        .intro { margin-bottom: 40px; color: #555; font-size: 1.1rem; }
+        
+        .section-title { margin-top: 60px; font-size: 1.8rem; color: #2C3E50; border-left: 5px solid #E67E22; padding-left: 15px; margin-bottom: 30px; }
+
+        /* STRATEGIC ALLIES CARD (De la Modular / DMAQ) */
+        .ally-card {
+            background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden;
+            display: flex; flex-direction: column;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 40px;
+        }
+        @media (min-width: 768px) { .ally-card { flex-direction: row; align-items: stretch; } }
+        
+        .ally-logo-area {
+            background: #f4f4f4; width: 100%; height: 200px; 
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 1.5rem; color: #555;
+            border-bottom: 1px solid #eee;
+        }
+        @media (min-width: 768px) { 
+            .ally-logo-area { width: 35%; height: auto; border-bottom: none; border-right: 1px solid #eee; } 
+        }
+
+        .ally-content { padding: 30px; width: 100%; }
+        @media (min-width: 768px) { .ally-content { width: 65%; } }
+
+        .btn-ally { 
+            display: inline-block; margin-top: 15px; 
+            background: transparent; color: #2C3E50; border: 2px solid #2C3E50;
+            padding: 10px 20px; text-decoration: none; font-weight: bold; 
+            border-radius: 4px; transition: 0.3s; 
+        }
+        .btn-ally:hover { background: #2C3E50; color: white; }
+
+        /* CLIENT PORTFOLIO GRID */
+        .portfolio-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        @media (min-width: 768px) { .portfolio-grid { grid-template-columns: 1fr 1fr; } } /* 2 columns for clients */
+
+        .client-card {
+            background: #f9f9f9; border-radius: 8px; overflow: hidden;
+            border: 1px solid #eee; transition: transform 0.2s;
+        }
+        .client-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .client-img {
+            height: 220px; background: #e0e0e0;
+            display: flex; align-items: center; justify-content: center;
+            color: #777; font-weight: bold; font-size: 1.1rem;
+        }
+        .client-body { padding: 25px; }
+        .client-name { margin-top: 0; color: #2C3E50; font-size: 1.4rem; }
+        .client-desc { font-size: 0.95rem; color: #555; margin-bottom: 15px; font-style: italic; }
+        .project-label { font-weight: bold; font-size: 0.8rem; text-transform: uppercase; color: #E67E22; margin-bottom: 5px; display: block; }
+        .project-details { font-size: 0.9rem; margin: 0; color: #333; }
+
+        /* FOOTER */
+        footer { background: #1a1a1a; color: #999; text-align: center; padding: 60px 20px; margin-top: 60px; font-size: 0.9rem; }
+        .footer-content { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .footer-link { color: #e67e22; text-decoration: none; }
+        .copyright { margin-top: 30px; font-size: 0.8rem; color: #555; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">FORMA & FONDO</a>
+            <div class="nav-links">
+                <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+                <a href="../servicios/marketing.html">Marketing</a>
+                <a href="../colecciones/index.html">Colecciones</a>
+                <a href="index.html" style="color:white; border-bottom: 1px solid white;">Aliados</a>
+                <a href="../taller/index.html">El Taller</a>
+                <a href="../contacto/index.html">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Colaboración y Especialización</h1>
+        <p class="intro">Expandimos nuestras capacidades a través de alianzas estratégicas con estudios de ingeniería y diseño.</p>
+
+        <div class="ally-card">
+            <div class="ally-logo-area">
+                [LOGO: De la Modular]
+            </div>
+            <div class="ally-content">
+                <h2 style="margin-top:0; color:#E67E22;">De la Modular</h2>
+                <h4 style="margin:0 0 10px 0; color:#333;">Ingeniería de precisión para el sonido.</h4>
+                <p>Fabricación especializada de cases, rails y montajes para sistemas de síntesis modular Eurorack. Donde la música experimental se encuentra con la manufactura industrial.</p>
+                <a href="#" class="btn-ally">Visitar Sitio (Próximamente)</a>
+            </div>
+        </div>
+
+        <div class="ally-card">
+            <div class="ally-logo-area">
+                [LOGO: DMAQ]
+            </div>
+            <div class="ally-content">
+                <h2 style="margin-top:0; color:#E67E22;">DMAQ</h2>
+                <h4 style="margin:0 0 10px 0; color:#333;">Esteban De la Monja Arquitectura</h4>
+                <p>Estudio de arquitectura y diseño enfocado en la integración de espacios habitables, arte y funcionalidad. Proyectos residenciales y comerciales con un enfoque contemporáneo.</p>
+                <a href="http://esteban.delamonja.com/dmaq/dmaq.html" target="_blank" class="btn-ally">Ver Portafolio Arquitectura &rarr;</a>
+            </div>
+        </div>
+
+
+        <h2 class="section-title">Confían en Nosotros</h2>
+        
+        <div class="portfolio-grid">
+            
+            <div class="client-card">
+                <div class="client-img">[IMG: Proyecto 5a Taller]</div>
+                <div class="client-body">
+                    <h3 class="client-name">5a Taller</h3>
+                    <p class="client-desc">Estudio de arte liderado por Sinclair Castro. Espacio de experimentación plástica y sonora en el corazón de Guadalajara.</p>
+                    
+                    <span class="project-label">Servicios Realizados:</span>
+                    <ul class="project-details" style="padding-left: 20px; margin-top:5px;">
+                        <li>Señalética personalizada</li>
+                        <li>Grabado de alta precisión</li>
+                        <li>Marcos y montajes especiales para arte</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="client-card">
+                <div class="client-img">[IMG: Showroom Casablanca]</div>
+                <div class="client-body">
+                    <h3 class="client-name">Casablanca Cortinas</h3>
+                    <p class="client-desc">Boutique especializada en venta, diseño, manufactura e instalación de cortinas y persianas personalizadas.</p>
+                    
+                    <span class="project-label">Servicios Realizados:</span>
+                    <p class="project-details">Fabricación de letrero lumínico para el interior del showroom en Zapopan.</p>
+                </div>
+            </div>
+
+            <div class="client-card">
+                <div class="client-img">[IMG: Moldes Conejo Blanco]</div>
+                <div class="client-body">
+                    <h3 class="client-name">Conejo Blanco</h3>
+                    <p class="client-desc">Diseño y maquila de jabones artesanales.</p>
+                    
+                    <span class="project-label">Servicios Realizados:</span>
+                    <ul class="project-details" style="padding-left: 20px; margin-top:5px;">
+                        <li>Señalética de marca</li>
+                        <li>Fabricación de moldes personalizados para producto</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-name">Forma & Fondo Taller</div>
+            <div>Galeana 468, Paraisos del Colli, Zapopan.</div>
+            <div>Hidalgo 135, Tapalpa Centro, Tapalpa.</div>
+            <div><a href="mailto:hola@formayfondotaller.com" class="footer-link">hola@formayfondotaller.com</a></div>
+            <div class="copyright">&copy; 2026 Forma & Fondo Taller. Todos los derechos reservados.</div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forma & Fondo Taller | Inicio</title>
+
+<style>
+:root{
+  --black:#0e1114;
+  --pink:#ff0098;
+  --gray:#f4f4f4;
+  --white:#ffffff;
+  --maxw:1200px;
+  --font:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:var(--font);
+  background:var(--white);
+  color:var(--black);
+  line-height:1.6;
+}
+
+/* ================= HEADER ================= */
+header{
+  position:sticky;
+  top:0;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid rgba(0,0,0,.08);
+  z-index:100;
+}
+
+nav{
+  max-width:var(--maxw);
+  margin:auto;
+  padding:1rem 1.5rem;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.75rem;
+}
+
+@media(min-width:768px){
+  nav{
+    flex-direction:row;
+    justify-content:space-between;
+  }
+}
+
+/* ---------- BRAND LOCKUP ---------- */
+.brand{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  text-decoration:none;
+  color:var(--black);
+}
+
+.brand-mark{
+  width:22px;
+  height:auto;
+  display:block;
+}
+
+.brand-text{
+  display:flex;
+  flex-direction:column;
+  line-height:1;
+}
+
+.brand-name{
+  font-weight:900;
+  font-size:.95rem;
+  letter-spacing:.28em;
+}
+
+.brand-sub{
+  font-size:.55rem;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:#666;
+  margin-top:.15rem;
+}
+
+@media(max-width:480px){
+  .brand-mark{width:20px}
+  .brand-name{font-size:.9rem}
+}
+
+/* ---------- NAV LINKS ---------- */
+.nav-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#666;
+  font-size:.8rem;
+}
+
+.nav-links a:hover{color:var(--black)}
+
+/* ================= SECTIONS ================= */
+section{padding:6rem 1.5rem}
+.inner{max-width:var(--maxw);margin:auto}
+
+/* ================= HERO ================= */
+.hero{
+  position:relative;
+  min-height:90vh;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  background:var(--gray);
+}
+
+.hero img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.18;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+}
+
+.hero h1{
+  font-size:clamp(3rem,9vw,6.5rem);
+  line-height:.9;
+  font-weight:900;
+  letter-spacing:-.03em;
+}
+
+.hero h1 span{color:var(--pink)}
+
+.hero p{
+  max-width:520px;
+  margin-top:2rem;
+  padding-left:1rem;
+  border-left:4px solid var(--pink);
+  color:#444;
+  font-size:1.05rem;
+}
+
+.actions{
+  margin-top:3rem;
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+
+.actions a{
+  text-decoration:none;
+  padding:1rem 1.75rem;
+  border:2px solid var(--black);
+  font-size:.75rem;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--black);
+}
+
+.actions a.primary{
+  background:var(--black);
+  color:var(--white);
+}
+
+/* ================= IMAGE PAUSE ================= */
+.pause{padding:0}
+
+.pause img{
+  width:100%;
+  height:70vh;
+  object-fit:cover;
+}
+
+/* ================= INTRO / PATHS ================= */
+.intro h2{
+  font-size:.7rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--pink);
+  margin-bottom:1rem;
+}
+
+.intro h3{
+  font-size:2.5rem;
+  font-weight:900;
+  margin-bottom:3rem;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:2.5rem;
+}
+
+.block h4{
+  font-size:1.2rem;
+  margin-bottom:.5rem;
+}
+
+.block p{
+  color:#555;
+  font-size:.95rem;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  background:var(--black);
+  color:#aaa;
+  padding:4rem 1.5rem;
+  text-align:center;
+  font-size:.8rem;
+}
+
+.footer-name{
+  color:var(--white);
+  font-weight:800;
+  letter-spacing:.15em;
+  margin-bottom:1rem;
+}
+
+footer a{
+  color:var(--pink);
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <!-- BRAND LOCKUP -->
+    <a href="index.html" class="brand">
+      <img src="forma-fondo-mark.svg" alt="Forma & Fondo Taller" class="brand-mark">
+      <div class="brand-text">
+        <span class="brand-name">FORMA & FONDO</span>
+        <span class="brand-sub">Taller</span>
+      </div>
+    </a>
+
+    <!-- NAV -->
+    <div class="nav-links">
+      <a href="servicios/tu-proyecto.html">Tu Proyecto</a>
+      <a href="servicios/marketing.html">Branding Físico</a>
+      <a href="colecciones/index.html">Colecciones</a>
+      <a href="aliados/index.html">Aliados</a>
+      <a href="taller/index.html">El Taller</a>
+      <a href="contacto/index.html">Contacto</a>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- HERO IMAGE -->
+  <img src="hero-material.jpg" alt="Material en proceso">
+
+  <div class="inner hero-content">
+    <h1>
+      MATERIA.<br>
+      <span>ENERGÍA.</span><br>
+      INTENCIÓN.
+    </h1>
+
+    <p>
+      Forma & Fondo es un taller contemporáneo donde las ideas
+      encuentran forma material mediante precisión y cuidado.
+    </p>
+
+    <div class="actions">
+      <a href="servicios/tu-proyecto.html" class="primary">Traer mi proyecto</a>
+      <a href="colecciones/index.html">Explorar lo que hacemos</a>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE PAUSE -->
+<section class="pause">
+  <img src="pause-01.jpg" alt="Textura material">
+</section>
+
+<!-- INTRO / PATHS -->
+<section class="intro">
+  <div class="inner">
+    <h2>Cómo trabajamos</h2>
+    <h3>Un taller para pensar haciendo</h3>
+
+    <div class="grid">
+      <div class="block">
+        <h4>Dar forma a una idea</h4>
+        <p>
+          Acompañamos procesos creativos desde el primer boceto
+          hasta el objeto final, cuidando cada decisión material.
+        </p>
+      </div>
+
+      <div class="block">
+        <h4>Materializar una marca</h4>
+        <p>
+          Diseñamos y fabricamos piezas físicas durables:
+          señalización, stands y tarjetas.
+        </p>
+      </div>
+
+      <div class="block">
+        <h4>Explorar colecciones</h4>
+        <p>
+          Objetos y experimentos formales desarrollados
+          en el taller como investigación material.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE PAUSE -->
+<section class="pause">
+  <img src="pause-02.jpg" alt="Manos trabajando material">
+</section>
+
+<footer>
+  <div class="footer-name">Forma & Fondo Taller</div>
+  <div>Galeana 468, Paraísos del Colli, Zapopan</div>
+  <div>Hidalgo 135, Centro, Tapalpa</div>
+  <div><a href="mailto:hola@formayfondotaller.com">hola@formayfondotaller.com</a></div>
+  <div style="margin-top:1.5rem;opacity:.5">
+    &copy; 2026 Forma & Fondo Taller
+  </div>
+</footer>
+
+</body>
+</html>
