@@ -148,6 +148,26 @@ section{padding:6rem 1.5rem}
   font-size:1.05rem;
 }
 
+/* ================= IMAGE PAUSE (FIXED) ================= */
+.pause{
+  padding:0;
+}
+
+.pause img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:65vh;
+  object-fit:cover;
+}
+
+/* mobile refinement */
+@media(max-width:768px){
+  .pause img{
+    max-height:50vh;
+  }
+}
+
 /* ================= CONTENT ================= */
 .content{
   max-width:760px;
@@ -257,6 +277,11 @@ footer a{color:var(--pink);text-decoration:none}
       este es un buen punto de partida.
     </p>
   </div>
+</section>
+
+<!-- IMAGE PAUSE -->
+<section class="pause">
+  <img src="tu-proyecto-01.jpg" alt="Proceso material en el taller">
 </section>
 
 <!-- CONTENT -->
