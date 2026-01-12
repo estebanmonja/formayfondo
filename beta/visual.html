@@ -40,6 +40,7 @@ nav{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  position:relative;
 }
 
 /* LOGO */
@@ -90,31 +91,39 @@ nav{
   height:auto;
 }
 
-/* ================= MOBILE MENU ================= */
+/* ================= MOBILE FLOATING MENU (OBJECT) ================= */
 .mobile-menu{
+  position:absolute;
+  top:100%;
+  right:1.5rem;
+  margin-top:.75rem;
+  background:var(--white);
+  border:2px solid var(--black);
+  width:260px;
   display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(255,255,255,.98);
-  z-index:200;
-  overflow:auto;
+  z-index:150;
+  box-shadow:6px 6px 0 var(--pink);
 }
 
-.mobile-menu.active{display:block}
+.mobile-menu.active{
+  display:block;
+}
 
 .menu-inner{
-  max-width:420px;
-  margin:6rem auto 4rem;
-  padding:0 2rem;
+  padding:1.25rem 1.25rem 1rem;
 }
 
 .menu-inner a{
   display:block;
   text-decoration:none;
   color:var(--black);
-  font-size:1.2rem;
+  font-size:.85rem;
   font-weight:700;
-  margin-bottom:1.5rem;
+  padding:.55rem 0;
+}
+
+.menu-inner a + a{
+  border-top:1px solid rgba(0,0,0,.08);
 }
 
 /* ================= SECTIONS ================= */
@@ -224,6 +233,7 @@ footer a{color:var(--pink);text-decoration:none}
       FORMA & FONDO
     </a>
 
+    <!-- DESKTOP NAV -->
     <div class="nav-links">
       <a href="servicios/tu-proyecto.html">Tu Proyecto</a>
       <a href="servicios/marketing.html">Branding Físico</a>
@@ -233,23 +243,25 @@ footer a{color:var(--pink);text-decoration:none}
       <a href="contacto/index.html">Contacto</a>
     </div>
 
+    <!-- BURGER -->
     <button class="burger" onclick="toggleMenu()" aria-label="Menú">
       <img src="burger.svg" alt="">
     </button>
+
+    <!-- MOBILE MENU OBJECT -->
+    <div class="mobile-menu" id="menu">
+      <div class="menu-inner">
+        <a href="servicios/tu-proyecto.html">Tu Proyecto</a>
+        <a href="servicios/marketing.html">Branding Físico</a>
+        <a href="colecciones/index.html">Colecciones</a>
+        <a href="aliados/index.html">Aliados</a>
+        <a href="taller/index.html">El Taller</a>
+        <a href="contacto/index.html">Contacto</a>
+      </div>
+    </div>
+
   </nav>
 </header>
-
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="menu">
-  <div class="menu-inner">
-    <a href="servicios/tu-proyecto.html">Tu Proyecto</a>
-    <a href="servicios/marketing.html">Branding Físico</a>
-    <a href="colecciones/index.html">Colecciones</a>
-    <a href="aliados/index.html">Aliados</a>
-    <a href="taller/index.html">El Taller</a>
-    <a href="contacto/index.html">Contacto</a>
-  </div>
-</div>
 
 <!-- HERO -->
 <section class="hero">
