@@ -8,7 +8,6 @@
 <style>
 :root{
   --black:#0e1114;
-  --dark:#161819;
   --gray:#f4f4f4;
   --white:#ffffff;
   --pink:#ff0098;
@@ -30,7 +29,7 @@ body{
 header{
   position:sticky;
   top:0;
-  background:rgba(255,255,255,.96);
+  background:rgba(255,255,255,.97);
   border-bottom:1px solid rgba(0,0,0,.08);
   z-index:100;
 }
@@ -101,40 +100,40 @@ nav{
   font-size:.75rem;
   letter-spacing:.25em;
   font-weight:800;
-  display:flex;
-  align-items:center;
-  gap:.4rem;
   cursor:pointer;
 }
 
-/* ================= MOBILE OVERLAY ================= */
-.menu-overlay{
-  position:fixed;
-  inset:0;
-  background:var(--dark);
-  color:var(--white);
+/* ================= MOBILE MENU PAGE ================= */
+.menu-page{
   display:none;
-  z-index:999;
-}
-
-.menu-overlay.active{display:block}
-
-.menu-inner{
-  max-width:420px;
-  padding:3.5rem 2rem;
+  background:var(--white);
   position:relative;
 }
 
-/* cyan orientation line */
+.menu-page.active{display:block}
+
+.menu-bg{
+  position:absolute;
+  inset:0;
+  background:url('menu-bg.jpg') center/cover no-repeat;
+  opacity:.08;
+}
+
+.menu-inner{
+  position:relative;
+  max-width:420px;
+  padding:4rem 2rem;
+}
+
+/* cyan structural line */
 .menu-inner::before{
   content:"";
   position:absolute;
   left:1rem;
-  top:3.5rem;
-  bottom:3.5rem;
+  top:4rem;
+  bottom:4rem;
   width:2px;
   background:var(--cyan);
-  opacity:.35;
 }
 
 /* close */
@@ -144,7 +143,6 @@ nav{
   right:1.5rem;
   background:none;
   border:none;
-  color:var(--white);
   font-size:.7rem;
   letter-spacing:.3em;
   font-weight:800;
@@ -152,21 +150,21 @@ nav{
 }
 
 /* menu list */
-.menu-overlay ul{
+.menu-page ul{
   list-style:none;
   margin-top:3rem;
 }
 
-.menu-overlay li{
+.menu-page li{
   position:relative;
   padding-left:2.2rem;
   margin-bottom:1.8rem;
-  font-size:1.3rem;
+  font-size:1.25rem;
   font-weight:700;
 }
 
 /* pink bullet */
-.menu-overlay li::before{
+.menu-page li::before{
   content:"";
   position:absolute;
   left:0;
@@ -176,8 +174,8 @@ nav{
   background:url('pink-mark.svg') no-repeat center/contain;
 }
 
-.menu-overlay a{
-  color:var(--white);
+.menu-page a{
+  color:var(--black);
   text-decoration:none;
 }
 
@@ -266,8 +264,9 @@ footer a{color:var(--pink);text-decoration:none}
 </nav>
 </header>
 
-<!-- MOBILE MENU -->
-<div class="menu-overlay" id="menu">
+<!-- MOBILE MENU PAGE -->
+<section class="menu-page" id="menu">
+  <div class="menu-bg"></div>
   <div class="menu-inner">
     <button class="menu-close" onclick="closeMenu()">CERRAR</button>
     <ul>
@@ -279,7 +278,7 @@ footer a{color:var(--pink);text-decoration:none}
       <li><a href="contacto/index.html">Contacto</a></li>
     </ul>
   </div>
-</div>
+</section>
 
 <section class="hero">
   <img src="hero-material.jpg" alt="">
@@ -301,11 +300,9 @@ footer a{color:var(--pink);text-decoration:none}
 <script>
 function openMenu(){
   document.getElementById('menu').classList.add('active');
-  document.body.style.overflow='hidden';
 }
 function closeMenu(){
   document.getElementById('menu').classList.remove('active');
-  document.body.style.overflow='auto';
 }
 </script>
 
