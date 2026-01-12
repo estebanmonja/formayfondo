@@ -39,16 +39,8 @@ nav{
   margin:auto;
   padding:1rem 1.5rem;
   display:flex;
-  flex-direction:column;
+  justify-content:space-between;
   align-items:center;
-  gap:.75rem;
-}
-
-@media(min-width:768px){
-  nav{
-    flex-direction:row;
-    justify-content:space-between;
-  }
 }
 
 /* ---------- BRAND LOCKUP ---------- */
@@ -62,8 +54,6 @@ nav{
 
 .brand-mark{
   width:22px;
-  height:auto;
-  display:block;
 }
 
 .brand-text{
@@ -86,15 +76,9 @@ nav{
   margin-top:.15rem;
 }
 
-@media(max-width:480px){
-  .brand-mark{width:20px}
-  .brand-name{font-size:.9rem}
-}
-
-/* ---------- NAV LINKS ---------- */
+/* ---------- DESKTOP NAV ---------- */
 .nav-links{
-  display:flex;
-  flex-wrap:wrap;
+  display:none;
   gap:1rem;
 }
 
@@ -105,6 +89,83 @@ nav{
 }
 
 .nav-links a:hover{color:var(--black)}
+
+@media(min-width:768px){
+  .nav-links{display:flex}
+  .menu-toggle{display:none}
+}
+
+/* ---------- MOBILE MENU TOGGLE ---------- */
+.menu-toggle{
+  background:none;
+  border:none;
+  font-size:.75rem;
+  letter-spacing:.25em;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+  gap:.4rem;
+  cursor:pointer;
+}
+
+.menu-toggle span{
+  font-size:1.1rem;
+}
+
+/* ================= MOBILE OVERLAY ================= */
+.menu-overlay{
+  position:fixed;
+  inset:0;
+  background:var(--black);
+  color:var(--white);
+  display:none;
+  z-index:999;
+  padding:4rem 2rem;
+}
+
+.menu-overlay.active{display:block}
+
+.menu-overlay ul{
+  list-style:none;
+  margin-top:4rem;
+}
+
+.menu-overlay li{
+  margin-bottom:2rem;
+  padding-left:2rem;
+  position:relative;
+  font-size:1.6rem;
+  font-weight:800;
+}
+
+/* PINK SVG BULLET */
+.menu-overlay li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.4em;
+  width:14px;
+  height:14px;
+  background:url('pink-mark.svg') no-repeat center / contain;
+}
+
+.menu-overlay a{
+  color:var(--white);
+  text-decoration:none;
+}
+
+.menu-overlay .close{
+  position:absolute;
+  top:1.5rem;
+  right:1.5rem;
+  background:none;
+  border:none;
+  color:var(--white);
+  font-size:.75rem;
+  letter-spacing:.25em;
+  font-weight:800;
+  cursor:pointer;
+}
 
 /* ================= SECTIONS ================= */
 section{padding:6rem 1.5rem}
@@ -129,16 +190,12 @@ section{padding:6rem 1.5rem}
   opacity:.18;
 }
 
-.hero-content{
-  position:relative;
-  z-index:2;
-}
+.hero-content{position:relative}
 
 .hero h1{
   font-size:clamp(3rem,9vw,6.5rem);
   line-height:.9;
   font-weight:900;
-  letter-spacing:-.03em;
 }
 
 .hero h1 span{color:var(--pink)}
@@ -148,71 +205,6 @@ section{padding:6rem 1.5rem}
   margin-top:2rem;
   padding-left:1rem;
   border-left:4px solid var(--pink);
-  color:#444;
-  font-size:1.05rem;
-}
-
-.actions{
-  margin-top:3rem;
-  display:flex;
-  flex-wrap:wrap;
-  gap:1rem;
-}
-
-.actions a{
-  text-decoration:none;
-  padding:1rem 1.75rem;
-  border:2px solid var(--black);
-  font-size:.75rem;
-  font-weight:800;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--black);
-}
-
-.actions a.primary{
-  background:var(--black);
-  color:var(--white);
-}
-
-/* ================= IMAGE PAUSE ================= */
-.pause{padding:0}
-
-.pause img{
-  width:100%;
-  height:70vh;
-  object-fit:cover;
-}
-
-/* ================= INTRO / PATHS ================= */
-.intro h2{
-  font-size:.7rem;
-  letter-spacing:.3em;
-  text-transform:uppercase;
-  color:var(--pink);
-  margin-bottom:1rem;
-}
-
-.intro h3{
-  font-size:2.5rem;
-  font-weight:900;
-  margin-bottom:3rem;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:2.5rem;
-}
-
-.block h4{
-  font-size:1.2rem;
-  margin-bottom:.5rem;
-}
-
-.block p{
-  color:#555;
-  font-size:.95rem;
 }
 
 /* ================= FOOTER ================= */
@@ -231,10 +223,7 @@ footer{
   margin-bottom:1rem;
 }
 
-footer a{
-  color:var(--pink);
-  text-decoration:none;
-}
+footer a{color:var(--pink);text-decoration:none}
 </style>
 </head>
 
@@ -242,16 +231,18 @@ footer a{
 
 <header>
   <nav>
-    <!-- BRAND LOCKUP -->
     <a href="index.html" class="brand">
-      <img src="forma-fondo-mark.svg" alt="Forma & Fondo Taller" class="brand-mark">
+      <img src="forma-fondo-mark.svg" class="brand-mark" alt="">
       <div class="brand-text">
         <span class="brand-name">FORMA & FONDO</span>
         <span class="brand-sub">Taller</span>
       </div>
     </a>
 
-    <!-- NAV -->
+    <button class="menu-toggle" onclick="openMenu()">
+      <span>☰</span> MENÚ
+    </button>
+
     <div class="nav-links">
       <a href="servicios/tu-proyecto.html">Tu Proyecto</a>
       <a href="servicios/marketing.html">Branding Físico</a>
@@ -263,83 +254,44 @@ footer a{
   </nav>
 </header>
 
+<!-- MOBILE MENU -->
+<div class="menu-overlay" id="menu">
+  <button class="close" onclick="closeMenu()">CERRAR</button>
+  <ul>
+    <li><a href="servicios/tu-proyecto.html">Tu Proyecto</a></li>
+    <li><a href="servicios/marketing.html">Branding Físico</a></li>
+    <li><a href="colecciones/index.html">Colecciones</a></li>
+    <li><a href="aliados/index.html">Aliados</a></li>
+    <li><a href="taller/index.html">El Taller</a></li>
+    <li><a href="contacto/index.html">Contacto</a></li>
+  </ul>
+</div>
+
 <!-- HERO -->
 <section class="hero">
-  <!-- HERO IMAGE -->
-  <img src="hero-material.jpg" alt="Material en proceso">
-
+  <img src="hero-material.jpg" alt="">
   <div class="inner hero-content">
-    <h1>
-      MATERIA.<br>
-      <span>ENERGÍA.</span><br>
-      INTENCIÓN.
-    </h1>
-
-    <p>
-      Forma & Fondo es un taller contemporáneo donde las ideas
-      encuentran forma material mediante precisión y cuidado.
-    </p>
-
-    <div class="actions">
-      <a href="servicios/tu-proyecto.html" class="primary">Traer mi proyecto</a>
-      <a href="colecciones/index.html">Explorar lo que hacemos</a>
-    </div>
+    <h1>MATERIA.<br><span>ENERGÍA.</span><br>INTENCIÓN.</h1>
+    <p>Taller de diseño y fabricación donde las ideas toman forma material.</p>
   </div>
-</section>
-
-<!-- IMAGE PAUSE -->
-<section class="pause">
-  <img src="pause-01.jpg" alt="Textura material">
-</section>
-
-<!-- INTRO / PATHS -->
-<section class="intro">
-  <div class="inner">
-    <h2>Cómo trabajamos</h2>
-    <h3>Un taller para pensar haciendo</h3>
-
-    <div class="grid">
-      <div class="block">
-        <h4>Dar forma a una idea</h4>
-        <p>
-          Acompañamos procesos creativos desde el primer boceto
-          hasta el objeto final, cuidando cada decisión material.
-        </p>
-      </div>
-
-      <div class="block">
-        <h4>Materializar una marca</h4>
-        <p>
-          Diseñamos y fabricamos piezas físicas durables:
-          señalización, stands y tarjetas.
-        </p>
-      </div>
-
-      <div class="block">
-        <h4>Explorar colecciones</h4>
-        <p>
-          Objetos y experimentos formales desarrollados
-          en el taller como investigación material.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- IMAGE PAUSE -->
-<section class="pause">
-  <img src="pause-02.jpg" alt="Manos trabajando material">
 </section>
 
 <footer>
   <div class="footer-name">Forma & Fondo Taller</div>
-  <div>Galeana 468, Paraísos del Colli, Zapopan</div>
-  <div>Hidalgo 135, Centro, Tapalpa</div>
+  <div>Tapalpa · Zapopan · Jalisco</div>
   <div><a href="mailto:hola@formayfondotaller.com">hola@formayfondotaller.com</a></div>
-  <div style="margin-top:1.5rem;opacity:.5">
-    &copy; 2026 Forma & Fondo Taller
-  </div>
 </footer>
+
+<script>
+function openMenu(){
+  document.getElementById('menu').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeMenu(){
+  document.getElementById('menu').classList.remove('active');
+  document.body.style.overflow='auto';
+}
+</script>
 
 </body>
 </html>
