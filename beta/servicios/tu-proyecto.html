@@ -1,252 +1,311 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forma & Fondo Taller | Tu Proyecto</title>
-    <style>
-        * { box-sizing: border-box; }
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            line-height: 1.7;
-            background-color: #fff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu Proyecto | Forma & Fondo Taller</title>
 
-        header {
-            background: #1a1a1a;
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+<style>
+:root{
+  --black:#0e1114;
+  --pink:#ff0098;
+  --gray:#f4f4f4;
+  --white:#ffffff;
+  --maxw:1200px;
+  --font:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
 
-        nav {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+*{box-sizing:border-box;margin:0;padding:0}
 
-        .logo {
-            font-weight: bold;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            text-decoration: none;
-            color: white;
-            margin-bottom: 10px;
-        }
+body{
+  font-family:var(--font);
+  background:var(--white);
+  color:var(--black);
+  line-height:1.6;
+}
 
-        .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
+/* ================= HEADER ================= */
+header{
+  position:sticky;
+  top:0;
+  background:var(--white);
+  border-bottom:1px solid rgba(0,0,0,.08);
+  z-index:100;
+}
 
-        .nav-links a {
-            color: #ccc;
-            text-decoration: none;
-            font-size: 0.9rem;
-            padding: 5px;
-        }
+nav{
+  max-width:var(--maxw);
+  margin:auto;
+  padding:1rem 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+}
 
-        .nav-links a:hover { color: white; }
+/* LOGO */
+.logo{
+  font-weight:900;
+  letter-spacing:.25em;
+  text-decoration:none;
+  color:var(--black);
+  font-size:1.05rem;
+  display:flex;
+  align-items:center;
+}
 
-        @media (min-width: 768px) {
-            nav { flex-direction: row; justify-content: space-between; }
-            .logo { margin-bottom: 0; }
-        }
+.logo img{
+  height:20px;
+  margin-right:.5rem;
+}
 
-        .hero {
-            background: #f4f4f4;
-            padding: 80px 20px;
-            text-align: center;
-        }
+/* DESKTOP NAV */
+.nav-links{
+  display:none;
+  gap:1rem;
+}
 
-        .hero h1 {
-            font-size: 2.4rem;
-            margin-bottom: 20px;
-            color: #1a1a1a;
-        }
+.nav-links a{
+  text-decoration:none;
+  color:#666;
+  font-size:.8rem;
+}
 
-        .hero p {
-            max-width: 760px;
-            margin: 0 auto;
-            font-size: 1.05rem;
-            color: #555;
-        }
+.nav-links a:hover{color:var(--black)}
 
-        @media (min-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-        }
+@media(min-width:768px){
+  .nav-links{display:flex}
+  .burger{display:none}
+}
 
-        .section {
-            max-width: 900px;
-            margin: 80px auto;
-            padding: 0 20px;
-        }
+/* BURGER (MOBILE ONLY) */
+.burger{
+  background:none;
+  border:none;
+  padding:0;
+  cursor:pointer;
+}
 
-        .section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #1a1a1a;
-        }
+.burger img{
+  width:26px;
+  height:auto;
+}
 
-        .section p {
-            margin-bottom: 20px;
-            color: #555;
-        }
+/* ================= MOBILE FLOATING MENU ================= */
+.mobile-menu{
+  position:absolute;
+  top:100%;
+  right:1.5rem;
+  margin-top:.75rem;
+  background:var(--white);
+  border:2px solid var(--black);
+  width:260px;
+  display:none;
+  z-index:150;
+  box-shadow:6px 6px 0 var(--pink);
+}
 
-        .process {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            margin-top: 40px;
-        }
+.mobile-menu.active{display:block}
 
-        @media (min-width: 768px) {
-            .process { grid-template-columns: repeat(3, 1fr); }
-        }
+.menu-inner{
+  padding:1.25rem 1.25rem 1rem;
+}
 
-        .process-step {
-            border-left: 4px solid #e67e22;
-            padding-left: 20px;
-        }
+.menu-inner a{
+  display:block;
+  text-decoration:none;
+  color:var(--black);
+  font-size:.85rem;
+  font-weight:700;
+  padding:.55rem 0;
+}
 
-        .process-step h3 {
-            margin-top: 0;
-            color: #2C3E50;
-        }
+.menu-inner a + a{
+  border-top:1px solid rgba(0,0,0,.08);
+}
 
-        .cta {
-            background: #1a1a1a;
-            color: white;
-            padding: 80px 20px;
-            text-align: center;
-        }
+/* ================= SECTIONS ================= */
+section{padding:6rem 1.5rem}
+.inner{max-width:var(--maxw);margin:auto}
 
-        .cta p {
-            max-width: 700px;
-            margin: 0 auto 30px;
-            color: #ccc;
-        }
+/* ================= PAGE HERO ================= */
+.page-hero{
+  background:var(--gray);
+}
 
-        .btn {
-            display: inline-block;
-            padding: 15px 30px;
-            background: #e67e22;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 4px;
-        }
+.page-hero h1{
+  font-size:clamp(2.5rem,7vw,4rem);
+  font-weight:900;
+  letter-spacing:-.02em;
+}
 
-        .btn:hover { background: #d35400; }
+.page-hero p{
+  max-width:560px;
+  margin-top:2rem;
+  padding-left:1rem;
+  border-left:4px solid var(--pink);
+  color:#444;
+  font-size:1.05rem;
+}
 
-        footer {
-            background: #1a1a1a;
-            color: #999;
-            text-align: center;
-            padding: 60px 20px;
-            font-size: 0.9rem;
-        }
+/* ================= CONTENT ================= */
+.content{
+  max-width:760px;
+}
 
-        .footer-name {
-            color: white;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-    </style>
+.content h2{
+  font-size:1.4rem;
+  font-weight:900;
+  margin-top:3rem;
+  margin-bottom:.75rem;
+}
+
+.content p{
+  color:#555;
+  margin-bottom:1.25rem;
+  font-size:1rem;
+}
+
+/* ================= CTA ================= */
+.cta{
+  background:var(--black);
+  color:var(--white);
+  text-align:center;
+}
+
+.cta p{
+  max-width:700px;
+  margin:0 auto 3rem;
+  font-size:1.25rem;
+  line-height:1.6;
+  color:#ddd;
+}
+
+.cta a{
+  display:inline-block;
+  padding:1.25rem 2.5rem;
+  background:var(--pink);
+  color:var(--white);
+  text-decoration:none;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:.8rem;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  background:var(--black);
+  color:#aaa;
+  padding:4rem 1.5rem;
+  text-align:center;
+  font-size:.8rem;
+}
+
+.footer-name{
+  color:var(--white);
+  font-weight:800;
+  letter-spacing:.15em;
+  margin-bottom:1rem;
+}
+
+footer a{color:var(--pink);text-decoration:none}
+</style>
 </head>
+
 <body>
 
 <header>
-    <nav>
-        <a href="../index.html" class="logo">FORMA & FONDO</a>
-        <div class="nav-links">
-            <a href="tu-proyecto.html">Tu Proyecto</a>
-            <a href="marketing.html">Producción para Marcas</a>
-            <a href="../colecciones/index.html">Colecciones</a>
-            <a href="../aliados/index.html">Aliados</a>
-            <a href="../taller/index.html">El Taller</a>
-            <a href="../contacto/index.html">Contacto</a>
-        </div>
-    </nav>
+  <nav>
+    <a href="../index.html" class="logo">
+      <img src="../forma-fondo-mark.svg" alt="">
+      FORMA & FONDO
+    </a>
+
+    <div class="nav-links">
+      <a href="tu-proyecto.html">Tu Proyecto</a>
+      <a href="marketing.html">Branding Físico</a>
+      <a href="../colecciones/index.html">Colecciones</a>
+      <a href="../aliados/index.html">Aliados</a>
+      <a href="../taller/index.html">El Taller</a>
+      <a href="../contacto/index.html">Contacto</a>
+    </div>
+
+    <button class="burger" onclick="toggleMenu()" aria-label="Menú">
+      <img src="../burger.svg" alt="">
+    </button>
+
+    <div class="mobile-menu" id="menu">
+      <div class="menu-inner">
+        <a href="tu-proyecto.html">Tu Proyecto</a>
+        <a href="marketing.html">Branding Físico</a>
+        <a href="../colecciones/index.html">Colecciones</a>
+        <a href="../aliados/index.html">Aliados</a>
+        <a href="../taller/index.html">El Taller</a>
+        <a href="../contacto/index.html">Contacto</a>
+      </div>
+    </div>
+  </nav>
 </header>
 
-<section class="hero">
-    <h1>Tu proyecto empieza aquí.</h1>
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="inner">
+    <h1>Tu Proyecto</h1>
     <p>
-        No necesitas planos finales, lenguaje técnico ni respuestas claras.
-        En este taller trabajamos con ideas en proceso — y las acompañamos
-        hasta encontrar su forma material.
+      Si tienes algo en mente,<br>
+      este es un buen punto de partida.
     </p>
+  </div>
 </section>
 
-<section class="section">
-    <h2>Cómo trabajamos</h2>
+<!-- CONTENT -->
+<section>
+  <div class="inner content">
+    <h2>De la idea al objeto</h2>
     <p>
-        Cada proyecto es distinto, pero el punto de partida es siempre el mismo:
-        escuchar, entender y traducir una intención en materia.
+      Acompañamos proyectos en distintas etapas: desde una intuición
+      inicial hasta un objeto terminado y listo para producir.
     </p>
 
-    <div class="process">
-        <div class="process-step">
-            <h3>1. Conversar</h3>
-            <p>
-                Hablamos sobre tu idea, tus referencias y tus dudas.
-                Aquí no se evalúa, se explora.
-            </p>
-        </div>
+    <h2>Decisiones materiales</h2>
+    <p>
+      Trabajamos con madera, polímeros y otros materiales desde
+      una lógica de precisión y cuidado, donde cada decisión importa.
+    </p>
 
-        <div class="process-step">
-            <h3>2. Definir</h3>
-            <p>
-                Juntos delimitamos materiales, escalas, procesos y alcances,
-                cuidando que cada decisión tenga sentido.
-            </p>
-        </div>
-
-        <div class="process-step">
-            <h3>3. Hacer</h3>
-            <p>
-                Producimos con precisión y atención al detalle,
-                respetando tanto la idea como el material.
-            </p>
-        </div>
-    </div>
+    <h2>Producción consciente</h2>
+    <p>
+      Cada proyecto se evalúa por su intención, contexto y
+      viabilidad técnica. Fabricar también es pensar.
+    </p>
+  </div>
 </section>
 
-<section class="section">
-    <h2>Qué necesitas traer (y qué no)</h2>
-    <p>
-        Puedes llegar con un boceto, una referencia, una imagen,
-        o incluso solo una inquietud.
-    </p>
-    <p>
-        No necesitas conocer procesos, máquinas ni términos técnicos.
-        De eso nos encargamos aquí.
-    </p>
-</section>
-
+<!-- CTA -->
 <section class="cta">
+  <div class="inner">
     <p>
-        Si tienes algo en mente — aunque todavía no sepas cómo explicarlo —
-        podemos empezar por ahí.
+      Si tienes algo en mente,<br>
+      este es un buen punto de partida.
     </p>
-    <a href="../contacto/index.html" class="btn">Iniciar conversación</a>
+
+    <a href="../contacto/index.html">
+      Iniciar conversación
+    </a>
+  </div>
 </section>
 
 <footer>
-    <div class="footer-name">Forma & Fondo Taller</div>
-    <div>&copy; 2026 Forma & Fondo Taller</div>
+  <div class="footer-name">Forma & Fondo Taller</div>
+  <div>&copy; 2026 Forma & Fondo Taller</div>
 </footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('active');
+}
+</script>
 
 </body>
 </html>
