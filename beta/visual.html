@@ -24,7 +24,7 @@ body{
   line-height:1.6;
 }
 
-/* ================= HEADER (EDITORIAL) ================= */
+/* ================= HEADER ================= */
 header{
   position:sticky;
   top:0;
@@ -36,10 +36,10 @@ header{
 nav{
   max-width:var(--maxw);
   margin:auto;
-  padding:1.25rem 1.5rem;
+  padding:1rem 1.5rem;
   display:flex;
-  flex-direction:column;
-  gap:1rem;
+  align-items:center;
+  justify-content:space-between;
 }
 
 /* LOGO */
@@ -60,8 +60,7 @@ nav{
 
 /* DESKTOP NAV */
 .nav-links{
-  display:flex;
-  flex-wrap:wrap;
+  display:none;
   gap:1rem;
 }
 
@@ -73,43 +72,49 @@ nav{
 
 .nav-links a:hover{color:var(--black)}
 
-/* MOBILE INLINE INDEX */
-.mobile-index{
+@media(min-width:768px){
+  .nav-links{display:flex}
+  .burger{display:none}
+}
+
+/* BURGER (MOBILE ONLY) */
+.burger{
+  background:none;
+  border:none;
+  padding:0;
+  cursor:pointer;
+}
+
+.burger img{
+  width:26px;
+  height:auto;
+}
+
+/* ================= MOBILE MENU ================= */
+.mobile-menu{
   display:none;
-  border-top:1px solid rgba(0,0,0,.06);
-  padding-top:.75rem;
+  position:fixed;
+  inset:0;
+  background:rgba(255,255,255,.98);
+  z-index:200;
+  overflow:auto;
 }
 
-.mobile-index span{
-  display:block;
-  font-size:.65rem;
-  letter-spacing:.3em;
-  text-transform:uppercase;
-  color:#999;
-  margin-bottom:.5rem;
+.mobile-menu.active{display:block}
+
+.menu-inner{
+  max-width:420px;
+  margin:6rem auto 4rem;
+  padding:0 2rem;
 }
 
-.mobile-index a{
+.menu-inner a{
   display:block;
   text-decoration:none;
-  color:#444;
-  font-size:.85rem;
-  margin-bottom:.4rem;
-}
-
-/* RESPONSIVE SWITCH */
-@media(min-width:768px){
-  nav{
-    flex-direction:row;
-    align-items:center;
-    justify-content:space-between;
-  }
-  .mobile-index{display:none}
-}
-
-@media(max-width:767px){
-  .nav-links{display:none}
-  .mobile-index{display:block}
+  color:var(--black);
+  font-size:1.2rem;
+  font-weight:700;
+  margin-bottom:1.5rem;
 }
 
 /* ================= SECTIONS ================= */
@@ -181,51 +186,13 @@ section{padding:6rem 1.5rem}
   color:var(--white);
 }
 
-/* HERO SOFTENING ON MOBILE */
-@media(max-width:600px){
-  .hero h1{
-    letter-spacing:-.015em;
-  }
-}
-
-/* ================= IMAGE PAUSE (REST) ================= */
+/* ================= IMAGE PAUSE ================= */
 .pause{padding:0}
 
 .pause img{
   width:100%;
   height:60vh;
   object-fit:cover;
-}
-
-/* ================= INTRO GRID ================= */
-.intro h2{
-  font-size:.7rem;
-  letter-spacing:.3em;
-  text-transform:uppercase;
-  color:var(--pink);
-  margin-bottom:1rem;
-}
-
-.intro h3{
-  font-size:2.5rem;
-  font-weight:900;
-  margin-bottom:3rem;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:2.5rem;
-}
-
-.block h4{
-  font-size:1.2rem;
-  margin-bottom:.5rem;
-}
-
-.block p{
-  color:#555;
-  font-size:.95rem;
 }
 
 /* ================= FOOTER ================= */
@@ -257,7 +224,6 @@ footer a{color:var(--pink);text-decoration:none}
       FORMA & FONDO
     </a>
 
-    <!-- DESKTOP NAV -->
     <div class="nav-links">
       <a href="servicios/tu-proyecto.html">Tu Proyecto</a>
       <a href="servicios/marketing.html">Branding Físico</a>
@@ -267,18 +233,23 @@ footer a{color:var(--pink);text-decoration:none}
       <a href="contacto/index.html">Contacto</a>
     </div>
 
-    <!-- MOBILE INLINE INDEX -->
-    <div class="mobile-index">
-      <span>Índice</span>
-      <a href="servicios/tu-proyecto.html">Tu Proyecto</a>
-      <a href="servicios/marketing.html">Branding Físico</a>
-      <a href="colecciones/index.html">Colecciones</a>
-      <a href="aliados/index.html">Aliados</a>
-      <a href="taller/index.html">El Taller</a>
-      <a href="contacto/index.html">Contacto</a>
-    </div>
+    <button class="burger" onclick="toggleMenu()" aria-label="Menú">
+      <img src="burger.svg" alt="">
+    </button>
   </nav>
 </header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="menu">
+  <div class="menu-inner">
+    <a href="servicios/tu-proyecto.html">Tu Proyecto</a>
+    <a href="servicios/marketing.html">Branding Físico</a>
+    <a href="colecciones/index.html">Colecciones</a>
+    <a href="aliados/index.html">Aliados</a>
+    <a href="taller/index.html">El Taller</a>
+    <a href="contacto/index.html">Contacto</a>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -307,54 +278,16 @@ footer a{color:var(--pink);text-decoration:none}
   <img src="pause-01.jpg" alt="Textura material">
 </section>
 
-<!-- INTRO -->
-<section class="intro">
-  <div class="inner">
-    <h2>Cómo trabajamos</h2>
-    <h3>Un taller para pensar haciendo</h3>
-
-    <div class="grid">
-      <div class="block">
-        <h4>Dar forma a una idea</h4>
-        <p>
-          Acompañamos procesos creativos desde el primer boceto
-          hasta el objeto final, cuidando cada decisión material.
-        </p>
-      </div>
-
-      <div class="block">
-        <h4>Materializar una marca</h4>
-        <p>
-          Diseñamos y fabricamos piezas físicas durables:
-          señalización, stands y tarjetas.
-        </p>
-      </div>
-
-      <div class="block">
-        <h4>Explorar colecciones</h4>
-        <p>
-          Objetos y experimentos formales desarrollados
-          en el taller como investigación material.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- IMAGE PAUSE -->
-<section class="pause">
-  <img src="pause-02.jpg" alt="Manos trabajando material">
-</section>
-
 <footer>
   <div class="footer-name">Forma & Fondo Taller</div>
-  <div>Galeana 468, Paraísos del Colli, Zapopan</div>
-  <div>Hidalgo 135, Centro, Tapalpa</div>
-  <div><a href="mailto:hola@formayfondotaller.com">hola@formayfondotaller.com</a></div>
-  <div style="margin-top:1.5rem;opacity:.5">
-    &copy; 2026 Forma & Fondo Taller
-  </div>
+  <div>&copy; 2026 Forma & Fondo Taller</div>
 </footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('active');
+}
+</script>
 
 </body>
 </html>
