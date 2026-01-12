@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tu Proyecto | Forma & Fondo Taller</title>
+<title>Tu Proyecto — Forma & Fondo Taller</title>
 
 <style>
 :root{
   --black:#0e1114;
   --pink:#ff0098;
-  --gray:#f4f4f4;
+  --orange:#e67e22;
   --white:#ffffff;
+  --gray:#f4f4f4;
   --maxw:1200px;
   --font:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
@@ -24,212 +25,155 @@ body{
   line-height:1.6;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 header{
   position:sticky;
   top:0;
-  background:var(--white);
+  background:rgba(255,255,255,.96);
   border-bottom:1px solid rgba(0,0,0,.08);
   z-index:100;
 }
-
 nav{
   max-width:var(--maxw);
   margin:auto;
   padding:1rem 1.5rem;
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  position:relative;
 }
-
-/* LOGO */
 .logo{
-  font-weight:900;
-  letter-spacing:.25em;
-  text-decoration:none;
-  color:var(--black);
-  font-size:1.05rem;
   display:flex;
   align-items:center;
-}
-
-.logo img{
-  height:20px;
-  margin-right:.5rem;
-}
-
-/* DESKTOP NAV */
-.nav-links{
-  display:none;
-  gap:1rem;
-}
-
-.nav-links a{
-  text-decoration:none;
-  color:#666;
-  font-size:.8rem;
-}
-
-.nav-links a:hover{color:var(--black)}
-
-@media(min-width:768px){
-  .nav-links{display:flex}
-  .burger{display:none}
-}
-
-/* BURGER (MOBILE ONLY) */
-.burger{
-  background:none;
-  border:none;
-  padding:0;
-  cursor:pointer;
-}
-
-.burger img{
-  width:26px;
-  height:auto;
-}
-
-/* ================= MOBILE FLOATING MENU ================= */
-.mobile-menu{
-  position:absolute;
-  top:100%;
-  right:1.5rem;
-  margin-top:.75rem;
-  background:var(--white);
-  border:2px solid var(--black);
-  width:260px;
-  display:none;
-  z-index:150;
-  box-shadow:6px 6px 0 var(--pink);
-}
-
-.mobile-menu.active{display:block}
-
-.menu-inner{
-  padding:1.25rem 1.25rem 1rem;
-}
-
-.menu-inner a{
-  display:block;
+  gap:.6rem;
   text-decoration:none;
   color:var(--black);
-  font-size:.85rem;
-  font-weight:700;
-  padding:.55rem 0;
-}
-
-.menu-inner a + a{
-  border-top:1px solid rgba(0,0,0,.08);
-}
-
-/* ================= SECTIONS ================= */
-section{padding:6rem 1.5rem}
-.inner{max-width:var(--maxw);margin:auto}
-
-/* ================= PAGE HERO ================= */
-.page-hero{
-  background:var(--gray);
-}
-
-.page-hero h1{
-  font-size:clamp(2.5rem,7vw,4rem);
   font-weight:900;
-  letter-spacing:-.02em;
+  letter-spacing:.22em;
+  font-size:.95rem;
 }
+.logo img{width:20px}
 
-.page-hero p{
-  max-width:560px;
-  margin-top:2rem;
-  padding-left:1rem;
-  border-left:4px solid var(--pink);
-  color:#444;
-  font-size:1.05rem;
+/* HERO */
+.hero{
+  position:relative;
+  min-height:80vh;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
 }
-
-/* ================= IMAGE PAUSE (FIXED) ================= */
-.pause{
-  padding:0;
-}
-
-.pause img{
-  display:block;
+.hero img{
+  position:absolute;
+  inset:0;
   width:100%;
-  height:auto;
-  max-height:65vh;
+  height:100%;
   object-fit:cover;
 }
-
-/* mobile refinement */
-@media(max-width:768px){
-  .pause img{
-    max-height:50vh;
-  }
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,.78);
 }
-
-/* ================= CONTENT ================= */
-.content{
-  max-width:760px;
+.hero-inner{
+  position:relative;
+  z-index:2;
+  max-width:var(--maxw);
+  margin:auto;
+  padding:4rem 1.5rem;
 }
-
-.content h2{
-  font-size:1.4rem;
+.hero h1{
+  font-size:clamp(2.8rem,8vw,5rem);
   font-weight:900;
-  margin-top:3rem;
-  margin-bottom:.75rem;
+  letter-spacing:-.03em;
+  margin-bottom:1.5rem;
 }
-
-.content p{
-  color:#555;
-  margin-bottom:1.25rem;
-  font-size:1rem;
+.hero p{
+  max-width:520px;
+  padding-left:1rem;
+  border-left:4px solid var(--pink);
+  font-size:1.05rem;
+  color:#444;
 }
-
-/* ================= CTA ================= */
-.cta{
-  background:var(--black);
-  color:var(--white);
-  text-align:center;
+.hero .cta{
+  margin-top:2.5rem;
 }
-
-.cta p{
-  max-width:700px;
-  margin:0 auto 3rem;
-  font-size:1.25rem;
-  line-height:1.6;
-  color:#ddd;
-}
-
-.cta a{
+.hero .cta a{
   display:inline-block;
-  padding:1.25rem 2.5rem;
   background:var(--pink);
   color:var(--white);
   text-decoration:none;
-  font-weight:900;
-  letter-spacing:.08em;
+  padding:1.2rem 2.2rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  font-size:.75rem;
   text-transform:uppercase;
-  font-size:.8rem;
 }
 
-/* ================= FOOTER ================= */
+/* HOW WE WORK */
+.how{
+  padding:4.5rem 1.5rem;
+}
+.how-inner{
+  max-width:var(--maxw);
+  margin:auto;
+}
+.how h2{
+  font-size:2.6rem;
+  font-weight:900;
+  margin-bottom:1.5rem;
+}
+.how-intro{
+  max-width:820px;
+  font-size:1.15rem;
+  color:#555;
+  margin-bottom:3rem;
+}
+.steps{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:2.5rem;
+}
+.step{
+  padding-left:1.25rem;
+  border-left:6px solid var(--pink);
+}
+.step h3{
+  font-size:1.4rem;
+  font-weight:900;
+  margin-bottom:.75rem;
+}
+.step p{
+  font-size:1rem;
+  color:#555;
+}
+
+/* FOOTER */
 footer{
   background:var(--black);
   color:#aaa;
-  padding:4rem 1.5rem;
+  padding:3.5rem 1.5rem;
   text-align:center;
   font-size:.8rem;
 }
-
 .footer-name{
   color:var(--white);
   font-weight:800;
   letter-spacing:.15em;
   margin-bottom:1rem;
 }
-
 footer a{color:var(--pink);text-decoration:none}
+
+/* MOBILE */
+@media(max-width:768px){
+  .hero{
+    min-height:72vh;
+  }
+  .hero-inner{
+    padding:3rem 1.25rem;
+  }
+  .how{
+    padding:3.5rem 1.25rem;
+  }
+}
 </style>
 </head>
 
@@ -241,96 +185,67 @@ footer a{color:var(--pink);text-decoration:none}
       <img src="../forma-fondo-mark.svg" alt="">
       FORMA & FONDO
     </a>
-
-    <div class="nav-links">
-      <a href="tu-proyecto.html">Tu Proyecto</a>
-      <a href="marketing.html">Branding Físico</a>
-      <a href="../colecciones/index.html">Colecciones</a>
-      <a href="../aliados/index.html">Aliados</a>
-      <a href="../taller/index.html">El Taller</a>
-      <a href="../contacto/index.html">Contacto</a>
-    </div>
-
-    <button class="burger" onclick="toggleMenu()" aria-label="Menú">
-      <img src="../burger.svg" alt="">
-    </button>
-
-    <div class="mobile-menu" id="menu">
-      <div class="menu-inner">
-        <a href="tu-proyecto.html">Tu Proyecto</a>
-        <a href="marketing.html">Branding Físico</a>
-        <a href="../colecciones/index.html">Colecciones</a>
-        <a href="../aliados/index.html">Aliados</a>
-        <a href="../taller/index.html">El Taller</a>
-        <a href="../contacto/index.html">Contacto</a>
-      </div>
-    </div>
   </nav>
 </header>
 
-<!-- PAGE HERO -->
-<section class="page-hero">
-  <div class="inner">
+<section class="hero">
+  <img src="tu-proyecto-hero.jpg" alt="Proceso y objetos en el taller">
+  <div class="hero-inner">
     <h1>Tu Proyecto</h1>
     <p>
       Si tienes algo en mente,<br>
       este es un buen punto de partida.
     </p>
+    <div class="cta">
+      <a href="../contacto/index.html">Iniciar conversación</a>
+    </div>
   </div>
 </section>
 
-<!-- IMAGE PAUSE -->
-<section class="pause">
-  <img src="tu-proyecto-01.jpg" alt="Proceso material en el taller">
-</section>
-
-<!-- CONTENT -->
-<section>
-  <div class="inner content">
-    <h2>De la idea al objeto</h2>
-    <p>
-      Acompañamos proyectos en distintas etapas: desde una intuición
-      inicial hasta un objeto terminado y listo para producir.
+<section class="how">
+  <div class="how-inner">
+    <h2>Cómo trabajamos</h2>
+    <p class="how-intro">
+      Cada proyecto es distinto, pero el punto de partida es siempre el mismo:
+      escuchar, entender y traducir una intención en materia.
     </p>
 
-    <h2>Decisiones materiales</h2>
-    <p>
-      Trabajamos con madera, polímeros y otros materiales desde
-      una lógica de precisión y cuidado, donde cada decisión importa.
-    </p>
+    <div class="steps">
+      <div class="step">
+        <h3>1. Conversar</h3>
+        <p>
+          Hablamos sobre tu idea, tus referencias y tus dudas.
+          Aquí no se evalúa, se explora.
+        </p>
+      </div>
 
-    <h2>Producción consciente</h2>
-    <p>
-      Cada proyecto se evalúa por su intención, contexto y
-      viabilidad técnica. Fabricar también es pensar.
-    </p>
-  </div>
-</section>
+      <div class="step">
+        <h3>2. Definir</h3>
+        <p>
+          Juntos delimitamos materiales, escalas, procesos y alcances,
+          cuidando que cada decisión tenga sentido.
+        </p>
+      </div>
 
-<!-- CTA -->
-<section class="cta">
-  <div class="inner">
-    <p>
-      Si tienes algo en mente,<br>
-      este es un buen punto de partida.
-    </p>
-
-    <a href="../contacto/index.html">
-      Iniciar conversación
-    </a>
+      <div class="step">
+        <h3>3. Hacer</h3>
+        <p>
+          Producimos con precisión y atención al detalle,
+          respetando tanto la idea como el material.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
 <footer>
   <div class="footer-name">Forma & Fondo Taller</div>
-  <div>&copy; 2026 Forma & Fondo Taller</div>
+  <div>Tapalpa · Zapopan · Jalisco</div>
+  <div><a href="mailto:hola@formayfondotaller.com">hola@formayfondotaller.com</a></div>
+  <div style="margin-top:1.5rem;opacity:.5">
+    &copy; 2026 Forma & Fondo Taller
+  </div>
 </footer>
-
-<script>
-function toggleMenu(){
-  document.getElementById('menu').classList.toggle('active');
-}
-</script>
 
 </body>
 </html>
