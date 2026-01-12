@@ -24,52 +24,99 @@ body{
   line-height:1.6;
 }
 
-/* HEADER */
+/* ================= HEADER (EDITORIAL) ================= */
 header{
   position:sticky;
   top:0;
-  background:rgba(255,255,255,.95);
-  backdrop-filter:blur(6px);
+  background:var(--white);
   border-bottom:1px solid rgba(0,0,0,.08);
   z-index:100;
 }
+
 nav{
   max-width:var(--maxw);
   margin:auto;
-  padding:1rem 1.5rem;
+  padding:1.25rem 1.5rem;
   display:flex;
   flex-direction:column;
-  align-items:center;
-  gap:.75rem;
+  gap:1rem;
 }
+
+/* LOGO */
 .logo{
   font-weight:900;
   letter-spacing:.25em;
   text-decoration:none;
   color:var(--black);
-  font-size:1.1rem;
+  font-size:1.05rem;
+  display:flex;
+  align-items:center;
 }
+
+.logo img{
+  height:20px;
+  margin-right:.5rem;
+}
+
+/* DESKTOP NAV */
 .nav-links{
   display:flex;
   flex-wrap:wrap;
   gap:1rem;
 }
+
 .nav-links a{
   text-decoration:none;
   color:#666;
   font-size:.8rem;
 }
+
 .nav-links a:hover{color:var(--black)}
 
-@media(min-width:768px){
-  nav{flex-direction:row;justify-content:space-between}
+/* MOBILE INLINE INDEX */
+.mobile-index{
+  display:none;
+  border-top:1px solid rgba(0,0,0,.06);
+  padding-top:.75rem;
 }
 
-/* SECTIONS */
+.mobile-index span{
+  display:block;
+  font-size:.65rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:#999;
+  margin-bottom:.5rem;
+}
+
+.mobile-index a{
+  display:block;
+  text-decoration:none;
+  color:#444;
+  font-size:.85rem;
+  margin-bottom:.4rem;
+}
+
+/* RESPONSIVE SWITCH */
+@media(min-width:768px){
+  nav{
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .mobile-index{display:none}
+}
+
+@media(max-width:767px){
+  .nav-links{display:none}
+  .mobile-index{display:block}
+}
+
+/* ================= SECTIONS ================= */
 section{padding:6rem 1.5rem}
 .inner{max-width:var(--maxw);margin:auto}
 
-/* HERO */
+/* ================= HERO ================= */
 .hero{
   position:relative;
   min-height:90vh;
@@ -78,6 +125,7 @@ section{padding:6rem 1.5rem}
   overflow:hidden;
   background:var(--gray);
 }
+
 .hero img{
   position:absolute;
   inset:0;
@@ -86,17 +134,21 @@ section{padding:6rem 1.5rem}
   object-fit:cover;
   opacity:.18;
 }
+
 .hero-content{
   position:relative;
   z-index:2;
 }
+
 .hero h1{
   font-size:clamp(3rem,9vw,6.5rem);
   line-height:.9;
   font-weight:900;
   letter-spacing:-.03em;
 }
+
 .hero h1 span{color:var(--pink)}
+
 .hero p{
   max-width:520px;
   margin-top:2rem;
@@ -105,12 +157,14 @@ section{padding:6rem 1.5rem}
   color:#444;
   font-size:1.05rem;
 }
+
 .actions{
   margin-top:3rem;
   display:flex;
   flex-wrap:wrap;
   gap:1rem;
 }
+
 .actions a{
   text-decoration:none;
   padding:1rem 1.75rem;
@@ -121,20 +175,29 @@ section{padding:6rem 1.5rem}
   text-transform:uppercase;
   color:var(--black);
 }
+
 .actions a.primary{
   background:var(--black);
   color:var(--white);
 }
 
-/* IMAGE PAUSE */
+/* HERO SOFTENING ON MOBILE */
+@media(max-width:600px){
+  .hero h1{
+    letter-spacing:-.015em;
+  }
+}
+
+/* ================= IMAGE PAUSE (REST) ================= */
 .pause{padding:0}
+
 .pause img{
   width:100%;
-  height:70vh;
+  height:60vh;
   object-fit:cover;
 }
 
-/* INTRO GRID */
+/* ================= INTRO GRID ================= */
 .intro h2{
   font-size:.7rem;
   letter-spacing:.3em;
@@ -142,26 +205,30 @@ section{padding:6rem 1.5rem}
   color:var(--pink);
   margin-bottom:1rem;
 }
+
 .intro h3{
   font-size:2.5rem;
   font-weight:900;
   margin-bottom:3rem;
 }
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:2.5rem;
 }
+
 .block h4{
   font-size:1.2rem;
   margin-bottom:.5rem;
 }
+
 .block p{
   color:#555;
   font-size:.95rem;
 }
 
-/* FOOTER */
+/* ================= FOOTER ================= */
 footer{
   background:var(--black);
   color:#aaa;
@@ -169,12 +236,14 @@ footer{
   text-align:center;
   font-size:.8rem;
 }
+
 .footer-name{
   color:var(--white);
   font-weight:800;
   letter-spacing:.15em;
   margin-bottom:1rem;
 }
+
 footer a{color:var(--pink);text-decoration:none}
 </style>
 </head>
@@ -183,8 +252,24 @@ footer a{color:var(--pink);text-decoration:none}
 
 <header>
   <nav>
-    <a href="index.html" class="logo">FORMA & FONDO</a>
+    <a href="index.html" class="logo">
+      <img src="forma-fondo-mark.svg" alt="">
+      FORMA & FONDO
+    </a>
+
+    <!-- DESKTOP NAV -->
     <div class="nav-links">
+      <a href="servicios/tu-proyecto.html">Tu Proyecto</a>
+      <a href="servicios/marketing.html">Branding Físico</a>
+      <a href="colecciones/index.html">Colecciones</a>
+      <a href="aliados/index.html">Aliados</a>
+      <a href="taller/index.html">El Taller</a>
+      <a href="contacto/index.html">Contacto</a>
+    </div>
+
+    <!-- MOBILE INLINE INDEX -->
+    <div class="mobile-index">
+      <span>Índice</span>
       <a href="servicios/tu-proyecto.html">Tu Proyecto</a>
       <a href="servicios/marketing.html">Branding Físico</a>
       <a href="colecciones/index.html">Colecciones</a>
@@ -197,9 +282,7 @@ footer a{color:var(--pink);text-decoration:none}
 
 <!-- HERO -->
 <section class="hero">
-  <!-- HERO IMAGE -->
   <img src="hero-material.jpg" alt="Material en proceso">
-
   <div class="inner hero-content">
     <h1>
       MATERIA.<br>
@@ -224,7 +307,7 @@ footer a{color:var(--pink);text-decoration:none}
   <img src="pause-01.jpg" alt="Textura material">
 </section>
 
-<!-- INTRO / PATHS -->
+<!-- INTRO -->
 <section class="intro">
   <div class="inner">
     <h2>Cómo trabajamos</h2>
