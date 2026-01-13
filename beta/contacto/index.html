@@ -1,152 +1,165 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto | Forma & Fondo</title>
-    <style>
-        /* BASE & NAV */
-        * { box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; line-height: 1.6; }
-        header { background: #1a1a1a; color: white; padding: 1rem 0; position: sticky; top:0; z-index:100;}
-        nav { display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; margin-bottom: 10px; }
-        .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-        .nav-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; padding: 5px; }
-        @media (min-width: 768px) { nav { flex-direction: row; justify-content: space-between; } .logo{margin-bottom:0;} }
-        
-        /* CONTACT LAYOUT */
-        .contact-container { 
-            display: flex; 
-            flex-direction: column; /* Mobile: Stacked */
-            max-width: 1000px; 
-            margin: 30px auto; 
-            padding: 0 20px; 
-            gap: 40px; 
-            min-height: 60vh;
-        }
-        
-        @media (min-width: 800px) { .contact-container { flex-direction: row; gap: 60px; margin-top: 60px; } }
-        
-        .contact-info { flex: 1; }
-        .contact-form { flex: 1; background: #f9f9f9; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        
-        h1 { font-size: 2rem; margin-bottom: 20px; line-height: 1.2; color: #2C3E50; }
-        .intro { margin-bottom: 30px; color: #555; }
-        
-        /* FORM ELEMENTS */
-        input, select, textarea { 
-            width: 100%; 
-            padding: 12px; 
-            margin-bottom: 20px; 
-            border: 1px solid #ddd; 
-            border-radius: 4px; 
-            font-family: inherit; 
-            font-size: 1rem; /* Better for touch */
-        }
-        
-        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.9rem; }
-        
-        .submit-btn { 
-            background: #2C3E50; 
-            color: white; 
-            padding: 15px 20px; 
-            border: none; 
-            cursor: pointer; 
-            width: 100%; 
-            font-weight: bold; 
-            font-size: 1rem;
-            border-radius: 4px;
-            transition: background 0.3s;
-        }
-        .submit-btn:hover { background: #e67e22; }
-        
-        .method { margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .method:last-child { border-bottom: none; }
-        .method h4 { margin: 0 0 5px 0; color: #E67E22; font-size: 1.1rem; }
-        .method p { margin: 0; font-size: 1.1rem; }
-        .method a { color: #333; text-decoration: none; font-weight: bold; }
-        .method a:hover { color: #e67e22; text-decoration: underline; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto | Forma & Fondo Taller</title>
 
-        /* FOOTER */
-        footer { background: #1a1a1a; color: #999; text-align: center; padding: 60px 20px; margin-top: 60px; font-size: 0.9rem; }
-        .footer-content { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-        .footer-link { color: #e67e22; text-decoration: none; }
-        .copyright { margin-top: 30px; font-size: 0.8rem; color: #555; }
-    </style>
+<style>
+/* SAME VARIABLES + BASE AS ALL PAGES */
+:root{
+  --black:#0e1114;
+  --pink:#ff0098;
+  --gray:#f4f4f4;
+  --white:#ffffff;
+  --maxw:1200px;
+  --font:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:var(--font);
+  background:var(--white);
+  color:var(--black);
+  line-height:1.6;
+}
+
+/* HEADER + NAV (same as others) */
+/* — omitted comments for brevity, identical behavior */
+
+header{position:sticky;top:0;background:var(--white);border-bottom:1px solid rgba(0,0,0,.08);z-index:100}
+nav{max-width:var(--maxw);margin:auto;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:relative}
+.logo{font-weight:900;letter-spacing:.25em;text-decoration:none;color:var(--black);font-size:1.05rem;display:flex;align-items:center}
+.logo img{height:20px;margin-right:.5rem}
+.nav-links{display:none;gap:1rem}
+.nav-links a{text-decoration:none;color:#666;font-size:.8rem}
+.nav-links a:hover{color:var(--black)}
+@media(min-width:768px){.nav-links{display:flex}.burger{display:none}}
+.burger{background:none;border:none;cursor:pointer}
+.burger img{width:26px}
+.mobile-menu{position:absolute;top:100%;right:1.5rem;margin-top:.75rem;background:var(--white);border:2px solid var(--black);width:260px;display:none;z-index:150;box-shadow:6px 6px 0 var(--pink)}
+.mobile-menu.active{display:block}
+.menu-inner{padding:1.25rem}
+.menu-inner a{display:block;text-decoration:none;color:var(--black);font-size:.85rem;font-weight:700;padding:.55rem 0}
+.menu-inner a+a{border-top:1px solid rgba(0,0,0,.08)}
+
+/* SECTIONS */
+section{padding:5rem 1.5rem}
+.inner{max-width:var(--maxw);margin:auto}
+@media(max-width:768px){section{padding:3.5rem 1.25rem}}
+
+/* HERO */
+.page-hero{background:var(--gray)}
+.page-hero h1{
+  font-size:clamp(2.5rem,7vw,4rem);
+  font-weight:900;
+}
+.page-hero p{
+  margin-top:2rem;
+  padding-left:1rem;
+  border-left:4px solid var(--pink);
+  max-width:520px;
+}
+
+/* CONTACT BLOCK */
+.contact{
+  max-width:640px;
+}
+.contact p{margin-bottom:1.5rem;color:#555}
+.contact a{
+  display:inline-block;
+  margin-top:1.5rem;
+  padding:1.1rem 2.2rem;
+  background:var(--pink);
+  color:var(--white);
+  text-decoration:none;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:.8rem;
+}
+
+/* FOOTER */
+footer{
+  background:var(--black);
+  color:#aaa;
+  padding:3.5rem 1.5rem;
+  text-align:center;
+  font-size:.8rem;
+}
+.footer-name{color:var(--white);font-weight:800;letter-spacing:.15em;margin-bottom:1rem}
+</style>
 </head>
+
 <body>
-    <header>
-        <nav>
-            <a href="../index.html" class="logo">FORMA & FONDO</a>
-            <div class="nav-links">
-                <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
-                <a href="../servicios/marketing.html">Marketing</a>
-                <a href="../colecciones/index.html">Colecciones</a>
-                <a href="../aliados/index.html">Aliados</a>
-                <a href="../taller/index.html">El Taller</a>
-                <a href="index.html" style="color:white; border-bottom: 1px solid white;">Contacto</a>
-            </div>
-        </nav>
-    </header>
 
-    <div class="contact-container">
-        
-        <div class="contact-info">
-            <h1>Iniciemos tu Proyecto</h1>
-            <p class="intro">Cuéntanos tu idea. Ya sea un archivo listo para corte o un concepto por desarrollar.</p>
-            
-            <div class="method">
-                <h4>WhatsApp</h4>
-                <p><a href="https://wa.me/523315305043" target="_blank">+52 33 1530 5043</a></p>
-            </div>
-            
-            <div class="method">
-                <h4>Correo Electrónico</h4>
-                <p><a href="mailto:dime@formayfondotaller.com">dime@formayfondotaller.com</a></p>
-            </div>
-            
-            <div class="method">
-                <h4>Ubicación</h4>
-                <p>Zapopan (Taller) & Tapalpa (Estudio/Showroom), Jalisco.</p>
-            </div>
-        </div>
+<header>
+<nav>
+  <a href="../index.html" class="logo">
+    <img src="../forma-fondo-mark.svg" alt="">
+    FORMA & FONDO
+  </a>
 
-        <div class="contact-form">
-    <form action="https://formspree.io/f/mkoowdyr" method="POST">
-        
-        <input type="hidden" name="_next" value="https://www.google.com">
+  <div class="nav-links">
+    <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+    <a href="../servicios/marketing.html">Branding Físico</a>
+    <a href="../colecciones/index.html">Colecciones</a>
+    <a href="../aliados/index.html">Aliados</a>
+    <a href="../taller/index.html">El Taller</a>
+    <a href="index.html">Contacto</a>
+  </div>
 
-        <label for="name">Nombre / Empresa</label>
-        <input type="text" id="name" name="name" placeholder="Tu nombre" required>
-        
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="contacto@ejemplo.com" required>
-        
-        <label for="interest">Interés</label>
-        <select id="interest" name="interest">
-            <option value="Corte CNC">Corte & Grabado CNC</option>
-            <option value="Diseño">Diseño & Muebles</option>
-            <option value="Marketing">Marketing / Branding</option>
-            <option value="Productos">Comprar Productos</option>
-        </select>
-        
-        <label for="message">Mensaje</label>
-        <textarea id="message" name="message" rows="5" placeholder="Detalles del proyecto..." required></textarea>
-        
-        <button type="submit" class="submit-btn">ENVIAR PROPUESTA</button>
-    </form>
-</div>
+  <button class="burger" onclick="toggleMenu()">
+    <img src="../burger.svg" alt="">
+  </button>
+
+  <div class="mobile-menu" id="menu">
+    <div class="menu-inner">
+      <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+      <a href="../servicios/marketing.html">Branding Físico</a>
+      <a href="../colecciones/index.html">Colecciones</a>
+      <a href="../aliados/index.html">Aliados</a>
+      <a href="../taller/index.html">El Taller</a>
+      <a href="index.html">Contacto</a>
     </div>
+  </div>
+</nav>
+</header>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-name">Forma & Fondo Taller</div>
-            <div>Galeana 468, Paraisos del Colli, Zapopan.</div>
-            <div>Hidalgo 135, Tapalpa Centro, Tapalpa.</div>
-            <div><a href="mailto:dime@formayfondotaller.com" class="footer-link">dime@formayfondotaller.com</a></div>
-            <div class="copyright">&copy; 2026 Forma & Fondo Taller. Todos los derechos reservados.</div>
-        </div>
-    </footer>
+<section class="page-hero">
+  <div class="inner">
+    <h1>Contacto</h1>
+    <p>
+      Si tienes una idea, un proyecto
+      o una pregunta concreta,
+      conversemos.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="inner contact">
+    <p>
+      Preferimos conversaciones claras,
+      con contexto y tiempo.
+      Escríbenos y te respondemos.
+    </p>
+
+    <a href="mailto:hola@formayfondotaller.com">
+      Escribir correo
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">Forma & Fondo Taller</div>
+  <div>&copy; 2026 Forma & Fondo Taller</div>
+</footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('active');
+}
+</script>
+
 </body>
 </html>

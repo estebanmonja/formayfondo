@@ -1,152 +1,289 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colecciones | Forma & Fondo</title>
-    <style>
-        /* BASE & NAV */
-        * { box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; line-height: 1.6; }
-        header { background: #1a1a1a; color: white; padding: 1rem 0; position: sticky; top:0; z-index:100;}
-        nav { display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; margin-bottom: 10px; }
-        .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-        .nav-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; padding: 5px; }
-        @media (min-width: 768px) { nav { flex-direction: row; justify-content: space-between; } .logo{margin-bottom:0;} }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colecciones | Forma & Fondo Taller</title>
 
-        /* HERO SECTION */
-        .collection-hero {
-            background-color: #eee; /* Placeholder Color */
-            /* background-image: url('path-to-hero.jpg'); */ 
-            background-size: cover;
-            background-position: center;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #333;
-            text-align: center;
-            padding: 20px;
-            margin-bottom: 40px;
-            position: relative;
-        }
-        .collection-hero h1 { 
-            font-size: 2.5rem; 
-            background: rgba(255,255,255,0.9); 
-            padding: 20px 40px; 
-            border-radius: 4px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin: 0;
-            color: #2C3E50;
-        }
+<style>
+:root{
+  --black:#0e1114;
+  --pink:#ff0098;
+  --gray:#f4f4f4;
+  --white:#ffffff;
+  --maxw:1200px;
+  --font:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
 
-        /* GRID CATEGORIES */
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; min-height: 50vh; }
-        .category-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
-        @media (min-width: 768px) { .category-grid { grid-template-columns: 1fr 1fr; } }
+*{box-sizing:border-box;margin:0;padding:0}
 
-        /* CATEGORY CARD (BUTTON) */
-        .cat-card {
-            position: relative;
-            height: 350px;
-            background: #f4f4f4;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            align-items: flex-end; /* Text at bottom */
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            color: white;
-        }
-        .cat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+body{
+  font-family:var(--font);
+  background:var(--white);
+  color:var(--black);
+  line-height:1.6;
+}
 
-        /* Image Placeholder for Cards */
-        .cat-img-bg {
-            position: absolute; top:0; left:0; width:100%; height:100%;
-            background-color: #7f8c8d; /* Placeholder Grey */
-            /* background-image: url('...'); */
-            background-size: cover;
-            transition: transform 0.5s;
-        }
-        .cat-card:hover .cat-img-bg { transform: scale(1.05); }
+/* ================= HEADER ================= */
+header{
+  position:sticky;
+  top:0;
+  background:var(--white);
+  border-bottom:1px solid rgba(0,0,0,.08);
+  z-index:100;
+}
 
-        .cat-overlay {
-            position: relative; z-index: 2;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            width: 100%; padding: 30px;
-        }
-        .cat-overlay h2 { margin: 0 0 5px 0; font-size: 1.8rem; color: #fff; }
-        .cat-overlay p { margin: 0; color: #ddd; font-size: 1rem; }
-        .btn-fake { 
-            display: inline-block; margin-top: 15px; 
-            background: #e67e22; color: white; padding: 8px 15px; 
-            border-radius: 4px; font-weight: bold; font-size: 0.9rem; 
-        }
+nav{
+  max-width:var(--maxw);
+  margin:auto;
+  padding:1rem 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+}
 
-        /* FOOTER */
-        footer { background: #1a1a1a; color: #999; text-align: center; padding: 60px 20px; margin-top: 60px; font-size: 0.9rem; }
-        .footer-content { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-        .footer-link { color: #e67e22; text-decoration: none; }
-        .copyright { margin-top: 30px; font-size: 0.8rem; color: #555; }
-    </style>
+/* LOGO */
+.logo{
+  font-weight:900;
+  letter-spacing:.25em;
+  text-decoration:none;
+  color:var(--black);
+  font-size:1.05rem;
+  display:flex;
+  align-items:center;
+}
+
+.logo img{
+  height:20px;
+  margin-right:.5rem;
+}
+
+/* DESKTOP NAV */
+.nav-links{
+  display:none;
+  gap:1rem;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#666;
+  font-size:.8rem;
+}
+
+.nav-links a:hover{color:var(--black)}
+
+@media(min-width:768px){
+  .nav-links{display:flex}
+  .burger{display:none}
+}
+
+/* BURGER */
+.burger{
+  background:none;
+  border:none;
+  padding:0;
+  cursor:pointer;
+}
+
+.burger img{
+  width:26px;
+}
+
+/* MOBILE MENU */
+.mobile-menu{
+  position:absolute;
+  top:100%;
+  right:1.5rem;
+  margin-top:.75rem;
+  background:var(--white);
+  border:2px solid var(--black);
+  width:260px;
+  display:none;
+  z-index:150;
+  box-shadow:6px 6px 0 var(--pink);
+}
+
+.mobile-menu.active{display:block}
+
+.menu-inner{
+  padding:1.25rem 1.25rem 1rem;
+}
+
+.menu-inner a{
+  display:block;
+  text-decoration:none;
+  color:var(--black);
+  font-size:.85rem;
+  font-weight:700;
+  padding:.55rem 0;
+}
+
+.menu-inner a + a{
+  border-top:1px solid rgba(0,0,0,.08);
+}
+
+/* ================= SECTIONS ================= */
+section{padding:5rem 1.5rem}
+.inner{max-width:var(--maxw);margin:auto}
+
+@media(max-width:768px){
+  section{padding:3.5rem 1.25rem}
+}
+
+/* ================= HERO ================= */
+.page-hero{
+  position:relative;
+  background:var(--gray);
+  overflow:hidden;
+}
+
+.page-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url("colecciones-01.jpg") center/cover no-repeat;
+  opacity:.5;
+}
+
+.hero-content{
+  position:relative;
+  z-index:1;
+  max-width:580px;
+}
+
+.page-hero h1{
+  font-size:clamp(2.5rem,7vw,4rem);
+  font-weight:900;
+  letter-spacing:-.02em;
+}
+
+.page-hero p{
+  margin-top:2rem;
+  padding-left:1rem;
+  border-left:4px solid var(--pink);
+  color:#222;
+  font-size:1.05rem;
+}
+
+/* ================= CONTENT ================= */
+.content{
+  max-width:760px;
+}
+
+.content h2{
+  font-size:1.4rem;
+  font-weight:900;
+  margin-top:2.5rem;
+  margin-bottom:.75rem;
+}
+
+.content p{
+  color:#555;
+  margin-bottom:1.1rem;
+  font-size:1rem;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  background:var(--black);
+  color:#aaa;
+  padding:3.5rem 1.5rem;
+  text-align:center;
+  font-size:.8rem;
+}
+
+.footer-name{
+  color:var(--white);
+  font-weight:800;
+  letter-spacing:.15em;
+  margin-bottom:1rem;
+}
+</style>
 </head>
+
 <body>
-    <header>
-        <nav>
-            <a href="../index.html" class="logo">FORMA & FONDO</a>
-            <div class="nav-links">
-                <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
-                <a href="../servicios/marketing.html">Marketing</a>
-                <a href="index.html" style="color:white; border-bottom: 1px solid white;">Colecciones</a>
-                <a href="../aliados/index.html">Aliados</a>
-                <a href="../taller/index.html">El Taller</a>
-                <a href="../contacto/index.html">Contacto</a>
-            </div>
-        </nav>
-    </header>
 
-    <div class="collection-hero">
-        <h1>[IMG: Hero Colecciones]</h1>
+<header>
+  <nav>
+    <a href="../index.html" class="logo">
+      <img src="../forma-fondo-mark.svg" alt="">
+      FORMA & FONDO
+    </a>
+
+    <div class="nav-links">
+      <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+      <a href="../servicios/marketing.html">Branding Físico</a>
+      <a href="index.html">Colecciones</a>
+      <a href="../aliados/index.html">Aliados</a>
+      <a href="../taller/index.html">El Taller</a>
+      <a href="../contacto/index.html">Contacto</a>
     </div>
 
-    <div class="container">
-        <div class="category-grid">
-            
-            <a href="nuestras-formas.html" class="cat-card">
-                <div class="cat-img-bg" style="background-color: #34495e;">
-                    <span style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:rgba(255,255,255,0.2); font-size:2rem; font-weight:bold;">[IMG]</span>
-                </div>
-                <div class="cat-overlay">
-                    <h2>Nuestras Formas</h2>
-                    <p>Objetos, juguetes y piezas de desarrollo humano.</p>
-                    <span class="btn-fake">Ver Catálogo &rarr;</span>
-                </div>
-            </a>
+    <button class="burger" onclick="toggleMenu()">
+      <img src="../burger.svg" alt="">
+    </button>
 
-            <a href="diseno.html" class="cat-card">
-                <div class="cat-img-bg" style="background-color: #e67e22;">
-                    <span style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:rgba(255,255,255,0.2); font-size:2rem; font-weight:bold;">[IMG]</span>
-                </div>
-                <div class="cat-overlay">
-                    <h2>Diseño & Mobiliario</h2>
-                    <p>Paneles, iluminación y muebles de autor.</p>
-                    <span class="btn-fake">Ver Catálogo &rarr;</span>
-                </div>
-            </a>
-
-        </div>
+    <div class="mobile-menu" id="menu">
+      <div class="menu-inner">
+        <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+        <a href="../servicios/marketing.html">Branding Físico</a>
+        <a href="index.html">Colecciones</a>
+        <a href="../aliados/index.html">Aliados</a>
+        <a href="../taller/index.html">El Taller</a>
+        <a href="../contacto/index.html">Contacto</a>
+      </div>
     </div>
+  </nav>
+</header>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-name">Forma & Fondo Taller</div>
-            <div>Galeana 468, Paraisos del Colli, Zapopan.</div>
-            <div>Hidalgo 135, Tapalpa Centro, Tapalpa.</div>
-            <div><a href="mailto:hola@formayfondotaller.com" class="footer-link">hola@formayfondotaller.com</a></div>
-            <div class="copyright">&copy; 2026 Forma & Fondo Taller. Todos los derechos reservados.</div>
-        </div>
-    </footer>
+<!-- HERO -->
+<section class="page-hero">
+  <div class="inner hero-content">
+    <h1>Colecciones</h1>
+    <p>
+      Objetos desarrollados como investigación material,
+      forma y proceso dentro del taller.
+    </p>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<section>
+  <div class="inner content">
+    <h2>Diseño como exploración</h2>
+    <p>
+      Las colecciones surgen de preguntas abiertas:
+      sobre material, uso, escala y fabricación.
+      No responden a una demanda inmediata.
+    </p>
+
+    <h2>Series y piezas únicas</h2>
+    <p>
+      Algunas piezas se producen en pequeñas series,
+      otras permanecen como prototipos o ediciones limitadas.
+      Todas comparten un mismo criterio de construcción.
+    </p>
+
+    <h2>Un archivo en crecimiento</h2>
+    <p>
+      Las colecciones funcionan como un archivo vivo
+      del taller: ideas que se prueban, se refinan
+      y, a veces, se transforman en nuevos proyectos.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">Forma & Fondo Taller</div>
+  <div>&copy; 2026 Forma & Fondo Taller</div>
+</footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('active');
+}
+</script>
+
 </body>
 </html>

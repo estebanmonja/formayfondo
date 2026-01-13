@@ -1,240 +1,297 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forma & Fondo Taller | El Taller</title>
-    <style>
-        * { box-sizing: border-box; }
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            line-height: 1.7;
-            background-color: #fff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Taller | Forma & Fondo Taller</title>
 
-        header {
-            background: #1a1a1a;
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+<style>
+:root{
+  --black:#0e1114;
+  --pink:#ff0098;
+  --gray:#f4f4f4;
+  --white:#ffffff;
+  --maxw:1200px;
+  --font:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
 
-        nav {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+*{box-sizing:border-box;margin:0;padding:0}
 
-        .logo {
-            font-weight: bold;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            text-decoration: none;
-            color: white;
-            margin-bottom: 10px;
-        }
+body{
+  font-family:var(--font);
+  background:var(--white);
+  color:var(--black);
+  line-height:1.6;
+}
 
-        .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
+/* ================= HEADER ================= */
+header{
+  position:sticky;
+  top:0;
+  background:var(--white);
+  border-bottom:1px solid rgba(0,0,0,.08);
+  z-index:100;
+}
 
-        .nav-links a {
-            color: #ccc;
-            text-decoration: none;
-            font-size: 0.9rem;
-            padding: 5px;
-        }
+nav{
+  max-width:var(--maxw);
+  margin:auto;
+  padding:1rem 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+}
 
-        .nav-links a:hover { color: white; }
+/* LOGO */
+.logo{
+  font-weight:900;
+  letter-spacing:.25em;
+  text-decoration:none;
+  color:var(--black);
+  font-size:1.05rem;
+  display:flex;
+  align-items:center;
+}
 
-        @media (min-width: 768px) {
-            nav { flex-direction: row; justify-content: space-between; }
-            .logo { margin-bottom: 0; }
-        }
+.logo img{
+  height:20px;
+  margin-right:.5rem;
+}
 
-        .hero {
-            background: #f4f4f4;
-            padding: 90px 20px;
-            text-align: center;
-        }
+/* DESKTOP NAV */
+.nav-links{
+  display:none;
+  gap:1rem;
+}
 
-        .hero h1 {
-            font-size: 2.6rem;
-            margin-bottom: 20px;
-            color: #1a1a1a;
-        }
+.nav-links a{
+  text-decoration:none;
+  color:#666;
+  font-size:.8rem;
+}
 
-        .hero p {
-            max-width: 760px;
-            margin: 0 auto;
-            font-size: 1.05rem;
-            color: #555;
-        }
+.nav-links a:hover{color:var(--black)}
 
-        @media (min-width: 768px) {
-            .hero h1 { font-size: 3.2rem; }
-        }
+@media(min-width:768px){
+  .nav-links{display:flex}
+  .burger{display:none}
+}
 
-        .section {
-            max-width: 900px;
-            margin: 90px auto;
-            padding: 0 20px;
-        }
+/* BURGER */
+.burger{
+  background:none;
+  border:none;
+  padding:0;
+  cursor:pointer;
+}
 
-        .section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #1a1a1a;
-        }
+.burger img{
+  width:26px;
+}
 
-        .section p {
-            margin-bottom: 20px;
-            color: #555;
-        }
+/* MOBILE MENU */
+.mobile-menu{
+  position:absolute;
+  top:100%;
+  right:1.5rem;
+  margin-top:.75rem;
+  background:var(--white);
+  border:2px solid var(--black);
+  width:260px;
+  display:none;
+  z-index:150;
+  box-shadow:6px 6px 0 var(--pink);
+}
 
-        .values {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            margin-top: 40px;
-        }
+.mobile-menu.active{display:block}
 
-        @media (min-width: 768px) {
-            .values { grid-template-columns: repeat(3, 1fr); }
-        }
+.menu-inner{
+  padding:1.25rem 1.25rem 1rem;
+}
 
-        .value {
-            border-left: 4px solid #e67e22;
-            padding-left: 20px;
-        }
+.menu-inner a{
+  display:block;
+  text-decoration:none;
+  color:var(--black);
+  font-size:.85rem;
+  font-weight:700;
+  padding:.55rem 0;
+}
 
-        .value h3 {
-            margin-top: 0;
-            color: #2C3E50;
-        }
+.menu-inner a + a{
+  border-top:1px solid rgba(0,0,0,.08);
+}
 
-        .quiet {
-            background: #1a1a1a;
-            color: #ccc;
-            padding: 80px 20px;
-            text-align: center;
-        }
+/* ================= SECTIONS ================= */
+section{padding:5rem 1.5rem}
+.inner{max-width:var(--maxw);margin:auto}
 
-        .quiet p {
-            max-width: 760px;
-            margin: 0 auto;
-            font-size: 1rem;
-        }
+@media(max-width:768px){
+  section{padding:3.5rem 1.25rem}
+}
 
-        footer {
-            background: #1a1a1a;
-            color: #999;
-            text-align: center;
-            padding: 60px 20px;
-            font-size: 0.9rem;
-        }
+/* ================= HERO ================= */
+.page-hero{
+  position:relative;
+  background:var(--gray);
+  overflow:hidden;
+}
 
-        .footer-name {
-            color: white;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-    </style>
+.page-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url("taller-01.jpg") center/cover no-repeat;
+  opacity:.5;
+}
+
+.hero-content{
+  position:relative;
+  z-index:1;
+  max-width:600px;
+}
+
+.page-hero h1{
+  font-size:clamp(2.5rem,7vw,4rem);
+  font-weight:900;
+  letter-spacing:-.02em;
+}
+
+.page-hero p{
+  margin-top:2rem;
+  padding-left:1rem;
+  border-left:4px solid var(--pink);
+  color:#222;
+  font-size:1.05rem;
+}
+
+/* ================= CONTENT ================= */
+.content{
+  max-width:760px;
+}
+
+.content h2{
+  font-size:1.4rem;
+  font-weight:900;
+  margin-top:2.5rem;
+  margin-bottom:.75rem;
+}
+
+.content p{
+  color:#555;
+  margin-bottom:1.1rem;
+  font-size:1rem;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  background:var(--black);
+  color:#aaa;
+  padding:3.5rem 1.5rem;
+  text-align:center;
+  font-size:.8rem;
+}
+
+.footer-name{
+  color:var(--white);
+  font-weight:800;
+  letter-spacing:.15em;
+  margin-bottom:1rem;
+}
+</style>
 </head>
+
 <body>
 
 <header>
-    <nav>
-        <a href="../index.html" class="logo">FORMA & FONDO</a>
-        <div class="nav-links">
-            <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
-            <a href="../servicios/marketing.html">Producción para Marcas</a>
-            <a href="../colecciones/index.html">Colecciones</a>
-            <a href="../aliados/index.html">Aliados</a>
-            <a href="index.html">El Taller</a>
-            <a href="../contacto/index.html">Contacto</a>
-        </div>
-    </nav>
+  <nav>
+    <a href="../index.html" class="logo">
+      <img src="../forma-fondo-mark.svg" alt="">
+      FORMA & FONDO
+    </a>
+
+    <div class="nav-links">
+      <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+      <a href="../servicios/marketing.html">Branding Físico</a>
+      <a href="../colecciones/index.html">Colecciones</a>
+      <a href="../aliados/index.html">Aliados</a>
+      <a href="index.html">El Taller</a>
+      <a href="../contacto/index.html">Contacto</a>
+    </div>
+
+    <button class="burger" onclick="toggleMenu()">
+      <img src="../burger.svg" alt="">
+    </button>
+
+    <div class="mobile-menu" id="menu">
+      <div class="menu-inner">
+        <a href="../servicios/tu-proyecto.html">Tu Proyecto</a>
+        <a href="../servicios/marketing.html">Branding Físico</a>
+        <a href="../colecciones/index.html">Colecciones</a>
+        <a href="../aliados/index.html">Aliados</a>
+        <a href="index.html">El Taller</a>
+        <a href="../contacto/index.html">Contacto</a>
+      </div>
+    </div>
+  </nav>
 </header>
 
-<section class="hero">
-    <h1>El taller como espacio de trabajo compartido.</h1>
+<!-- HERO -->
+<section class="page-hero">
+  <div class="inner hero-content">
+    <h1>El Taller</h1>
     <p>
-        Históricamente, los talleres han sido lugares donde el conocimiento se transmite,
-        los problemas se resuelven y las ideas se vuelven útiles para una comunidad.
-        Forma & Fondo nace desde esa lógica.
+      Un espacio donde pensar y hacer
+      ocurren al mismo tiempo.
     </p>
+  </div>
 </section>
 
-<section class="section">
-    <h2>Un lugar para pensar haciendo</h2>
+<!-- CONTENT -->
+<section>
+  <div class="inner content">
+    <h2>Un taller contemporáneo</h2>
     <p>
-        Nuestro taller no es una fábrica ni un estudio aislado.
-        Es un espacio donde el diseño, la materia y la técnica conviven
-        para dar forma a objetos claros, honestos y bien construidos.
+      Forma & Fondo es un taller de diseño y fabricación
+      donde la tecnología convive con el oficio.
+      Un espacio pensado para producir con criterio.
     </p>
+
+    <h2>Máquina y mano</h2>
     <p>
-        Aquí, cada proyecto se entiende como un proceso:
-        se prueba, se ajusta y se afina hasta que la forma y el fondo
-        encuentran equilibrio.
+      El trabajo combina procesos CNC con
+      decisiones manuales.
+      La máquina resuelve precisión; la mano,
+      sensibilidad y ajuste fino.
     </p>
-</section>
 
-<section class="section">
-    <h2>Cómo entendemos el trabajo</h2>
-
-    <div class="values">
-        <div class="value">
-            <h3>Cuidado</h3>
-            <p>
-                Trabajamos con atención real al material, a los tiempos
-                y a las decisiones que definen un buen resultado.
-            </p>
-        </div>
-
-        <div class="value">
-            <h3>Claridad</h3>
-            <p>
-                Preferimos procesos comprensibles y acuerdos honestos.
-                Lo que se puede explicar, se puede hacer bien.
-            </p>
-        </div>
-
-        <div class="value">
-            <h3>Precisión</h3>
-            <p>
-                Utilizamos herramientas contemporáneas — como sistemas CNC —
-                para asegurar consistencia, repetibilidad y control,
-                sin perder el criterio humano.
-            </p>
-        </div>
-    </div>
-</section>
-
-<section class="quiet">
+    <h2>Contexto y territorio</h2>
     <p>
-        Las herramientas están aquí para servir al proyecto,
-        no para imponerse sobre él.
-        Por eso el taller se adapta a la idea,
-        y no al revés.
+      El taller opera entre Tapalpa y Zapopan,
+      dialogando con entornos distintos:
+      lo rural y lo urbano, lo lento y lo técnico.
     </p>
+
+    <h2>Proceso antes que resultado</h2>
+    <p>
+      Más que producir objetos aislados,
+      el taller funciona como un sistema:
+      cada proyecto alimenta al siguiente.
+    </p>
+  </div>
 </section>
 
 <footer>
-    <div class="footer-name">Forma & Fondo Taller</div>
-    <div>&copy; 2026 Forma & Fondo Taller</div>
+  <div class="footer-name">Forma & Fondo Taller</div>
+  <div>&copy; 2026 Forma & Fondo Taller</div>
 </footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('active');
+}
+</script>
 
 </body>
 </html>
