@@ -1,251 +1,306 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Branding Físico | Forma & Fondo Taller</title>
-    <style>
-        /* BASE & NAV */
-        * { box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #333; line-height: 1.6; }
-        header { background: #1a1a1a; color: white; padding: 1rem 0; position: sticky; top:0; z-index:100;}
-        nav { display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .logo { font-weight: bold; font-size: 1.5rem; text-decoration: none; color: white; margin-bottom: 10px; }
-        .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-        .nav-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; padding: 5px; }
-        @media (min-width: 768px) { nav { flex-direction: row; justify-content: space-between; } .logo{margin-bottom:0;} }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Branding Físico | Forma & Fondo Taller</title>
 
-        /* PAGE CONTENT */
-        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; min-height: 60vh; }
-        h1 { font-size: 2rem; color: #2C3E50; line-height: 1.2; }
-        .intro { margin-bottom: 40px; color: #555; font-size: 1.1rem; }
+<style>
+:root{
+  --black:#0e1114;
+  --pink:#ff0098;
+  --gray:#f4f4f4;
+  --white:#ffffff;
+  --maxw:1200px;
+  --font:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
 
-        /* INTERACTIVE SERVICE CARDS */
-        .service-card {
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 0;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-            text-align: left;
-            margin-bottom: 30px;
-            display: flex;
-            flex-direction: column;
-        }
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border-color: #e67e22;
-        }
+*{box-sizing:border-box;margin:0;padding:0}
 
-        .card-image-placeholder {
-            width: 100%;
-            height: 200px;
-            background-color: #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #777;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        .card-content { padding: 25px; }
-        .card-content h3 { margin-top: 0; color: #E67E22; display: flex; justify-content: space-between; }
-        .icon-arrow { font-size: 1.5rem; color: #ccc; }
-        .service-card:hover .icon-arrow { color: #e67e22; }
+body{
+  font-family:var(--font);
+  background:var(--white);
+  color:var(--black);
+  line-height:1.6;
+}
 
-        .highlight-card { border-left: 5px solid #E67E22; }
-        .highlight-card .card-image-placeholder { height: 250px; background-color: #2c3e50; color: white; }
+/* ================= HEADER ================= */
+header{
+  position:sticky;
+  top:0;
+  background:var(--white);
+  border-bottom:1px solid rgba(0,0,0,.08);
+  z-index:100;
+}
 
-        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 30px; }
-        @media (min-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .grid-2 { grid-template-columns: 1fr 1fr; }
-        }
+nav{
+  max-width:var(--maxw);
+  margin:auto;
+  padding:1rem 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+}
 
-        /* MODAL */
-        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
-        .modal-content { background-color: #fff; margin: 5% auto; width: 90%; max-width: 700px; border-radius: 8px; position: relative; overflow: hidden; }
-        .close-btn { position: absolute; top: 10px; right: 20px; color: white; font-size: 30px; cursor: pointer; z-index: 202; }
-        .modal-body { padding: 30px; }
+/* LOGO */
+.logo{
+  font-weight:900;
+  letter-spacing:.25em;
+  text-decoration:none;
+  color:var(--black);
+  font-size:1.05rem;
+  display:flex;
+  align-items:center;
+}
 
-        .modal-slider { height: 300px; background: #333; display: flex; align-items: center; justify-content: center; }
-        .mySlides { display: none; width: 100%; height: 100%; color: white; justify-content: center; align-items: center; flex-direction: column; font-size: 1.5rem; font-weight: bold; }
+.logo img{
+  height:20px;
+  margin-right:.5rem;
+}
 
-        /* FOOTER */
-        footer { background: #1a1a1a; color: #999; text-align: center; padding: 60px 20px; margin-top: 60px; font-size: 0.9rem; }
-        .footer-content { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-        .footer-link { color: #e67e22; text-decoration: none; }
-        .copyright { margin-top: 30px; font-size: 0.8rem; color: #555; }
-    </style>
+/* DESKTOP NAV */
+.nav-links{
+  display:none;
+  gap:1rem;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#666;
+  font-size:.8rem;
+}
+
+.nav-links a:hover{color:var(--black)}
+
+@media(min-width:768px){
+  .nav-links{display:flex}
+  .burger{display:none}
+}
+
+/* BURGER */
+.burger{
+  background:none;
+  border:none;
+  padding:0;
+  cursor:pointer;
+}
+
+.burger img{
+  width:26px;
+}
+
+/* MOBILE MENU */
+.mobile-menu{
+  position:absolute;
+  top:100%;
+  right:1.5rem;
+  margin-top:.75rem;
+  background:var(--white);
+  border:2px solid var(--black);
+  width:260px;
+  display:none;
+  z-index:150;
+  box-shadow:6px 6px 0 var(--pink);
+}
+
+.mobile-menu.active{display:block}
+
+.menu-inner{
+  padding:1.25rem 1.25rem 1rem;
+}
+
+.menu-inner a{
+  display:block;
+  text-decoration:none;
+  color:var(--black);
+  font-size:.85rem;
+  font-weight:700;
+  padding:.55rem 0;
+}
+
+.menu-inner a + a{
+  border-top:1px solid rgba(0,0,0,.08);
+}
+
+/* ================= SECTIONS ================= */
+section{padding:5rem 1.5rem}
+.inner{max-width:var(--maxw);margin:auto}
+
+@media(max-width:768px){
+  section{padding:3.5rem 1.25rem}
+}
+
+/* ================= HERO ================= */
+.page-hero{
+  position:relative;
+  background:var(--gray);
+  overflow:hidden;
+}
+
+.page-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url("branding-fisico-01.jpg") center/cover no-repeat;
+  opacity:.5;
+}
+
+.hero-content{
+  position:relative;
+  z-index:1;
+  max-width:580px;
+}
+
+.page-hero h1{
+  font-size:clamp(2.5rem,7vw,4rem);
+  font-weight:900;
+  letter-spacing:-.02em;
+}
+
+.page-hero p{
+  margin-top:2rem;
+  padding-left:1rem;
+  border-left:4px solid var(--pink);
+  color:#222;
+  font-size:1.05rem;
+}
+
+/* HERO CTA */
+.hero-cta{
+  margin-top:2.5rem;
+}
+
+.hero-cta a{
+  display:inline-block;
+  padding:1.1rem 2.2rem;
+  background:var(--pink);
+  color:var(--white);
+  text-decoration:none;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:.8rem;
+}
+
+/* ================= CONTENT ================= */
+.content{
+  max-width:760px;
+}
+
+.content h2{
+  font-size:1.4rem;
+  font-weight:900;
+  margin-top:2.5rem;
+  margin-bottom:.75rem;
+}
+
+.content p{
+  color:#555;
+  margin-bottom:1.1rem;
+  font-size:1rem;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  background:var(--black);
+  color:#aaa;
+  padding:3.5rem 1.5rem;
+  text-align:center;
+  font-size:.8rem;
+}
+
+.footer-name{
+  color:var(--white);
+  font-weight:800;
+  letter-spacing:.15em;
+  margin-bottom:1rem;
+}
+</style>
 </head>
+
 <body>
 
 <header>
-    <nav>
-        <a href="../index.html" class="logo">FORMA & FONDO</a>
-        <div class="nav-links">
-            <a href="tu-proyecto.html">Tu Proyecto</a>
-            <a href="marketing.html" style="color:white; border-bottom:1px solid white;">Branding Físico</a>
-            <a href="../colecciones/index.html">Colecciones</a>
-            <a href="../aliados/index.html">Aliados</a>
-            <a href="../taller/index.html">El Taller</a>
-            <a href="../contacto/index.html">Contacto</a>
-        </div>
-    </nav>
+  <nav>
+    <a href="../index.html" class="logo">
+      <img src="../forma-fondo-mark.svg" alt="">
+      FORMA & FONDO
+    </a>
+
+    <div class="nav-links">
+      <a href="tu-proyecto.html">Tu Proyecto</a>
+      <a href="marketing.html">Branding Físico</a>
+      <a href="../colecciones/index.html">Colecciones</a>
+      <a href="../aliados/index.html">Aliados</a>
+      <a href="../taller/index.html">El Taller</a>
+      <a href="../contacto/index.html">Contacto</a>
+    </div>
+
+    <button class="burger" onclick="toggleMenu()">
+      <img src="../burger.svg" alt="">
+    </button>
+
+    <div class="mobile-menu" id="menu">
+      <div class="menu-inner">
+        <a href="tu-proyecto.html">Tu Proyecto</a>
+        <a href="marketing.html">Branding Físico</a>
+        <a href="../colecciones/index.html">Colecciones</a>
+        <a href="../aliados/index.html">Aliados</a>
+        <a href="../taller/index.html">El Taller</a>
+        <a href="../contacto/index.html">Contacto</a>
+      </div>
+    </div>
+  </nav>
 </header>
 
-<div class="container">
-    <h1>Branding físico para tu negocio</h1>
-    <p class="intro">
-        Diseñamos y fabricamos piezas físicas que representan tu marca en el mundo real:
-        claras, durables y bien hechas.
+<!-- HERO -->
+<section class="page-hero">
+  <div class="inner hero-content">
+    <h1>Branding Físico</h1>
+    <p>
+      La identidad también se construye en el espacio,
+      en el material y en el uso cotidiano.
     </p>
 
-    <div class="service-card highlight-card" onclick="openModal('modal-tarjetas')">
-        <div class="card-image-placeholder">[IMG: Tarjetas Físicas]</div>
-        <div class="card-content">
-            <h3>Tarjetas de presentación inteligentes <span class="icon-arrow">&rarr;</span></h3>
-            <p>
-                Tarjetas sólidas y memorables, pensadas para durar
-                y seguir funcionando aunque tus datos cambien.
-            </p>
-        </div>
+    <div class="hero-cta">
+      <a href="../contacto/index.html">Iniciar conversación</a>
     </div>
+  </div>
+</section>
 
-    <div class="grid-2">
-        <div class="service-card" onclick="openModal('modal-senal')">
-            <div class="card-image-placeholder">[IMG: Señalización]</div>
-            <div class="card-content">
-                <h3>Señalización y orientación <span class="icon-arrow">&rarr;</span></h3>
-                <p>
-                    Piezas claras y bien integradas que ayudan a entender
-                    y recorrer tu espacio.
-                </p>
-            </div>
-        </div>
+<!-- CONTENT -->
+<section>
+  <div class="inner content">
+    <h2>Marcas que se pueden tocar</h2>
+    <p>
+      Diseñamos y fabricamos piezas físicas que traducen una identidad
+      visual en objetos durables, precisos y coherentes con su contexto.
+    </p>
 
-        <div class="service-card" onclick="openModal('modal-stands')">
-            <div class="card-image-placeholder">[IMG: Stands y Exhibición]</div>
-            <div class="card-content">
-                <h3>Stands y exhibición <span class="icon-arrow">&rarr;</span></h3>
-                <p>
-                    Estructuras pensadas para montarse, transportarse
-                    y reutilizarse sin sacrificar diseño.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+    <h2>Aplicaciones</h2>
+    <p>
+      Señalización, stands, exhibidores, placas, tarjetas
+      y sistemas modulares pensados para uso real y repetido.
+    </p>
 
-<!-- MODALS -->
-
-<div id="modal-tarjetas" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('modal-tarjetas')">&times;</span>
-        <div class="modal-slider">
-            <div class="mySlides" style="display:flex;">Frente · Identidad</div>
-            <div class="mySlides">Reverso · QR dinámico</div>
-            <div class="mySlides">Uso · NFC / Escaneo</div>
-        </div>
-        <div class="modal-body">
-            <h2>Tarjetas de presentación físicas y durables</h2>
-            <p>
-                Diseñamos tarjetas en materiales sólidos que no se doblan,
-                no se desechan fácilmente y comunican cuidado por el detalle
-                desde el primer contacto.
-            </p>
-            <ul>
-                <li><strong>Materiales:</strong> PVC rígido, acrílico, madera grabada, metal.</li>
-                <li><strong>Funcionalidad:</strong> Código QR dinámico actualizable.</li>
-                <li><strong>Diseño:</strong> Formatos estándar o cortes personalizados.</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div id="modal-senal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('modal-senal')">&times;</span>
-        <div class="modal-slider">
-            <div class="mySlides" style="display:flex;">Recepción · Directorios</div>
-            <div class="mySlides">Señales normativas</div>
-            <div class="mySlides">Fachadas</div>
-        </div>
-        <div class="modal-body">
-            <h2>Señalización que ordena el espacio</h2>
-            <p>
-                Diseñamos y fabricamos señalización que informa,
-                orienta y refuerza la identidad de tu negocio,
-                sin exceso ni ruido visual.
-            </p>
-        </div>
-    </div>
-</div>
-
-<div id="modal-stands" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('modal-stands')">&times;</span>
-        <div class="modal-slider">
-            <div class="mySlides" style="display:flex;">Stands completos</div>
-            <div class="mySlides">Mobiliario</div>
-            <div class="mySlides">Detalles gráficos</div>
-        </div>
-        <div class="modal-body">
-            <h2>Estructuras para eventos y expos</h2>
-            <p>
-                Stands y mobiliario pensados para distintos espacios,
-                fáciles de montar y coherentes con tu marca.
-            </p>
-        </div>
-    </div>
-</div>
+    <h2>Producción con criterio</h2>
+    <p>
+      Cada pieza se define por su función, entorno y material.
+      El branding no se imprime: se construye.
+    </p>
+  </div>
+</section>
 
 <footer>
-    <div class="footer-content">
-        <div class="footer-name">Forma & Fondo Taller</div>
-        <div>Galeana 468, Paraísos del Colli, Zapopan.</div>
-        <div>Hidalgo 135, Centro, Tapalpa.</div>
-        <div><a href="mailto:hola@formayfondotaller.com" class="footer-link">hola@formayfondotaller.com</a></div>
-        <div class="copyright">&copy; 2026 Forma & Fondo Taller</div>
-    </div>
+  <div class="footer-name">Forma & Fondo Taller</div>
+  <div>&copy; 2026 Forma & Fondo Taller</div>
 </footer>
 
 <script>
-    let slideInterval;
-
-    function openModal(id) {
-        document.getElementById(id).style.display = "block";
-        document.body.style.overflow = "hidden";
-        startSlider(id);
-    }
-
-    function closeModal(id) {
-        document.getElementById(id).style.display = "none";
-        document.body.style.overflow = "auto";
-        stopSlider();
-    }
-
-    function startSlider(modalId) {
-        const modal = document.getElementById(modalId);
-        const slides = modal.getElementsByClassName("mySlides");
-        let index = 0;
-        for (let s of slides) s.style.display = "none";
-        slides[0].style.display = "flex";
-        if (slideInterval) clearInterval(slideInterval);
-        slideInterval = setInterval(() => {
-            for (let s of slides) s.style.display = "none";
-            index = (index + 1) % slides.length;
-            slides[index].style.display = "flex";
-        }, 3000);
-    }
-
-    function stopSlider() {
-        if (slideInterval) clearInterval(slideInterval);
-    }
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('active');
+}
 </script>
 
 </body>
