@@ -131,12 +131,16 @@ section{padding:5rem 1.5rem}
   section{padding:3.5rem 1.25rem}
 }
 
-/* ================= HERO (FULL IMAGE) ================= */
+/* ================= HERO ================= */
 .page-hero{
   position:relative;
   background:var(--gray);
   overflow:hidden;
+  min-height:50vh;
+  display:flex;
+  align-items:center;
 }
+
 
 .page-hero::before{
   content:"";
@@ -199,6 +203,17 @@ section{padding:5rem 1.5rem}
   color:#555;
   margin-bottom:1.1rem;
   font-size:1rem;
+}
+
+.content ul{
+  margin-top:1.5rem;
+  padding-left:1.2rem;
+  color:#555;
+  font-size:.95rem;
+}
+
+.content li{
+  margin-bottom:.4rem;
 }
 
 /* ================= FOOTER ================= */
@@ -288,6 +303,25 @@ footer{
     <p>
       Cada proyecto se evalúa por su intención, contexto y
       viabilidad técnica. Fabricar también es pensar.
+    </p>
+
+    <h2>Capacidades técnicas</h2>
+    <p>
+      El taller cuenta con un router CNC de formato industrial,
+      adecuado para prototipado y producción en serie corta.
+    </p>
+
+    <ul>
+      <li>Área útil de corte: <strong>1300 × 2500 mm</strong></li>
+      <li>Precisión de repetición: <strong>±0.03 mm</strong></li>
+      <li>Materiales habituales: <strong>madera sólida, tableros técnicos, acrílico y polímeros</strong></li>
+      <li>Espesores habituales: <strong>hasta 40 mm (según material)</strong></li>
+      <li>Archivos aceptados: <strong>DXF, DWG, AI, SVG</strong></li>
+    </ul>
+
+    <p style="margin-top:1.5rem;">
+      Si tu proyecto requiere algo fuera de estos parámetros,
+      se evalúa caso por caso.
     </p>
   </div>
 </section>
