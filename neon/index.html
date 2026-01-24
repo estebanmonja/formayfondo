@@ -143,8 +143,7 @@
                 
                 // --- Fixed WhatsApp Logic ---
                 // We use api.whatsapp.com/send instead of wa.me for better desktop compatibility
-                // Added the '1' after 52 as requested for MX mobile lines
-                const phoneNumber = "5213315305043";
+                const phoneNumber = "523315305343";
                 const text = `*Nueva Propuesta de Forma & Fondo*\n\nHola, soy: ${formData.name}\nCorreo: ${formData.email}\nInterés: ${formData.interest}\n\n*Mensaje:*\n${formData.message}`;
                 
                 const encodedText = encodeURIComponent(text);
@@ -484,7 +483,7 @@
                             </div>
                             <div className="ml-6">
                                 <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1">WhatsApp Directo</h4>
-                                <a href="https://api.whatsapp.com/send?phone=5213315305043" target="_blank" className="text-xl font-bold text-black hover:text-neon-500 transition-colors">+52 1 33 1530 5043</a>
+                                <a href="https://api.whatsapp.com/send?phone=523315305343" target="_blank" className="text-xl font-bold text-black hover:text-neon-500 transition-colors">+52 33 1530 5343</a>
                             </div>
                             </div>
                             
@@ -522,7 +521,7 @@
                                 value={formData.email}
                                 onChange={handleInputChange}
                                 className="w-full bg-neutral-50 border-b-2 border-neutral-200 p-4 focus:border-neon-500 focus:bg-white outline-none transition-all font-medium rounded-none" 
-                                placeholder="dime@formayfondotaller.com" 
+                                placeholder="contacto@ejemplo.com" 
                                 required
                             />
                             </div>
@@ -590,7 +589,7 @@
                         <h4 className="text-white text-xs font-bold uppercase tracking-widest mb-6 text-neon-500">Social</h4>
                         <div className="flex space-x-4">
                             <a href="#" className="hover:text-white transition-colors bg-neutral-900 p-3 hover:bg-neon-500"><Instagram size={18} /></a>
-                            <a href="mailto:dime@formayfondotaller.com" className="hover:text-white transition-colors bg-neutral-900 p-3 hover:bg-neon-500"><Mail size={18} /></a>
+                            <a href="mailto:emonja@gmail.com" className="hover:text-white transition-colors bg-neutral-900 p-3 hover:bg-neon-500"><Mail size={18} /></a>
                         </div>
                         </div>
                     </div>
