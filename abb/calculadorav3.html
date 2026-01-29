@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Diseño para Corte Láser</title>
+    <title>Generador de Diseño: Líneas de Trayectoria</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: #eef2f3; color: #333; }
         .container { max-width: 1100px; margin: auto; }
@@ -54,7 +54,7 @@
             <div class="stat-box"><strong>Total Piezas:</strong> <span id="totalParts">0</span></div>
             <div class="stat-box"><strong>Cuadrícula:</strong> <span id="gridLayout">0 H x 0 V</span></div>
             <div class="stat-box"><strong>Uso de Material:</strong> <span id="efficiency">0</span>%</div>
-            <button onclick="downloadSVG()">Descargar Archivo SVG</button>
+            <button onclick="downloadSVG()">Descargar SVG</button>
         </div>
     </div>
 
@@ -63,19 +63,16 @@
 
 <script>
     function updateLayout() {
-        // Obtener valores de entrada
         const bW = parseFloat(document.getElementById('boardW').value) || 0;
         const bH = parseFloat(document.getElementById('boardH').value) || 0;
         const pW = parseFloat(document.getElementById('partW').value) || 0;
         const pH = parseFloat(document.getElementById('partH').value) || 0;
         const gap = parseFloat(document.getElementById('gap').value) || 0;
 
-        // Cálculo de piezas (considerando el espacio de la herramienta)
         const cols = Math.floor((bW + gap) / (pW + gap));
         const rows = Math.floor((bH + gap) / (pH + gap));
         const totalCount = Math.max(0, cols * rows);
 
-        // Lógica de centrado
         const totalUsedW = (cols * pW) + ((cols - 1) * gap);
         const totalUsedH = (rows * pH) + ((rows - 1) * gap);
         const marginX = (bW - totalUsedW) / 2;
@@ -85,67 +82,56 @@
         let lines = "";
 
         if (totalCount > 0) {
+            // Generar Rectángulos
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
                     const x = marginX + (c * (pW + gap));
                     const y = marginY + (r * (pH + gap));
-                    
-                    // Dibujar piezas (rectángulos)
                     rects += `<rect x="${x.toFixed(3)}" y="${y.toFixed(3)}" width="${pW}" height="${pH}" />\n`;
-                    
-                    // Líneas guía verticales (al centro de la separación)
-                    if (c < cols - 1) {
-                        const lineX = x + pW + (gap / 2);
-                        const lineYStart = y;
-                        const lineYEnd = y + pH;
-                        lines += `<line x1="${lineX.toFixed(3)}" y1="${lineYStart.toFixed(3)}" x2="${lineX.toFixed(3)}" y2="${lineYEnd.toFixed(3)}" />\n`;
-                    }
-                    
-                    // Líneas guía horizontales (al centro de la separación)
-                    if (r < rows - 1) {
-                        const lineXStart = x;
-                        const lineXEnd = x + pW;
-                        const lineY = y + pH + (gap / 2);
-                        lines += `<line x1="${lineXStart.toFixed(3)}" y1="${lineY.toFixed(3)}" x2="${lineXEnd.toFixed(3)}" y2="${lineY.toFixed(3)}" />\n`;
-                    }
                 }
+            }
+
+            // Generar Líneas Continuas Verticales
+            for (let c = 0; c < cols - 1; c++) {
+                const lineX = marginX + (c * (pW + gap)) + pW + (gap / 2);
+                lines += `<line x1="${lineX.toFixed(3)}" y1="0" x2="${lineX.toFixed(3)}" y2="${bH}" />\n`;
+            }
+
+            // Generar Líneas Continuas Horizontales
+            for (let r = 0; r < rows - 1; r++) {
+                const lineY = marginY + (r * (pH + gap)) + pH + (gap / 2);
+                lines += `<line x1="0" y1="${lineY.toFixed(3)}" x2="${bW}" y2="${lineY.toFixed(3)}" />\n`;
             }
         }
 
         const svgContent = `
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="${bW}mm" height="${bH}mm" viewBox="0 0 ${bW} ${bH}">
                 <rect x="0" y="0" width="${bW}" height="${bH}" fill="none" stroke="red" stroke-width="0.5" />
-                
                 <g id="piezas" fill="none" stroke="black" stroke-width="0.2">
                     ${rects}
                 </g>
-                
-                <g id="lineas_guia" fill="none" stroke="blue" stroke-width="0.1" stroke-dasharray="1,1">
+                <g id="trayectorias_continuas" fill="none" stroke="blue" stroke-width="0.1">
                     ${lines}
                 </g>
             </svg>`;
 
-        // Actualizar UI
         document.getElementById('preview-container').innerHTML = svgContent;
         document.getElementById('totalParts').innerText = totalCount;
         document.getElementById('gridLayout').innerText = `${cols} H x ${rows} V`;
-        
         const efficiency = bW * bH > 0 ? (((totalCount * pW * pH) / (bW * bH)) * 100).toFixed(1) : 0;
         document.getElementById('efficiency').innerText = efficiency;
     }
 
     function downloadSVG() {
         const svgData = document.getElementById('preview-container').innerHTML;
-        const total = document.getElementById('totalParts').innerText;
         const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `diseño_corte_${total}_piezas.svg`;
+        link.download = "layout_con_trayectorias.svg";
         link.click();
     }
 
-    // Ejecución inicial
     updateLayout();
 </script>
 
