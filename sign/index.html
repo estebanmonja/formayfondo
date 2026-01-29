@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFT | Carved Wood Systems</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: { 500: '#ff0098', 600: '#cc007a' },
+                        neutral: { 50: '#fafafa', 900: '#171717' }
+                    },
+                    fontFamily: {
+                        sans: ['Barlow', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .text-stroke-black { -webkit-text-stroke: 1px #171717; color: transparent; }
+        .grid-bg { 
+            background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); 
+            background-size: 40px 40px; 
+        }
+        .hard-shadow { shadow-[8px_8px_0px_0px_#171717]; }
+    </style>
+</head>
+<body class="bg-neutral-50 text-neutral-900 font-sans">
+
+    <nav class="border-b-4 border-black p-6 flex justify-between items-center bg-white sticky top-0 z-50">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-black flex items-center justify-center">
+                <span class="text-white font-black text-sm">F</span>
+            </div>
+            <span class="font-mono text-xs tracking-widest uppercase">Wood_Division_1.1</span>
+        </div>
+        <div class="font-mono text-[10px] text-neutral-400 uppercase hidden md:block">
+            Status: Production_Ready // 2026
+        </div>
+    </nav>
+
+    <header class="relative py-24 px-6 overflow-hidden bg-white border-b border-neutral-200">
+        <div class="absolute inset-0 grid-bg opacity-[0.03]"></div>
+        <div class="max-w-6xl mx-auto relative z-10">
+            <span class="text-neon-500 font-mono text-xs mb-4 block tracking-[0.3em]">MANUFACTURING PRECISION</span>
+            <h1 class="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-none mb-8">
+                CARVED<br><span class="text-stroke-black">WOOD</span>
+            </h1>
+            <p class="max-w-lg text-lg text-neutral-600 font-medium border-l-2 border-neon-500 pl-6">
+                Sistemas de señalética en madera maciza. La calidez del material orgánico intervenida por la precisión del control numérico industrial.
+            </p>
+        </div>
+    </header>
+
+    <section class="py-24 px-6 max-w-6xl mx-auto">
+        <div class="flex items-center gap-2 mb-12">
+            <span class="w-4 h-4 bg-neon-500"></span>
+            <h2 class="font-bold text-xl uppercase tracking-widest">01. Material Specs</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="group border-2 border-black p-8 bg-white hover:shadow-[8px_8px_0px_0px_#ff0098] transition-all cursor-pointer">
+                <div class="font-mono text-neutral-300 text-xl font-bold mb-6 group-hover:text-neon-500">M_01</div>
+                <h3 class="text-3xl font-black uppercase tracking-tighter mb-4">Industrial Oak</h3>
+                <p class="text-sm text-neutral-500 mb-6">Tratamiento para exteriores de alta resistencia. Grabado profundo.</p>
+                <div class="space-y-2 border-t border-neutral-100 pt-6">
+                    <div class="flex justify-between font-mono text-[10px] uppercase">
+                        <span class="text-neutral-400">Tolerance</span>
+                        <span>±0.05mm</span>
+                    </div>
+                    <div class="flex justify-between font-mono text-[10px] uppercase">
+                        <span class="text-neutral-400">Hardness</span>
+                        <span>High_Density</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group border-2 border-black p-8 bg-white hover:shadow-[8px_8px_0px_0px_#ff0098] transition-all cursor-pointer">
+                <div class="font-mono text-neutral-300 text-xl font-bold mb-6 group-hover:text-neon-500">M_02</div>
+                <h3 class="text-3xl font-black uppercase tracking-tighter mb-4">Carbon Cedar</h3>
+                <p class="text-sm text-neutral-500 mb-6">Acabado quemado Shou Sugi Ban con tipografía fresada en crudo.</p>
+                <div class="space-y-2 border-t border-neutral-100 pt-6">
+                    <div class="flex justify-between font-mono text-[10px] uppercase">
+                        <span class="text-neutral-400">Finish</span>
+                        <span>Carbonized</span>
+                    </div>
+                    <div class="flex justify-between font-mono text-[10px] uppercase">
+                        <span class="text-neutral-400">Indoor</span>
+                        <span>Recommended</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-black p-8 flex flex-col justify-between text-white">
+                <div>
+                    <h3 class="text-2xl font-black uppercase mb-4 leading-none">Custom<br>Dimensions</h3>
+                    <p class="font-mono text-xs text-neutral-400 uppercase">Input requirements for quote</p>
+                </div>
+                <button class="mt-8 px-6 py-4 border-2 border-white text-white text-xs font-black uppercase tracking-widest hover:bg-neon-500 hover:border-neon-500 transition-all">
+                    Start Configurator
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-neutral-900 py-24 px-6 text-white overflow-hidden relative">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-5xl font-black uppercase tracking-tighter mb-8">Precision_Carving</h2>
+                <ul class="space-y-6">
+                    <li class="border-l-2 border-neon-500 pl-4">
+                        <strong class="block uppercase text-xs tracking-widest mb-1">Depth Control</strong>
+                        <span class="text-sm text-neutral-400 font-mono">3D variable relief from 1mm to 15mm depth.</span>
+                    </li>
+                    <li class="border-l-2 border-neon-500 pl-4">
+                        <strong class="block uppercase text-xs tracking-widest mb-1">Vector Clarity</strong>
+                        <span class="text-sm text-neutral-400 font-mono">Ultra-sharp edges for maximum legibility.</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="relative">
+                <div class="w-full h-64 border border-neutral-700 flex items-center justify-center group cursor-crosshair">
+                   <span class="font-black text-6xl opacity-20 group-hover:opacity-100 transition-opacity duration-500 glitch-hover">FFT_SYSTEM</span>
+                </div>
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-neon-500 rounded-full blur-[80px] opacity-20 animate-pulse"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="p-12 border-t-4 border-black text-center">
+        <p class="font-mono text-[10px] text-neutral-400 uppercase tracking-[0.5em]">Forma & Fondo Taller // No compromise on detail.</p>
+    </footer>
+
+</body>
+</html>
