@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Diseño para Corte Láser</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: #eef2f3; color: #333; }
+        .container { max-width: 1100px; margin: auto; }
+        .controls { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+            gap: 15px; 
+            padding: 20px; 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 0.8em; font-weight: bold; margin-bottom: 5px; color: #666; }
+        input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .stats { 
+            grid-column: 1 / -1; 
+            padding-top: 15px; 
+            border-top: 1px solid #eee; 
+            display: flex; 
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center; 
+        }
+        .stat-box { background: #f8f9fa; padding: 5px 12px; border-radius: 4px; border-left: 4px solid #007bff; font-size: 0.9em; }
+        button { background-color: #007bff; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 6px; cursor: pointer; transition: 0.2s; margin-left: auto; }
+        button:hover { background-color: #0056b3; }
+        #preview-container { 
+            background: #fff; padding: 20px; border-radius: 12px; 
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05); 
+            overflow: auto; text-align: center; min-height: 500px;
+        }
+        svg { max-width: 100%; height: auto; border: 1px solid #ddd; background: #fafafa; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="controls">
+        <div class="input-group"><label>Ancho Placa (mm)</label><input type="number" id="boardW" value="304.8" oninput="updateLayout()"></div>
+        <div class="input-group"><label>Alto Placa (mm)</label><input type="number" id="boardH" value="2438.4" oninput="updateLayout()"></div>
+        <div class="input-group"><label>Ancho Pieza (mm)</label><input type="number" id="partW" value="24" oninput="updateLayout()"></div>
+        <div class="input-group"><label>Alto Pieza (mm)</label><input type="number" id="partH" value="70" oninput="updateLayout()"></div>
+        <div class="input-group"><label>Separación/Kerf (mm)</label><input type="number" id="gap" value="8" step="0.1" oninput="updateLayout()"></div>
+        
+        <div class="stats">
+            <div class="stat-box"><strong>Total Piezas:</strong> <span id="totalParts">0</span></div>
+            <div class="stat-box"><strong>Cuadrícula:</strong> <span id="gridLayout">0 H x 0 V</span></div>
+            <div class="stat-box"><strong>Uso de Material:</strong> <span id="efficiency">0</span>%</div>
+            <button onclick="downloadSVG()">Descargar Archivo SVG</button>
+        </div>
+    </div>
+
+    <div id="preview-container"></div>
+</div>
+
+<script>
+    function updateLayout() {
+        // Obtener valores de entrada
+        const bW = parseFloat(document.getElementById('boardW').value) || 0;
+        const bH = parseFloat(document.getElementById('boardH').value) || 0;
+        const pW = parseFloat(document.getElementById('partW').value) || 0;
+        const pH = parseFloat(document.getElementById('partH').value) || 0;
+        const gap = parseFloat(document.getElementById('gap').value) || 0;
+
+        // Cálculo de piezas (considerando el espacio de la herramienta)
+        const cols = Math.floor((bW + gap) / (pW + gap));
+        const rows = Math.floor((bH + gap) / (pH + gap));
+        const totalCount = Math.max(0, cols * rows);
+
+        // Lógica de centrado
+        const totalUsedW = (cols * pW) + ((cols - 1) * gap);
+        const totalUsedH = (rows * pH) + ((rows - 1) * gap);
+        const marginX = (bW - totalUsedW) / 2;
+        const marginY = (bH - totalUsedH) / 2;
+
+        let rects = "";
+        let lines = "";
+
+        if (totalCount > 0) {
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const x = marginX + (c * (pW + gap));
+                    const y = marginY + (r * (pH + gap));
+                    
+                    // Dibujar piezas (rectángulos)
+                    rects += `<rect x="${x.toFixed(3)}" y="${y.toFixed(3)}" width="${pW}" height="${pH}" />\n`;
+                    
+                    // Líneas guía verticales (al centro de la separación)
+                    if (c < cols - 1) {
+                        const lineX = x + pW + (gap / 2);
+                        const lineYStart = y;
+                        const lineYEnd = y + pH;
+                        lines += `<line x1="${lineX.toFixed(3)}" y1="${lineYStart.toFixed(3)}" x2="${lineX.toFixed(3)}" y2="${lineYEnd.toFixed(3)}" />\n`;
+                    }
+                    
+                    // Líneas guía horizontales (al centro de la separación)
+                    if (r < rows - 1) {
+                        const lineXStart = x;
+                        const lineXEnd = x + pW;
+                        const lineY = y + pH + (gap / 2);
+                        lines += `<line x1="${lineXStart.toFixed(3)}" y1="${lineY.toFixed(3)}" x2="${lineXEnd.toFixed(3)}" y2="${lineY.toFixed(3)}" />\n`;
+                    }
+                }
+            }
+        }
+
+        const svgContent = `
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="${bW}mm" height="${bH}mm" viewBox="0 0 ${bW} ${bH}">
+                <rect x="0" y="0" width="${bW}" height="${bH}" fill="none" stroke="red" stroke-width="0.5" />
+                
+                <g id="piezas" fill="none" stroke="black" stroke-width="0.2">
+                    ${rects}
+                </g>
+                
+                <g id="lineas_guia" fill="none" stroke="blue" stroke-width="0.1" stroke-dasharray="1,1">
+                    ${lines}
+                </g>
+            </svg>`;
+
+        // Actualizar UI
+        document.getElementById('preview-container').innerHTML = svgContent;
+        document.getElementById('totalParts').innerText = totalCount;
+        document.getElementById('gridLayout').innerText = `${cols} H x ${rows} V`;
+        
+        const efficiency = bW * bH > 0 ? (((totalCount * pW * pH) / (bW * bH)) * 100).toFixed(1) : 0;
+        document.getElementById('efficiency').innerText = efficiency;
+    }
+
+    function downloadSVG() {
+        const svgData = document.getElementById('preview-container').innerHTML;
+        const total = document.getElementById('totalParts').innerText;
+        const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `diseño_corte_${total}_piezas.svg`;
+        link.click();
+    }
+
+    // Ejecución inicial
+    updateLayout();
+</script>
+
+</body>
+</html>
