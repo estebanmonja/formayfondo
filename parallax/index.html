@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forma & Fondo | Taller de Manufactura</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: {
+                            400: '#ff33ad',
+                            500: '#ff0098', // Primary Brand Color
+                            600: '#cc007a',
+                            900: '#80004c',
+                        },
+                        neutral: {
+                            50: '#fafafa',
+                            900: '#171717', // Primary Dark
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Barlow', 'sans-serif'], // DIN Alternative
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    boxShadow: {
+                        'hard': '4px 4px 0px 0px rgba(0,0,0,1)', //
+                        'hard-neon': '8px 8px 0px 0px #ff0098', //
+                        'hard-xl': '16px 16px 0px 0px #171717', //
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,900;1,400&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+        .text-stroke-black { -webkit-text-stroke: 1px #171717; color: transparent; }
+        .text-stroke-neon { -webkit-text-stroke: 1px #ff0098; color: transparent; }
+        
+        .grid-bg { 
+            background-image: linear-gradient(#f0f0f0 1px, transparent 1px), linear-gradient(90deg, #f0f0f0 1px, transparent 1px); 
+            background-size: 40px 40px; 
+        }
+
+        .input-fft {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 1rem;
+            width: 100%;
+            outline: none;
+            transition: all 0.3s;
+            border-radius: 0; /* rounded-none */
+        }
+        .input-fft:focus { border-color: #ff0098; background-color: white; }
+        
+        /* Smooth Fade para Galería */
+        .slide-img { transition: opacity 1s ease-in-out; }
+    </style>
+</head>
+<body class="bg-white text-neutral-900 antialiased selection:bg-neon-500 selection:text-white">
+
+    <div class="fixed inset-0 z-0 grid-bg pointer-events-none opacity-40"></div>
+
+    <main class="relative z-10">
+        
+        <nav class="sticky top-0 z-50 flex items-center p-6 lg:px-12 bg-white/90 backdrop-blur-md border-b-2 border-black">
+            <div class="flex items-center gap-4">
+                <img src="forma-woodmark.svg" alt="Forma & Fondo" class="h-10 w-auto">
+                <span class="font-black uppercase tracking-tighter text-xl border-l-2 border-black pl-4">Forma & Fondo</span>
+            </div>
+            <div class="ml-auto font-mono text-[10px] tracking-widest uppercase text-neutral-400 hidden md:block">
+                System_v1.1 // <span class="text-neon-500 animate-pulse">Live_Signal</span>
+            </div>
+        </nav>
+
+        <section class="min-h-screen flex flex-col justify-center px-6 lg:px-16 pt-20 pb-32 border-b-2 border-black relative overflow-hidden">
+            <div class="space-y-0 mb-12 relative z-10">
+                <h1 class="text-[15vw] lg:text-[12rem] font-black uppercase leading-[0.8] tracking-tighter">MATERIA.</h1>
+                <h1 class="text-[15vw] lg:text-[12rem] font-black uppercase leading-[0.8] tracking-tighter text-neon-500">ENERGÍA.</h1>
+                <h1 class="text-[15vw] lg:text-[12rem] font-black uppercase leading-[0.8] tracking-tighter text-stroke-black">INTENCIÓN.</h1>
+            </div>
+            
+            <div class="max-w-3xl border-l-4 border-neon-500 pl-8 space-y-6 relative z-10">
+                <p class="text-xl lg:text-3xl font-medium text-neutral-800 leading-tight italic">
+                    "La convergencia entre la precisión de la máquina y la visión del alma."
+                </p>
+                <p class="text-lg lg:text-xl text-neutral-500 font-medium">
+                    Taller de experimentación material, diseño y fabricación CNC.
+                </p>
+                <div class="pt-8">
+                    <a href="#contacto" class="inline-block px-10 py-5 bg-black text-white text-sm font-black uppercase tracking-widest hover:bg-neon-500 transition-all shadow-hard hover:shadow-none hover:translate-x-1 hover:translate-y-1">
+                        Iniciar conversación_
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-3 border-b-2 border-black bg-white">
+            <div class="p-10 border-b-2 md:border-b-0 md:border-r-2 border-black hover:bg-neutral-50 transition-colors">
+                <span class="font-mono text-xs text-neon-500 mb-6 block font-bold">001</span>
+                <h3 class="text-2xl font-black uppercase mb-4">De la idea al objeto</h3>
+                <p class="text-neutral-600 leading-relaxed font-medium italic">Acompañamos proyectos en distintas etapas: desde una intuición inicial hasta un objeto terminado y listo para producir.</p>
+            </div>
+            <div class="p-10 border-b-2 md:border-b-0 md:border-r-2 border-black hover:bg-neutral-50 transition-colors">
+                <span class="font-mono text-xs text-neon-500 mb-6 block font-bold">002</span>
+                <h3 class="text-2xl font-black uppercase mb-4">Decisiones materiales</h3>
+                <p class="text-neutral-600 leading-relaxed font-medium italic">Trabajamos con madera, polímeros y otros materiales desde una lógica de precisión y cuidado, donde cada decisión importa.</p>
+            </div>
+            <div class="p-10 hover:bg-neutral-50 transition-colors">
+                <span class="font-mono text-xs text-neon-500 mb-6 block font-bold">003</span>
+                <h3 class="text-2xl font-black uppercase mb-4">Producción consciente</h3>
+                <p class="text-neutral-600 leading-relaxed font-medium italic">Cada proyecto se evalúa por su intención, contexto y viabilidad técnica. Fabricar también es pensar.</p>
+            </div>
+        </section>
+
+        <section class="relative bg-neutral-900 py-24 border-b-2 border-black overflow-hidden">
+            <div class="absolute right-0 top-1/4 w-96 h-96 bg-neon-500 rounded-full blur-[150px] opacity-10 animate-pulse"></div>
+            
+            <div class="px-6 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 z-10">
+                    <h2 class="text-5xl lg:text-7xl font-black text-white leading-none tracking-tighter mb-8 italic">
+                        OBJETOS <br> <span class="text-stroke-neon">TANGIBLES.</span>
+                    </h2>
+                    <p class="text-neutral-400 font-mono text-sm max-w-xs border-l-2 border-neon-500 pl-4 uppercase tracking-widest leading-loose">
+                        DATA_LOG: Manufactura real ejecutada en taller. Madera sólida y polímeros de alta precisión.
+                    </p>
+                </div>
+
+                <div class="lg:col-span-7">
+                    <div class="aspect-[16/10] w-full bg-black border-2 border-neon-500 shadow-hard-neon overflow-hidden relative group">
+                        <div class="absolute inset-0 slide-img opacity-100" style="background: url('imgs/cnc01.png') center/cover no-repeat;"></div>
+                        <div class="absolute inset-0 slide-img opacity-0" style="background: url('imgs/letrero02.png') center/cover no-repeat;"></div>
+                        <div class="absolute inset-0 slide-img opacity-0" style="background: url('imgs/misc03.png') center/cover no-repeat;"></div>
+                        <div class="absolute inset-0 slide-img opacity-0" style="background: url('imgs/cnc04.png') center/cover no-repeat;"></div>
+                        
+                        <div class="absolute bottom-4 right-4 bg-black/80 text-neon-500 font-mono text-[10px] p-2 border border-neon-500 z-20">
+                            FFT_PROD_REF // <span id="img-counter">01</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-6 lg:p-16 border-b-2 border-black bg-black text-white">
+            <h2 class="text-4xl lg:text-6xl font-black uppercase mb-12 tracking-tighter">004 Capacidades técnicas</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div class="space-y-8">
+                    <p class="text-xl text-neutral-400 font-medium">El taller cuenta con un router CNC de formato industrial, adecuado para prototipado y producción en serie corta.</p>
+                    <div class="bg-neutral-900 p-6 border-l-4 border-neon-500 italic">
+                        <p class="text-sm font-mono text-neon-400 uppercase tracking-widest">Nota: Te ayudamos a crear o dar formato correcto a tus archivos para producción.</p>
+                    </div>
+                    <ul class="font-mono text-sm space-y-3">
+                        <li class="flex justify-between border-b border-neutral-800 pb-2"><span class="text-neutral-500">ÁREA ÚTIL DE CORTE</span> <span>1300 × 2500 mm</span></li>
+                        <li class="flex justify-between border-b border-neutral-800 pb-2"><span class="text-neutral-500">PRECISIÓN DE REPETICIÓN</span> <span>±0.03 mm</span></li>
+                        <li class="flex justify-between border-b border-neutral-800 pb-2"><span class="text-neutral-500">ESPESORES HABITUALES</span> <span>HASTA 40 mm</span></li>
+                    </ul>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="border border-neutral-800 p-8 flex flex-col justify-between hover:border-neon-500 transition-colors group">
+                        <span class="text-[10px] font-mono text-neutral-500 group-hover:text-neon-500">FILE_TYPES</span>
+                        <span class="text-2xl font-black">DXF / DWG</span>
+                    </div>
+                    <div class="border border-neutral-800 p-8 flex flex-col justify-between hover:border-neon-500 transition-colors group">
+                        <span class="text-[10px] font-mono text-neutral-500 group-hover:text-neon-500">VECTOR_BASE</span>
+                        <span class="text-2xl font-black">AI / SVG</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-6 lg:p-16 border-b-2 border-black bg-white">
+            <h2 class="text-4xl font-black uppercase mb-12 tracking-tighter">005 Aliados</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="border-2 border-black p-8 shadow-hard hover:bg-black hover:text-white transition-all cursor-default group">
+                    <span class="font-mono text-[10px] text-neon-500 block mb-2">MAQUINADO PESADO</span>
+                    <h4 class="text-xl font-black uppercase">Hitachi-Seiki YA35-11</h4>
+                    <p class="text-xs mt-4 opacity-50 group-hover:opacity-100 font-mono">1000x355 mm / Hitachi-Seiki</p>
+                </div>
+                <div class="border-2 border-black p-8 shadow-hard hover:bg-black hover:text-white transition-all cursor-default group">
+                    <span class="font-mono text-[10px] text-neon-500 block mb-2">TORNEADO CNC</span>
+                    <h4 class="text-xl font-black uppercase">Mori Seiki AL-2</h4>
+                    <p class="text-xs mt-4 opacity-50 group-hover:opacity-100 font-mono">Precision CNC Turning</p>
+                </div>
+                <div class="border-2 border-black p-8 shadow-hard hover:bg-black hover:text-white transition-all cursor-default group">
+                    <span class="font-mono text-[10px] text-neon-500 block mb-2">GRAN FORMATO</span>
+                    <h4 class="text-xl font-black uppercase">Pinacho A 77</h4>
+                    <p class="text-xs mt-4 opacity-50 group-hover:opacity-100 font-mono">Volteo 24" / Bancada 120"</p>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-neutral-100">
+                <p class="font-black uppercase italic tracking-widest text-neutral-400">Herrería pailería y soluciones industriales.</p>
+            </div>
+        </section>
+
+        <section id="contacto" class="grid grid-cols-1 lg:grid-cols-2 border-b-2 border-black bg-white">
+            <div class="p-8 lg:p-16">
+                <span class="text-neon-500 font-black uppercase text-xs tracking-widest block mb-4">COLABORACIÓN</span>
+                <h2 class="text-[12vw] lg:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-8">HAGÁMOSLO <br> REALIDAD.</h2>
+                <p class="text-neutral-600 text-lg mb-12 max-w-md font-medium">Buscamos proyectos que reten nuestras capacidades. Desde prototipos únicos hasta producción en serie.</p>
+                
+                <div class="space-y-10">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-black flex-shrink-0 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div>
+                            <span class="block font-mono text-[10px] text-neutral-400 uppercase tracking-widest mb-1">Escríbenos</span>
+                            <a href="mailto:dime@formayfondotaller.com" class="text-xl font-black hover:text-neon-500 transition-colors">dime@formayfondotaller.com</a>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-black flex-shrink-0 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                        </div>
+                        <div>
+                            <span class="block font-mono text-[10px] text-neutral-400 uppercase tracking-widest mb-1">Ubicación</span>
+                            <div class="flex gap-6 mt-1">
+                                <a href="https://maps.app.goo.gl/DuXKGsqGVbhZE4sg7" target="_blank" class="font-black text-sm uppercase underline decoration-2 hover:text-neon-500 transition-colors">Tapalpa</a>
+                                <a href="https://maps.app.goo.gl/Dkst6kR53NZtz2VB6" target="_blank" class="font-black text-sm uppercase underline decoration-2 hover:text-neon-500 transition-colors">Zapopan</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-8 lg:p-16 bg-neutral-50 border-t-2 lg:border-t-0 lg:border-l-2 border-black flex items-center">
+                <div class="bg-white border-2 border-black p-8 shadow-hard-xl w-full relative">
+                    <form id="whatsappForm" class="space-y-6">
+                        <div>
+                            <label class="block font-black uppercase text-[10px] tracking-widest mb-2">Nombre</label>
+                            <input type="text" id="nombre" placeholder="Tu nombre o empresa" class="input-fft" required>
+                        </div>
+                        <div>
+                            <label class="block font-black uppercase text-[10px] tracking-widest mb-2">Email</label>
+                            <input type="email" id="email" placeholder="contacto@ejemplo.com" class="input-fft" required>
+                        </div>
+                        <div>
+                            <label class="block font-black uppercase text-[10px] tracking-widest mb-2">Interés</label>
+                            <select id="interes" class="input-fft font-bold">
+                                <option>Corte & Grabado CNC</option>
+                                <option>Prototipado</option>
+                                <option>Producción en Serie</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-black uppercase text-[10px] tracking-widest mb-2">Mensaje</label>
+                            <textarea id="mensaje" rows="4" placeholder="Detalles del proyecto..." class="input-fft" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-5 bg-black text-white font-black uppercase tracking-widest hover:bg-neon-500 transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-0 active:translate-y-0">
+                            Enviar Propuesta_
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="p-12 border-t-2 border-black flex flex-col md:flex-row justify-between items-center bg-white relative z-10">
+            <p class="font-mono text-[10px] text-neutral-400 uppercase tracking-[0.3em]">Forma & Fondo Taller // Jalisco, MX</p>
+            <div class="flex gap-8 mt-6 md:mt-0 font-mono text-[10px] text-neutral-300">
+                <span class="hover:text-neon-500 cursor-help opacity-0">IG_LINK</span>
+                <span class="hover:text-neon-500 cursor-help opacity-0">FB_LINK</span>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Smooth Scroll Initializer
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            wheelMultiplier: 1,
+            infinite: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Image Gallery Cycle Logic
+        const slides = document.querySelectorAll('.slide-img');
+        const counter = document.getElementById('img-counter');
+        let currentSlide = 0;
+
+        function nextSlide() {
+            slides[currentSlide].classList.replace('opacity-100', 'opacity-0');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.replace('opacity-0', 'opacity-100');
+            counter.innerText = (currentSlide + 1).toString().padStart(2, '0');
+        }
+        setInterval(nextSlide, 4000); // Cambio cada 4 segundos
+
+        // WhatsApp Form Handler
+        document.getElementById('whatsappForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const interes = document.getElementById('interes').value;
+            const mensaje = document.getElementById('mensaje').value;
+            
+            const message = `Hola Forma & Fondo. Soy ${nombre} (${email}). Me interesa: ${interes}. Proyecto: ${mensaje}`;
+            const whatsappUrl = `https://wa.me/5213315305043?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
+</body>
+</html>
