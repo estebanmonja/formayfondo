@@ -2,248 +2,241 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Forma & Fondo | En Construcción</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forma & Fondo | Taller de Manufactura</title>
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22black%22/><text y=%22.9em%22 font-size=%2290%22 font-weight=%22bold%22 fill=%22white%22>F</text><circle cx=%2280%22 cy=%2280%22 r=%2212%22 fill=%22%23ff0098%22/></svg>">
-
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        neon: {
-                            500: '#ff0098', // Shocking Pink
-                            900: '#80004c', // Deep Magenta
-                        }
+                        neon: { 500: '#ff0098' },
+                        neutral: { 50: '#fafafa', 900: '#171717' }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Barlow', 'sans-serif'],
                         mono: ['Fira Code', 'monospace'],
                     },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'scan': 'scan 4s linear infinite',
-                    },
-                    keyframes: {
-                        scan: {
-                            '0%': { transform: 'translateY(-100%)' },
-                            '100%': { transform: 'translateY(100%)' },
-                        }
+                    boxShadow: {
+                        'hard': '4px 4px 0px 0px rgba(0,0,0,1)',
+                        'hard-neon': '8px 8px 0px 0px #ff0098',
+                        'hard-xl': '16px 16px 0px 0px #171717',
                     }
                 }
             }
         }
     </script>
 
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #000;
-            color: #fff;
-            overflow-x: hidden;
-            overscroll-behavior-y: none;
+        body { font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+        .text-stroke-black { -webkit-text-stroke: 0.5px #171717; color: transparent; }
+        .text-stroke-neon { -webkit-text-stroke: 0.5px #ff0098; color: transparent; }
+        .grid-bg { 
+            background-image: linear-gradient(#f0f0f0 1px, transparent 1px), linear-gradient(90deg, #f0f0f0 1px, transparent 1px); 
+            background-size: 40px 40px; 
         }
-        
-        body::-webkit-scrollbar { display: none; }
-        body { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Cursor / Touch Follower */
-        .cursor-follow {
-            pointer-events: none;
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border: 1px solid #ff0098; /* Pink Border */
-            transform: translate(-50%, -50%);
-            z-index: 50;
-            mix-blend-mode: difference;
-            transition: width 0.2s, height 0.2s;
+        .input-fft {
+            background-color: #f8f9fa; border-bottom: 2px solid #e5e7eb;
+            padding: 1rem; width: 100%; outline: none; transition: all 0.3s; border-radius: 0;
         }
-        .cursor-follow.touch-active {
-            width: 80px;
-            height: 80px;
-            border-color: #fff;
-            background-color: rgba(255, 0, 152, 0.1); /* Pink Tint */
-        }
-
-        .cursor-follow::before { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: #ff0098; }
-        .cursor-follow::after { content: ''; position: absolute; left: 50%; top: 0; height: 100%; width: 1px; background: #ff0098; }
-
-        /* Scanline Overlay (Updated to Pink RGB: 255, 0, 152) */
-        .scanline {
-            width: 100%; height: 100vh; z-index: 10;
-            background: linear-gradient(to bottom, rgba(255,0,152,0), rgba(255,0,152,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
-            background-size: 100% 4px;
-            position: fixed; top: 0; left: 0; pointer-events: none; opacity: 0.15;
-        }
+        .input-fft:focus { border-color: #ff0098; background-color: white; }
+        .img-reveal-container { position: relative; overflow: hidden; background-color: #000; border: 2px solid #000; aspect-ratio: 4/3; }
+        .slide-img { position: absolute; inset: 0; background-size: cover; background-position: center; transition: opacity 1s ease-in-out; }
     </style>
 </head>
-<body>
-    <div id="root"></div>
+<body class="bg-white text-neutral-900 antialiased selection:bg-neon-500 selection:text-white">
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+    <div class="fixed inset-0 z-0 grid-bg pointer-events-none opacity-40"></div>
 
-        const ConstructionPage = () => {
-            const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
-            const [isTouch, setIsTouch] = useState(false);
-            const [gCodeLines, setGCodeLines] = useState([]);
-            const [loadingWidth, setLoadingWidth] = useState(0);
-            
-            // --- Input Handlers ---
-            const handleInput = (x, y, touchType) => {
-                setCursorPos({ x, y });
-                if (touchType) setIsTouch(true);
-            };
+    <main class="relative z-10">
+        <nav class="sticky top-0 z-50 flex items-center p-6 lg:px-12 bg-white/90 backdrop-blur-md border-b-2 border-black">
+            <div class="flex items-center gap-4">
+                <img src="forma-woodmark.svg" alt="Forma & Fondo" class="h-10 w-auto">
+                <span class="font-black uppercase tracking-tighter text-xl border-l-2 border-black pl-4">Forma & Fondo</span>
+            </div>
+            <div class="ml-auto font-mono text-[10px] tracking-widest uppercase text-neutral-400 hidden md:block">
+                SYSTEM_v1.1 // <span class="text-neon-500">LIVE_SIGNAL</span>
+            </div>
+        </nav>
 
-            useEffect(() => {
-                const mouseMove = (e) => handleInput(e.clientX, e.clientY, false);
-                const touchMove = (e) => {
-                    const touch = e.touches[0];
-                    handleInput(touch.clientX, touch.clientY, true);
-                };
-
-                window.addEventListener('mousemove', mouseMove);
-                window.addEventListener('touchmove', touchMove);
-                
-                return () => {
-                    window.removeEventListener('mousemove', mouseMove);
-                    window.removeEventListener('touchmove', touchMove);
-                };
-            }, []);
-
-            // Loading Bar Logic
-            useEffect(() => {
-                const interval = setInterval(() => {
-                    setLoadingWidth(prev => (prev >= 100 ? 0 : prev + 2));
-                }, 100);
-                return () => clearInterval(interval);
-            }, []);
-
-            // G-Code Generator
-            useEffect(() => {
-                const generateGCode = () => {
-                    const commands = ['G00', 'G01', 'G02', 'X', 'Y', 'Z', 'F'];
-                    const spacing = Array(Math.floor(Math.random() * 5)).fill("\u00A0").join(""); 
-                    const line = `${spacing}N${Math.floor(Math.random() * 999)} ${commands[Math.floor(Math.random() * commands.length)]} X${(Math.random() * 100).toFixed(1)}`;
-                    setGCodeLines(prev => {
-                        const newLines = [...prev, line];
-                        if (newLines.length > 30) newLines.shift(); 
-                        return newLines;
-                    });
-                };
-                const interval = setInterval(generateGCode, 150);
-                return () => clearInterval(interval);
-            }, []);
-
-            return (
-                <div className="relative min-h-[100dvh] w-full flex flex-col justify-between items-center bg-black overflow-hidden selection:bg-neon-500 selection:text-white">
-                    
-                    {/* Crosshair */}
-                    <div 
-                        className={`cursor-follow ${isTouch ? 'touch-active' : ''}`} 
-                        style={{ left: cursorPos.x, top: cursorPos.y, opacity: cursorPos.x < 0 ? 0 : 1 }}
-                    ></div>
-                    
-                    <div className="scanline"></div>
-
-                    {/* Background G-Code */}
-                    <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none select-none flex flex-col justify-center items-center">
-                        {gCodeLines.map((line, i) => (
-                            <div key={i} className="text-neon-500 font-mono text-xs md:text-sm whitespace-pre transition-opacity duration-300" style={{opacity: (i / gCodeLines.length)}}>
-                                {line}
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="h-12 w-full"></div>
-
-                    {/* Main Content */}
-                    <div className="relative z-20 flex flex-col items-center w-full px-6 max-w-lg">
-                        
-                        {/* Status Module */}
-                        <div className="w-full flex items-center justify-between mb-12 opacity-80">
-                            <div className="h-[1px] bg-neon-500 w-1/4"></div>
-                            <div className="flex flex-col items-center">
-                                <span className="text-neon-500 text-[10px] font-bold tracking-[0.3em] uppercase mb-1">
-                                    System Boot
-                                </span>
-                                <div className="w-24 h-1 bg-neutral-900">
-                                    <div className="h-full bg-neon-500 transition-all duration-200" style={{width: `${loadingWidth}%`}}></div>
-                                </div>
-                            </div>
-                            <div className="h-[1px] bg-neon-500 w-1/4"></div>
-                        </div>
-
-                        {/* Logo */}
-                        <div className="mb-8 relative group">
-                            <div className="w-20 h-20 border-2 border-white flex items-center justify-center relative bg-black z-10">
-                                <span className="text-5xl font-black text-white">F</span>
-                            </div>
-                            <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-neon-500 animate-pulse-slow z-20"></div>
-                            <div className="absolute top-2 left-2 w-20 h-20 border border-neon-900 z-0"></div>
-                        </div>
-
-                        {/* Headline */}
-                        <h1 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter text-center leading-[0.9] mb-8 text-white uppercase">
-                            Sitio en <br />
-                            <span className="text-neon-500">Construcción</span>
-                        </h1>
-
-                        <div className="flex flex-col gap-3 text-neutral-400 font-mono text-xs text-center tracking-widest uppercase">
-                            <div className="flex items-center justify-center gap-3">
-                                <span className="w-1.5 h-1.5 bg-neon-500 animate-ping"></span>
-                                Calibrando Ejes...
-                            </div>
-                            <div>Afilando Bits...</div>
-                        </div>
-
-                        {/* Actions */}
-                        <div className="mt-16 w-full flex flex-col gap-4 text-center relative z-50">
-                            <p className="text-neutral-500 text-xs mb-2 uppercase tracking-widest">¿Proyecto Urgente?</p>
-                            
-                            {/* Email Button */}
-                            <a href="mailto:hola@formayfondotaller.com" className="block w-full border border-neon-500 bg-black/80 backdrop-blur-md text-neon-500 px-8 py-4 font-bold uppercase tracking-widest hover:bg-neon-500 hover:text-white transition-all duration-300">
-                                Email
-                            </a>
-
-                            {/* WhatsApp Button */}
-                            <a href="https://wa.me/523315305043" className="block w-full border border-neutral-800 text-white px-8 py-4 font-bold uppercase tracking-widest hover:border-neon-500 hover:text-neon-500 transition-all duration-300">
-                                WhatsApp
-                            </a>
-                        </div>
-                    </div>
-
-                    {/* Footer / Coordinates */}
-                    <div className="relative z-20 w-full flex flex-col md:flex-row justify-between items-center md:items-end px-6 py-8 gap-4">
-                        <div className="text-[10px] text-neutral-400 font-mono text-center md:text-left">
-                            <span className="font-bold text-white">FORMA & FONDO TALLER</span>
-                            <span className="mx-2">::</span>
-                            <span>MX 2025</span>
-                        </div>
-                        
-                        {/* THE AXIS THINGY */}
-                        <div className="font-mono text-xs text-neon-500 bg-black/80 p-2 border border-neutral-800 w-full md:w-auto text-center md:text-right">
-                            <span className="mr-4">X: <span className="text-white">{cursorPos.x > 0 ? cursorPos.x.toFixed(1) : '---'}</span></span>
-                            <span>Y: <span className="text-white">{cursorPos.y > 0 ? cursorPos.y.toFixed(1) : '---'}</span></span>
-                        </div>
-                    </div>
-
+        <section class="min-h-screen flex flex-col justify-center px-6 lg:px-16 pt-20 pb-32 border-b-2 border-black">
+            <div class="space-y-0 mb-12">
+                <h1 class="text-[15vw] lg:text-[12rem] font-black uppercase leading-[0.8] tracking-tighter">MATERIA.</h1>
+                <h1 class="text-[15vw] lg:text-[12rem] font-black uppercase leading-[0.8] tracking-tighter text-neon-500">ENERGÍA.</h1>
+                <h1 class="text-[15vw] lg:text-[12rem] font-black uppercase leading-[0.8] tracking-tighter text-stroke-black">INTENCIÓN.</h1>
+            </div>
+            <div class="max-w-3xl border-l-4 border-neon-500 pl-8 space-y-6">
+                <p class="text-xl lg:text-3xl font-bold text-neutral-800 leading-tight">"La convergencia entre la precisión de la máquina y la visión del alma."</p>
+                <p class="text-lg lg:text-xl text-neutral-500 font-bold">Taller de experimentación material, diseño y fabricación CNC.</p>
+                <div class="pt-8">
+                    <a href="#contacto" class="inline-block px-10 py-5 bg-black text-white text-sm font-black uppercase tracking-widest hover:bg-neon-500 transition-all shadow-hard hover:shadow-none hover:translate-x-1 hover:translate-y-1">Iniciar conversación_</a>
                 </div>
-            );
-        };
+            </div>
+        </section>
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<ConstructionPage />);
+        <section class="grid grid-cols-1 md:grid-cols-3 border-b-2 border-black bg-white">
+            <div class="border-b-2 md:border-b-0 md:border-r-2 border-black flex flex-col">
+                <div class="p-10">
+                    <span class="font-mono text-xs text-neon-500 mb-6 block font-bold">001</span>
+                    <h3 class="text-2xl font-black uppercase mb-4">De la idea al objeto</h3>
+                    <p class="text-neutral-600 leading-relaxed font-bold">Acompañamos proyectos en distintas etapas: desde una intuición inicial hasta un objeto terminado y listo para producir.</p>
+                </div>
+                <div class="img-reveal-container mt-auto border-t-2 border-black">
+                    <div class="slide-img opacity-100" style="background-image: url('imgs/001-1.jpg')"></div>
+                    <div class="slide-img opacity-0" style="background-image: url('imgs/001-2.jpg')"></div>
+                    <div class="slide-img opacity-0" style="background-image: url('imgs/001-3.jpg')"></div>
+                    <div class="slide-img opacity-0" style="background-image: url('imgs/001-4.jpg')"></div>
+                </div>
+            </div>
+            <div class="border-b-2 md:border-b-0 md:border-r-2 border-black flex flex-col">
+                <div class="p-10">
+                    <span class="font-mono text-xs text-neon-500 mb-6 block font-bold">002</span>
+                    <h3 class="text-2xl font-black uppercase mb-4">Decisiones materiales</h3>
+                    <p class="text-neutral-600 leading-relaxed font-bold">Trabajamos con madera, polímeros y otros materiales desde una lógica de precisión y cuidado, donde cada decisión importa.</p>
+                </div>
+                <div class="img-reveal-container mt-auto border-t-2 border-black">
+                    <div class="slide-img opacity-100" style="background-image: url('imgs/002-1.jpg')"></div>
+                    <div class="slide-img opacity-0" style="background-image: url('imgs/002-2.jpg')"></div>
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <div class="p-10">
+                    <span class="font-mono text-xs text-neon-500 mb-6 block font-bold">003</span>
+                    <h3 class="text-2xl font-black uppercase mb-4">Producción consciente</h3>
+                    <p class="text-neutral-600 leading-relaxed font-bold">Cada proyecto se evalúa por su intención, contexto y viabilidad técnica. Fabricar también es pensar.</p>
+                </div>
+                <div class="img-reveal-container mt-auto border-t-2 border-black">
+                    <div class="slide-img opacity-100" style="background-image: url('imgs/003-1.jpg')"></div>
+                    <div class="slide-img opacity-0" style="background-image: url('imgs/003-2.jpg')"></div>
+                    <div class="slide-img opacity-0" style="background-image: url('imgs/003-3.jpg')"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="relative bg-neutral-900 py-24 border-b-2 border-black overflow-hidden">
+            <div class="px-6 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 z-10">
+                    <h2 class="text-5xl lg:text-7xl font-black text-white leading-none tracking-tighter mb-8">OBJETOS <br> <span class="text-stroke-neon">TANGIBLES.</span></h2>
+                    <p class="text-neutral-400 font-mono text-sm max-w-xs border-l-2 border-neon-500 pl-4 uppercase tracking-widest leading-loose">DATA_LOG: Manufactura real ejecutada en taller. Madera sólida y polímeros de alta precisión.</p>
+                </div>
+                <div class="lg:col-span-7">
+                    <div class="aspect-[16/10] w-full bg-black border-2 border-neon-500 shadow-hard-neon overflow-hidden relative">
+                        <div class="slide-img opacity-100" style="background-image: url('imgs/objetos-1.jpg')"></div>
+                        <div class="slide-img opacity-0" style="background-image: url('imgs/objetos-2.jpg')"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="border-b-2 border-black bg-black text-white">
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+                <div class="p-6 lg:p-16 space-y-8">
+                    <h2 class="text-4xl lg:text-6xl font-black uppercase tracking-tighter">004 Capacidades técnicas</h2>
+                    <p class="text-xl text-neutral-400 font-bold">El taller cuenta con un router CNC de formato industrial, adecuado para prototipado y producción en serie corta.</p>
+                    <div class="bg-neutral-900 p-6 border-l-4 border-neon-500 font-bold"><p class="text-sm font-mono text-neon-400 uppercase tracking-widest">Nota: Te ayudamos a crear o dar formato correcto a tus archivos para producción.</p></div>
+                    <ul class="font-mono text-sm space-y-3">
+                        <li class="flex justify-between border-b border-neutral-800 pb-2"><span class="text-neutral-500 uppercase">Área útil de corte</span> <span>1300 × 2500 mm</span></li>
+                        <li class="flex justify-between border-b border-neutral-800 pb-2"><span class="text-neutral-500 uppercase">Precisión de repetición</span> <span>±0.03 mm</span></li>
+                        <li class="flex justify-between border-b border-neutral-800 pb-2"><span class="text-neutral-500 uppercase">Espesores habituales</span> <span>Hasta 40 mm</span></li>
+                    </ul>
+                </div>
+                <div class="img-reveal-container border-t-2 lg:border-t-0 lg:border-l-2 border-black">
+                    <div class="slide-img opacity-100" style="background-image: url('imgs/004-1.jpg')"></div>
+                    <div class="slide-img opacity-0" style="background-image: url('imgs/004-2.jpg')"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="p-6 lg:p-16 border-b-2 border-black bg-white">
+            <h2 class="text-4xl font-black uppercase mb-12 tracking-tighter">005 Aliados</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="border-2 border-black p-8 shadow-hard hover:bg-black hover:text-white transition-all group">
+                    <span class="font-mono text-[10px] text-neon-500 block mb-2 font-bold uppercase">Maquinado Pesado</span>
+                    <h4 class="text-xl font-black uppercase">Hitachi-Seiki YA35-11</h4>
+                    <p class="text-xs mt-4 font-mono opacity-60">1000x355 mm</p>
+                </div>
+                <div class="border-2 border-black p-8 shadow-hard hover:bg-black hover:text-white transition-all group">
+                    <span class="font-mono text-[10px] text-neon-500 block mb-2 font-bold uppercase">Torneado CNC</span>
+                    <h4 class="text-xl font-black uppercase">Mori Seiki AL-2</h4>
+                </div>
+                <div class="border-2 border-black p-8 shadow-hard hover:bg-black hover:text-white transition-all group">
+                    <span class="font-mono text-[10px] text-neon-500 block mb-2 font-bold uppercase">Gran Formato</span>
+                    <h4 class="text-xl font-black uppercase">Pinacho A 77</h4>
+                    <p class="text-xs mt-4 font-mono opacity-60">Volteo 24" / Bancada 120"</p>
+                </div>
+            </div>
+            <p class="mt-12 font-black uppercase tracking-widest text-neutral-400">Herrería pailería y soluciones industriales.</p>
+        </section>
+
+        <section id="contacto" class="grid grid-cols-1 lg:grid-cols-2 border-b-2 border-black bg-white">
+            <div class="p-8 lg:p-16">
+                <span class="text-neon-500 font-black uppercase text-xs tracking-widest block mb-4">COLABORACIÓN</span>
+                <h2 class="text-[12vw] lg:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-8">HAGÁMOSLO <br> REALIDAD.</h2>
+                <div class="space-y-10">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-black flex-shrink-0 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div><span class="block font-mono text-[10px] text-neutral-400 uppercase tracking-widest mb-1">Escríbenos</span><a href="mailto:dime@formayfondotaller.com" class="text-xl font-black hover:text-neon-500 transition-colors">dime@formayfondotaller.com</a></div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-black flex-shrink-0 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                        </div>
+                        <div><span class="block font-mono text-[10px] text-neutral-400 uppercase tracking-widest mb-1">Ubicación</span>
+                        <div class="flex gap-6 mt-1"><a href="https://maps.app.goo.gl/DuXKGsqGVbhZE4sg7" target="_blank" class="font-black text-sm uppercase underline decoration-2 hover:text-neon-500">Tapalpa</a><a href="https://maps.app.goo.gl/Dkst6kR53NZtz2VB6" target="_blank" class="font-black text-sm uppercase underline decoration-2 hover:text-neon-500">Zapopan</a></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-8 lg:p-16 bg-neutral-50 border-t-2 lg:border-t-0 lg:border-l-2 border-black flex items-center">
+                <div class="bg-white border-2 border-black p-8 shadow-hard-xl w-full"><form id="whatsappForm" class="space-y-6">
+                    <div><label class="block font-black uppercase text-[10px] tracking-widest mb-2">Nombre</label><input type="text" id="nombre" placeholder="Tu nombre o empresa" class="input-fft font-bold" required></div>
+                    <div><label class="block font-black uppercase text-[10px] tracking-widest mb-2">Email</label><input type="email" id="email" placeholder="contacto@ejemplo.com" class="input-fft font-bold" required></div>
+                    <div><label class="block font-black uppercase text-[10px] tracking-widest mb-2">Interés</label><select id="interes" class="input-fft font-black"><option>Corte & Grabado CNC</option><option>Prototipado</option><option>Producción en Serie</option></select></div>
+                    <div><label class="block font-black uppercase text-[10px] tracking-widest mb-2">Mensaje</label><textarea id="mensaje" rows="4" placeholder="Detalles del proyecto..." class="input-fft font-bold" required></textarea></div>
+                    <button type="submit" class="w-full py-5 bg-black text-white font-black uppercase tracking-widest hover:bg-neon-500 transition-all">Enviar Propuesta_</button>
+                </form></div>
+            </div>
+        </section>
+
+        <footer class="p-8 lg:p-12 border-t-2 border-black bg-white flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center gap-4 mb-4 md:mb-0">
+                <img src="forma-woodmark.svg" alt="FFT" class="h-6 w-auto opacity-50">
+                <p class="font-mono text-[9px] text-neutral-400 uppercase tracking-widest">© 2026 Forma & Fondo Taller // Jalisco, MX</p>
+            </div>
+            <div class="font-mono text-[9px] text-neutral-300 uppercase tracking-[0.3em]">
+                System v1.1 // Precision & Machine Soul
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        const containers = document.querySelectorAll('.img-reveal-container');
+        containers.forEach(container => {
+            const slides = container.querySelectorAll('.slide-img');
+            if (slides.length <= 1) return;
+            let current = 0;
+            setInterval(() => {
+                slides[current].style.opacity = '0';
+                current = (current + 1) % slides.length;
+                slides[current].style.opacity = '1';
+            }, 3500 + Math.random() * 1000);
+        });
+
+        document.getElementById('whatsappForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const text = `Hola Forma & Fondo. Soy ${document.getElementById('nombre').value}. Interés: ${document.getElementById('interes').value}. Proyecto: ${document.getElementById('mensaje').value}`;
+            window.open(`https://wa.me/5213315305043?text=${encodeURIComponent(text)}`, '_blank');
+        });
     </script>
 </body>
 </html>
