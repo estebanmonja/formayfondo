@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forma & Fondo | Design System 1.1</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: {
+                            400: '#ff33ad',
+                            500: '#ff0098', // Primary Brand Color
+                            600: '#cc007a',
+                            900: '#80004c',
+                        },
+                        neutral: {
+                            50: '#fafafa',
+                            900: '#171717', // Primary Dark
+                        }
+                    },
+                    fontFamily: {
+                        // Updated to Barlow (DIN alternative)
+                        sans: ['Barlow', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    boxShadow: {
+                        'hard': '4px 4px 0px 0px rgba(0,0,0,1)',
+                        'hard-neon': '8px 8px 0px 0px #ff0098',
+                        'hard-xl': '16px 16px 0px 0px #171717',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Barlow', sans-serif; }
+        
+        /* Utility Classes */
+        .text-stroke-black { -webkit-text-stroke: 1px #171717; }
+        .text-stroke-neon { -webkit-text-stroke: 1px #ff0098; color: transparent; }
+        
+        /* Glitch Effect */
+        .glitch-hover:hover {
+            text-shadow: 2px 0 #00ffff, -2px 0 #ff0098;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #171717; }
+        ::-webkit-scrollbar-thumb { background: #ff0098; }
+        
+        /* Layout Utilities */
+        .swatch-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .code-snippet {
+            font-family: 'Fira Code', monospace;
+            background: #f4f4f5;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: #d60080;
+        }
+    </style>
+</head>
+<body class="bg-neutral-50 text-neutral-900 antialiased selection:bg-neon-500 selection:text-white pb-24">
+
+    <nav class="fixed left-0 top-0 h-full w-64 bg-black text-white p-8 hidden lg:flex flex-col border-r border-neutral-800 z-50 overflow-y-auto">
+        <div class="mb-12">
+            <div class="w-10 h-10 bg-white relative flex items-center justify-center mb-4">
+                <span class="font-bold text-lg leading-none text-black">F</span>
+                <span class="absolute -bottom-1 -left-1 w-3 h-3 bg-neon-500"></span>
+            </div>
+            <h1 class="font-black uppercase tracking-tight text-xl leading-none">Design<br>Manual_1.1</h1>
+        </div>
+
+        <ul class="space-y-4 text-sm font-mono text-neutral-400">
+            <li><a href="#manifesto" class="hover:text-neon-500 transition-colors">00. Manifesto</a></li>
+            <li><a href="#colors" class="hover:text-neon-500 transition-colors">01. Cromática</a></li>
+            <li><a href="#typography" class="hover:text-neon-500 transition-colors">02. Tipografía</a></li>
+            <li><a href="#components" class="hover:text-neon-500 transition-colors">03. UI Components</a></li>
+            <li><a href="#effects" class="hover:text-neon-500 transition-colors">04. FX & Interaction</a></li>
+            <li><a href="#layout" class="hover:text-neon-500 transition-colors">05. Layout Grid</a></li>
+        </ul>
+
+        <div class="mt-auto pt-8 border-t border-neutral-800 text-xs text-neutral-600">
+            <p>Forma & Fondo Taller</p>
+            <p>Updated: DIN Type</p>
+        </div>
+    </nav>
+
+    <main class="lg:ml-64 p-6 lg:p-16 max-w-5xl">
+        
+        <header class="mb-20 border-b-4 border-black pb-8">
+            <span class="text-neon-500 font-mono text-xs mb-2 block">SYSTEM GUIDELINES 1.1</span>
+            <h2 class="text-5xl lg:text-7xl font-black tracking-tighter uppercase">Identidad Visual <br>Digital</h2>
+        </header>
+
+        <section id="manifesto" class="mb-24">
+            <div class="flex items-center gap-2 mb-6">
+                <span class="w-4 h-4 bg-neon-500"></span>
+                <h3 class="font-bold text-xl uppercase tracking-widest">00. Manifesto UX</h3>
+            </div>
+            <div class="bg-white border border-neutral-200 p-8 lg:p-12 shadow-sm">
+                <p class="text-lg text-neutral-600 leading-relaxed font-medium mb-6">
+                    El sistema de diseño de FFT es <strong class="text-black">Brutalismo Industrial</strong> refinado. 
+                    Se basa en la tensión entre la precisión de la ingeniería (líneas finas, tipografía DIN, cuadrículas estrictas) 
+                    y la energía creativa (colores neón, efectos glitch, asimetría controlada).
+                </p>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <li class="border-l-2 border-neon-500 pl-4">
+                        <strong class="block text-black uppercase text-xs tracking-wider mb-1">Contraste Alto</strong>
+                        <span class="text-sm text-neutral-500">Fondo blanco puro o negro total. Sin grises medios en fondos.</span>
+                    </li>
+                    <li class="border-l-2 border-neon-500 pl-4">
+                        <strong class="block text-black uppercase text-xs tracking-wider mb-1">Interacción Táctil</strong>
+                        <span class="text-sm text-neutral-500">Los elementos deben sentirse físicos. Sombras duras (hard shadows) y bordes definidos.</span>
+                    </li>
+                    <li class="border-l-2 border-neon-500 pl-4">
+                        <strong class="block text-black uppercase text-xs tracking-wider mb-1">Tipografía DIN</strong>
+                        <span class="text-sm text-neutral-500">Legibilidad técnica alemana. Geométrica, racional y condensada.</span>
+                    </li>
+                    <li class="border-l-2 border-neon-500 pl-4">
+                        <strong class="block text-black uppercase text-xs tracking-wider mb-1">Data Visible</strong>
+                        <span class="text-sm text-neutral-500">Mostrar especificaciones técnicas siempre que sea posible (font-mono).</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="colors" class="mb-24">
+            <div class="flex items-center gap-2 mb-6">
+                <span class="w-4 h-4 bg-neon-500"></span>
+                <h3 class="font-bold text-xl uppercase tracking-widest">01. Paleta Cromática</h3>
+            </div>
+
+            <div class="mb-8">
+                <h4 class="font-mono text-xs text-neutral-400 mb-4 border-b border-neutral-200 pb-2">BRAND CORE</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="swatch-card">
+                        <div class="h-32 bg-neon-500 shadow-lg"></div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <strong class="block">Shocking Pink</strong>
+                                <span class="text-xs text-neutral-500">Primary Accent</span>
+                            </div>
+                            <span class="code-snippet">#ff0098</span>
+                        </div>
+                        <span class="text-[10px] font-mono text-neutral-400">bg-neon-500</span>
+                    </div>
+                    <div class="swatch-card">
+                        <div class="h-32 bg-black border border-neutral-200"></div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <strong class="block">Carbon Black</strong>
+                                <span class="text-xs text-neutral-500">Text & BGs</span>
+                            </div>
+                            <span class="code-snippet">#000000</span>
+                        </div>
+                        <span class="text-[10px] font-mono text-neutral-400">bg-black</span>
+                    </div>
+                    <div class="swatch-card">
+                        <div class="h-32 bg-white border border-neutral-200"></div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <strong class="block">Paper White</strong>
+                                <span class="text-xs text-neutral-500">Canvas</span>
+                            </div>
+                            <span class="code-snippet">#ffffff</span>
+                        </div>
+                        <span class="text-[10px] font-mono text-neutral-400">bg-white</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-mono text-xs text-neutral-400 mb-4 border-b border-neutral-200 pb-2">INTERACTION STATES</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="swatch-card">
+                        <div class="h-16 bg-neon-600"></div>
+                        <span class="text-xs">Hover State</span>
+                        <span class="code-snippet">#cc007a</span>
+                    </div>
+                    <div class="swatch-card">
+                        <div class="h-16 bg-neutral-900"></div>
+                        <span class="text-xs">Dark Surface</span>
+                        <span class="code-snippet">#171717</span>
+                    </div>
+                    <div class="swatch-card">
+                        <div class="h-16 bg-neutral-50 border border-neutral-200"></div>
+                        <span class="text-xs">Input Bg</span>
+                        <span class="code-snippet">#fafafa</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="typography" class="mb-24">
+            <div class="flex items-center gap-2 mb-6">
+                <span class="w-4 h-4 bg-neon-500"></span>
+                <h3 class="font-bold text-xl uppercase tracking-widest">02. Tipografía</h3>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-neutral-400 mb-4">Display & Body (Barlow)</h4>
+                    <div class="bg-white border border-neutral-200 p-8 space-y-6">
+                        <div class="flex items-baseline justify-between">
+                            <div>
+                                <p class="text-6xl font-black tracking-tighter leading-none">Aa</p>
+                                <p class="text-sm text-neutral-400 mt-2">Family: 'Barlow' (DIN Like)</p>
+                            </div>
+                            <div class="text-right text-xs text-neutral-400 font-mono">
+                                <div>Google Fonts</div>
+                                <div>Open License</div>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-neutral-100 pt-4">
+                            <h1 class="text-4xl font-black tracking-tighter uppercase mb-2">INDUSTRIAL HEADLINE</h1>
+                            <p class="code-snippet inline-block">font-black tracking-tighter uppercase</p>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold mb-2">Subtitle Large</h2>
+                            <p class="code-snippet inline-block">font-bold</p>
+                        </div>
+                        <div>
+                            <p class="text-neutral-600 leading-relaxed">
+                                Barlow is a slightly rounded, low-contrast grotesque type family. It is visually compatible with the DIN standard, offering that technical, German-industrial aesthetic essential to the brand.
+                            </p>
+                            <p class="code-snippet inline-block mt-2">text-neutral-600 leading-relaxed font-normal</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-neutral-400 mb-4">Technical Data (Fira Code)</h4>
+                    <div class="bg-black text-white p-8 space-y-6">
+                        <div>
+                            <p class="text-6xl font-mono">01</p>
+                            <p class="text-sm text-neutral-500 mt-2 font-mono">Family: 'Fira Code'</p>
+                        </div>
+                        <div class="border-t border-neutral-800 pt-4">
+                            <p class="font-mono text-sm text-neon-500 mb-2">SPECS_LABEL</p>
+                            <p class="code-snippet bg-neutral-900 inline-block">font-mono text-xs uppercase</p>
+                        </div>
+                        <div>
+                            <ul class="font-mono text-xs text-neutral-300 space-y-2">
+                                <li class="flex justify-between border-b border-neutral-800 pb-1">
+                                    <span>TOLERANCE</span> <span>±0.03mm</span>
+                                </li>
+                                <li class="flex justify-between border-b border-neutral-800 pb-1">
+                                    <span>SPEED</span> <span>24k RPM</span>
+                                </li>
+                            </ul>
+                            <p class="code-snippet bg-neutral-900 inline-block mt-4">text-xs font-mono tabular-nums</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="components" class="mb-24">
+            <div class="flex items-center gap-2 mb-6">
+                <span class="w-4 h-4 bg-neon-500"></span>
+                <h3 class="font-bold text-xl uppercase tracking-widest">03. UI Components</h3>
+            </div>
+
+            <div class="grid gap-12">
+                <div class="bg-neutral-50 p-8 border border-neutral-200">
+                    <h4 class="font-mono text-xs text-neutral-400 mb-6 uppercase">Button System</h4>
+                    <div class="flex flex-wrap gap-8 items-center">
+                        <div>
+                            <button class="px-8 py-4 bg-black text-white text-sm font-bold uppercase tracking-widest hover:bg-neon-500 transition-colors">
+                                Primary Action
+                            </button>
+                            <div class="mt-4 text-xs font-mono text-neutral-400">Default Black -> Neon Hover</div>
+                        </div>
+
+                        <div>
+                            <button class="px-8 py-4 border-2 border-black text-black text-sm font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all">
+                                Secondary
+                            </button>
+                            <div class="mt-4 text-xs font-mono text-neutral-400">Border 2px -> Fill Hover</div>
+                        </div>
+
+                        <div>
+                            <button class="px-6 py-3 border-2 border-black bg-transparent text-black text-xs font-black uppercase tracking-widest hover:bg-neon-500 hover:text-white hover:border-neon-500 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
+                                Brutalist CTA
+                            </button>
+                            <div class="mt-4 text-xs font-mono text-neutral-400">Hard Shadow -> Collapse</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 border border-neutral-200">
+                    <h4 class="font-mono text-xs text-neutral-400 mb-6 uppercase">Input Fields</h4>
+                    <div class="max-w-md">
+                        <label class="block text-xs font-black uppercase tracking-widest text-black mb-2">Input Label</label>
+                        <input type="text" class="w-full bg-neutral-50 border-b-2 border-neutral-200 p-4 focus:border-neon-500 focus:bg-white outline-none transition-all font-medium rounded-none" placeholder="Placeholder text...">
+                        <div class="mt-2 text-xs font-mono text-neutral-400">
+                            Square radius (rounded-none), Bottom border only. Focus state: Neon border.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-neutral-50 p-8 border border-neutral-200">
+                    <h4 class="font-mono text-xs text-neutral-400 mb-6 uppercase">Card Interaction</h4>
+                    <div class="w-64 group relative border border-neutral-200 p-6 bg-white hover:border-neon-500 transition-all duration-300 hover:shadow-hard-neon cursor-pointer">
+                        <div class="font-mono text-neutral-300 text-xl font-bold mb-4 group-hover:text-neon-500">01</div>
+                        <h4 class="text-lg font-black mb-2">Service Card</h4>
+                        <p class="text-xs text-neutral-500">Hover me to see the hard neon shadow and border color change.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="effects" class="mb-24">
+            <div class="flex items-center gap-2 mb-6">
+                <span class="w-4 h-4 bg-neon-500"></span>
+                <h3 class="font-bold text-xl uppercase tracking-widest">04. FX & Interactions</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-6 border border-neutral-200 bg-white">
+                    <h4 class="font-mono text-xs text-neutral-400 mb-4 uppercase">Outline Text</h4>
+                    <h2 class="text-5xl font-black text-stroke-black text-transparent hover:text-black transition-colors duration-300 cursor-default">
+                        OUTLINE
+                    </h2>
+                    <p class="code-snippet mt-4">-webkit-text-stroke: 1px #171717</p>
+                </div>
+
+                <div class="p-6 border border-neutral-200 bg-black">
+                    <h4 class="font-mono text-xs text-neutral-400 mb-4 uppercase">Glitch Hover</h4>
+                    <h2 class="text-5xl font-black text-white glitch-hover transition-all duration-300 cursor-pointer">
+                        HOVER ME
+                    </h2>
+                    <p class="code-snippet mt-4">text-shadow: 2px 0 #00ffff, -2px 0 #ff0098</p>
+                </div>
+
+                <div class="p-6 border border-neutral-200 bg-black relative overflow-hidden">
+                    <h4 class="font-mono text-xs text-neutral-400 mb-4 uppercase z-10 relative">Ambient Glow</h4>
+                    <div class="absolute right-0 top-1/2 w-32 h-32 bg-neon-500 rounded-full blur-[40px] opacity-40 animate-pulse"></div>
+                    <div class="relative z-10 text-white font-bold">Background Ambient</div>
+                    <p class="code-snippet mt-4 relative z-10">blur-[40px] opacity-40</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="layout" class="mb-24">
+            <div class="flex items-center gap-2 mb-6">
+                <span class="w-4 h-4 bg-neon-500"></span>
+                <h3 class="font-bold text-xl uppercase tracking-widest">05. Layout & Spacing</h3>
+            </div>
+            
+            <div class="bg-white border border-neutral-200 p-8">
+                <p class="mb-6 max-w-2xl">
+                    The layout relies on a standard 12-column logic, but emphasizes whitespace.
+                    Sections are typically separated by <span class="code-snippet">py-24</span> (6rem).
+                </p>
+
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 bg-neutral-200 flex items-center justify-center text-xs font-mono">py-24</div>
+                        <span class="font-mono text-sm">Section Padding (96px)</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-8 bg-neutral-200 flex items-center justify-center text-xs font-mono">px-6</div>
+                        <span class="font-mono text-sm">Mobile Container Padding</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-8 bg-neutral-200 flex items-center justify-center text-xs font-mono">px-12</div>
+                        <span class="font-mono text-sm">Desktop Container Padding</span>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-neutral-200">
+                    <h4 class="font-mono text-xs text-neutral-400 mb-2 uppercase">Abstract Background Grid</h4>
+                    <div class="w-full h-32 border border-neutral-300 relative bg-white">
+                        <div class="absolute inset-0 opacity-[0.2]" 
+                             style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 20px 20px;">
+                        </div>
+                    </div>
+                    <p class="code-snippet mt-2">linear-gradient grid 40px x 40px (opacity 0.03)</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="fixed bottom-8 right-8 hidden lg:block">
+        <div class="w-32 h-32 border border-neutral-200 rounded-full flex items-center justify-center animate-[spin_10s_linear_infinite]">
+            <span class="text-[10px] uppercase tracking-widest">Forma & Fondo</span>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FFT_COTIZACION_API_2026_FINAL_V3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        neon: { 500: '#ff0098' }, 
+                        neutral: { 900: '#171717' } 
+                    },
+                    fontFamily: { 
+                        sans: ['Barlow', 'sans-serif'], 
+                        mono: ['Fira Code', 'monospace'] 
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        @media print { .page-break { page-break-before: always; } }
+        .text-stroke { -webkit-text-stroke: 1px #171717; }
+    </style>
+</head>
+<body class="bg-white text-neutral-900 font-sans selection:bg-neon-500 selection:text-white">
+    
+    <div class="max-w-4xl mx-auto border-4 border-black p-8 my-12 shadow-[16px_16px_0px_0px_#171717]">
+        
+        <div class="flex justify-between items-start border-b-4 border-black pb-6 mb-8">
+            <div>
+                <h1 class="text-6xl font-black tracking-tighter uppercase leading-[0.8]">PRO <br><span class="text-neon-500">PUESTA.</span></h1>
+                <p class="font-mono text-[10px] mt-4 text-neutral-400 uppercase tracking-[0.2em]">ID: 2026_SIGN-VERG-V01</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <img src="logo.svg" alt="FFT Logo" class="h-12 w-auto">
+                <div class="text-right">
+                    <div class="font-black text-2xl uppercase tracking-tighter leading-none">Forma <span class="text-neon-500">&</span> Fondo</div>
+                    <p class="text-[10px] font-bold tracking-widest uppercase text-neutral-400">Tapalpa, Jal. | 28.01.2026</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-10 text-lg">
+            <p class="font-bold mb-2">Buen día Don Alberto,</p>
+            <p class="text-neutral-600 leading-relaxed italic border-l-4 border-neon-500 pl-6">
+                "Qué gusto saludarle de nuevo. Como platicamos, aquí les presento la propuesta para los nuevos letreros exteriores. He ajustado las especificaciones para asegurar protección para intemperie y que mantengan, por tiempo prolongado, la calidad que buscan para sus desarrollos."
+            </p>
+        </div>
+
+        <div class="border-2 border-black overflow-hidden mb-8">
+            <table class="w-full text-left font-mono text-sm">
+                <thead class="bg-black text-white text-xs uppercase tracking-widest">
+                    <tr>
+                        <th class="p-4">Concepto Técnico</th>
+                        <th class="p-4 text-right">Monto (MXN)</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y-2 divide-neutral-100">
+                    <tr>
+                        <td class="p-4 font-sans font-bold text-neutral-700">Material (Triplay de alta densidad tratado)</td>
+                        <td class="p-4 text-right">$190.97</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-sans font-bold text-neutral-700">Maquinado (Corte y Grabado CNC de precisión)</td>
+                        <td class="p-4 text-right">$812.00</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-sans font-bold text-neutral-700">Acabado (Sellado profundo y Protección UV)</td>
+                        <td class="p-4 text-right">$406.00</td>
+                    </tr>
+                </tbody>
+                <tfoot class="bg-neutral-50 border-t-2 border-black font-bold">
+                    <tr>
+                        <td class="p-4 text-right uppercase text-xs">Subtotal</td>
+                        <td class="p-4 text-right">$1,408.97</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 text-right text-neutral-400 text-xs uppercase">IVA (16%)</td>
+                        <td class="p-4 text-right">$225.44</td>
+                    </tr>
+                    <tr class="bg-black text-white">
+                        <td class="p-4 text-right font-black uppercase text-xl text-stroke">Total Final</td>
+                        <td class="p-4 text-right font-black text-xl text-neon-500">$1,634.41</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-neon-500 p-4 text-white">
+                <p class="text-xs font-black uppercase tracking-widest mb-1">Volumen Inmobiliario</p>
+                <p class="text-sm font-bold uppercase leading-tight">Descuento estratégico a partir de 5 unidades. Optimización de tiempos y materiales para desarrollos de API.</p>
+            </div>
+            <div class="flex flex-col justify-end items-end text-right">
+                <p class="text-xs text-neutral-400 uppercase font-bold mb-1">Firmado,</p>
+                <p class="font-black text-xl uppercase tracking-tighter text-neutral-900">Esteban De la Monja Casar</p>
+                <p class="text-[10px] font-bold text-neon-500 uppercase tracking-widest">Director | Forma & Fondo Taller</p>
+            </div>
+        </div>
+
+        <div class="pt-8 border-t border-neutral-200">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono font-bold uppercase text-neutral-400">
+                <div class="flex gap-4">
+                    <a href="mailto:dime@formayfondotaller.com" class="hover:text-neon-500">dime@formayfondotaller.com</a>
+                    <span>/</span>
+                    <a href="https://wa.me/523315305043" class="hover:text-neon-500">WA: 3315 30 5043</a>
+                </div>
+                <div class="tracking-[0.4em]">MATERIA . ENERGÍA . INTENCIÓN</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break max-w-4xl mx-auto border-4 border-black p-8 my-12 shadow-[16px_16px_0px_0px_#ff0098]">
+        <h2 class="text-3xl font-black tracking-tighter uppercase mb-8 border-b-2 border-black pb-2">Anexo: <span class="text-neon-500">Prototipo V01</span></h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-4">
+                <div class="border-2 border-neutral-200 p-2 bg-neutral-50">
+                    <img src="sign-ver-v01.png" alt="Render Prototipo" class="w-full">
+                </div>
+                <p class="text-xs font-mono text-neutral-400 uppercase tracking-widest">Fig 1.1: Simulación de grabado profundo sobre triplay con QR dinámico.</p>
+            </div>
+
+            <div class="space-y-8">
+                <div class="bg-black text-white p-6">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-neon-500 mb-4">Análisis de Marca</h3>
+                    <img src="SIG-VERG-V01-001.png" alt="Logo Cliente" class="w-full mb-4 bg-white p-4">
+                    <p class="text-xs leading-relaxed text-neutral-400 font-medium">
+                        Se implementará el skyline con una tolerancia de ±0.03mm para mantener la nitidez en exteriores. El código QR se grabará con contraste optimizado para lectura rápida.
+                    </p>
+                </div>
+                
+                <div class="border-2 border-black p-6">
+                    <h3 class="text-xs font-black uppercase tracking-widest mb-4">Especificaciones de Maquinado</h3>
+                    <ul class="text-[10px] font-mono space-y-2 uppercase text-neutral-600">
+                        <li class="flex justify-between border-b border-neutral-100 pb-1"><span>Área:</span> <span>1000 x 700 mm</span></li>
+                        <li>> Profundidad de grabado: 2.5mm</li>
+                        <li>> Sellador: Poliuretano base solvente UV</li>
+                        <li>> Base: Triplay fenólico 18mm</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
