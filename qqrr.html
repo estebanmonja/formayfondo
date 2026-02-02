@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Generator</title>
+</head>
+<body>
+
+<input id="text" value="Stage001">
+<button id="make">generate QR</button>
+<br><br>
+
+<canvas id="qr"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+<script>
+  const input = document.getElementById("text");
+  const canvas = document.getElementById("qr");
+
+  document.getElementById("make").onclick = () => {
+    QRCode.toCanvas(canvas, input.value, {
+      errorCorrectionLevel: "H"
+    });
+  };
+
+  // auto-generate once
+  QRCode.toCanvas(canvas, input.value);
+</script>
+
+</body>
+</html>
