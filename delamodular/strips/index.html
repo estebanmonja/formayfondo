@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Eurorack Threaded Strip SVG Generator</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+input, button {
+    padding: 6px;
+    font-size: 14px;
+}
+#preview {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+}
+</style>
+</head>
+<body>
+
+<h2>Eurorack Threaded Strip SVG Generator</h2>
+
+<label>HP Width: </label>
+<input type="number" id="hpInput" value="84" min="1">
+<button onclick="generateSVG()">Generate SVG</button>
+<button onclick="downloadSVG()">Download SVG</button>
+
+<div id="preview"></div>
+
+<script>
+let currentSVG = "";
+
+function generateSVG() {
+
+    const hp = parseFloat(document.getElementById("hpInput").value);
+    const hpToMM = 5.08;
+    const pitch = 5.0;
+    const drillDiameter = 2.5;
+    const stripHeight = 6;
+
+    const width = hp * hpToMM;
+
+    // Leave 2.5mm margin on each side
+    const startOffset = 2.5;
+    const usableWidth = width - (startOffset * 2);
+
+    const holeCount = Math.floor(usableWidth / pitch);
+
+    const svgWidth = width + 10;
+    const svgHeight = stripHeight + 10;
+
+    let holes = "";
+
+    for (let i = 0; i <= holeCount; i++) {
+        let x = startOffset + (i * pitch);
+        if (x <= width - startOffset) {
+            holes += `<circle cx="${x + 5}" cy="${stripHeight/2 + 5}" r="${drillDiameter/2}" stroke="black" fill="none"/>`;
+        }
+    }
+
+    currentSVG = `
+<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}mm" height="${svgHeight}mm" viewBox="0 0 ${svgWidth} ${svgHeight}">
+    <rect x="5" y="5" width="${width}" height="${stripHeight}" stroke="black" fill="none"/>
+    ${holes}
+</svg>`;
+
+    document.getElementById("preview").innerHTML = currentSVG;
+}
+
+function downloadSVG() {
+    if (!currentSVG) return;
+
+    const blob = new Blob([currentSVG], {type: "image/svg+xml"});
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "eurorack_threaded_strip.svg";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+}
+
+generateSVG();
+</script>
+
+</body>
+</html>
