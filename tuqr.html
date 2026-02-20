@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FFT // QR_GENERATOR_v1.1</title>
+    <title>FFT // QR_HYBRID_v1.2</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
@@ -37,11 +37,7 @@
             padding: 1rem; width: 100%; outline: none; transition: all 0.3s;
         }
         .input-fft:focus { border-color: #ff0098; background-color: white; }
-        #qr-container svg {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+        #qr-container svg { width: 100%; height: auto; display: block; }
     </style>
 </head>
 <body class="bg-white text-neutral-900 antialiased min-h-screen flex items-center justify-center p-6">
@@ -49,10 +45,10 @@
     <div class="fixed inset-0 z-0 grid-bg pointer-events-none opacity-40"></div>
 
     <main class="relative z-10 w-full max-w-xl">
-        <div class="border-4 border-black bg-white p-8 md:p-12 shadow-[16px_16px_0px_0px_#171717]">
+        <div class="border-4 border-black bg-white p-8 md:p-12 shadow-[16px_16px_0px_0px_#ff0098]">
             
             <div class="mb-8 border-b-4 border-black pb-6">
-                <span class="font-mono text-[10px] text-neon-500 block mb-2 font-bold tracking-widest uppercase">System_Tools // 006</span>
+                <span class="font-mono text-[10px] text-neon-500 block mb-2 font-bold tracking-widest uppercase">System_Tools // 006.v2</span>
                 <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">Generador <br> de <span class="text-neon-500">Códigos QR.</span></h1>
             </div>
 
@@ -66,17 +62,17 @@
                     <button id="make" class="py-4 bg-black text-white font-black uppercase tracking-widest hover:bg-neon-500 transition-all shadow-[4px_4px_0px_0px_rgba(255,0,152,0.5)] active:translate-y-1">
                         Generar_
                     </button>
-                    <button id="downloadBtn" class="py-4 border-2 border-black font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all">
+                    <button id="downloadBtn" class="py-4 border-2 border-black font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all shadow-hard">
                         Descargar SVG_
                     </button>
                 </div>
             </div>
 
             <div class="mt-12 flex flex-col items-center">
-                <div id="qr-container" class="w-48 h-48 border-2 border-black p-2 bg-white shadow-[8px_8px_0px_0px_#ff0098]">
+                <div id="qr-container" class="w-64 h-64 border-2 border-black p-4 bg-white shadow-[8px_8px_0px_0px_#171717]">
                     </div>
                 <p class="mt-6 font-mono text-[10px] text-neutral-400 uppercase tracking-widest">
-                    Formato: 70x70mm Optimized // Vector Output
+                    Formato: 70x70mm // Hybrid Geometry: Matrix-Dots + Finder-Squares
                 </p>
             </div>
         </div>
@@ -85,44 +81,53 @@
     <script>
         const input = document.getElementById("text");
         const container = document.getElementById("qr-container");
-        const downloadBtn = document.getElementById("downloadBtn");
 
-        const generateQR = () => {
-            // Options optimized for printing: High error correction and small margin
-            const options = {
-                type: 'svg',
-                color: {
-                    dark: '#000000',
-                    light: '#ffffff'
-                },
-                errorCorrectionLevel: 'H',
-                margin: 1
-            };
+        const generateHybridQR = () => {
+            const size = 500; // Resolution for SVG output
+            const segments = QRCode.create(input.value, { errorCorrectionLevel: 'H' });
+            const moduleCount = segments.modules.size;
+            const cellSize = size / moduleCount;
+            const dotRadius = cellSize * 0.4;
 
-            QRCode.toString(input.value, options, (err, svgString) => {
-                if (err) return console.error(err);
-                container.innerHTML = svgString;
-            });
+            let svgContent = `<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`;
+            svgContent += `<rect width="100%" height="100%" fill="white"/>`;
+
+            for (let row = 0; row < moduleCount; row++) {
+                for (let col = 0; col < moduleCount; col++) {
+                    if (segments.modules.get(row, col)) {
+                        // Logic to detect if we are inside the three "Finder Patterns" (usually 7x7 squares)
+                        const isTopLeft = (row < 7 && col < 7);
+                        const isTopRight = (row < 7 && col >= moduleCount - 7);
+                        const isBottomLeft = (row >= moduleCount - 7 && col < 7);
+
+                        if (isTopLeft || isTopRight || isBottomLeft) {
+                            // Render as solid square for the corners
+                            svgContent += `<rect x="${col * cellSize}" y="${row * cellSize}" width="${cellSize}" height="${cellSize}" fill="black"/>`;
+                        } else {
+                            // Render as circle for the data
+                            const cx = col * cellSize + cellSize / 2;
+                            const cy = row * cellSize + cellSize / 2;
+                            svgContent += `<circle cx="${cx}" cy="${cy}" r="${dotRadius}" fill="black"/>`;
+                        }
+                    }
+                }
+            }
+            svgContent += `</svg>`;
+            container.innerHTML = svgContent;
         };
 
-        // Download logic
-        downloadBtn.onclick = () => {
+        document.getElementById("downloadBtn").onclick = () => {
             const svgData = container.innerHTML;
             const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
             const url = URL.createObjectURL(blob);
-            const downloadLink = document.createElement("a");
-            
-            downloadLink.href = url;
-            downloadLink.download = `FFT_QR_${Date.now()}.svg`;
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `FFT_Hybrid_QR.svg`;
+            a.click();
         };
 
-        document.getElementById("make").onclick = generateQR;
-
-        // Auto-generate on load
-        window.onload = generateQR;
+        document.getElementById("make").onclick = generateHybridQR;
+        window.onload = generateHybridQR;
     </script>
 </body>
 </html>
