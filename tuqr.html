@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFT // QR_GENERATOR_v1.1</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: { 500: '#ff0098' },
+                        neutral: { 50: '#fafafa', 900: '#171717' }
+                    },
+                    fontFamily: {
+                        sans: ['Barlow', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Barlow', sans-serif; }
+        .grid-bg { 
+            background-image: linear-gradient(#f0f0f0 1px, transparent 1px), linear-gradient(90deg, #f0f0f0 1px, transparent 1px); 
+            background-size: 40px 40px; 
+        }
+        .input-fft {
+            background-color: #f8f9fa; border: 2px solid #000;
+            padding: 1rem; width: 100%; outline: none; transition: all 0.3s;
+        }
+        .input-fft:focus { border-color: #ff0098; background-color: white; }
+        #qr-container svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-white text-neutral-900 antialiased min-h-screen flex items-center justify-center p-6">
+
+    <div class="fixed inset-0 z-0 grid-bg pointer-events-none opacity-40"></div>
+
+    <main class="relative z-10 w-full max-w-xl">
+        <div class="border-4 border-black bg-white p-8 md:p-12 shadow-[16px_16px_0px_0px_#171717]">
+            
+            <div class="mb-8 border-b-4 border-black pb-6">
+                <span class="font-mono text-[10px] text-neon-500 block mb-2 font-bold tracking-widest uppercase">System_Tools // 006</span>
+                <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">Generador <br> de <span class="text-neon-500">Códigos QR.</span></h1>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="block font-black uppercase text-[10px] tracking-widest mb-2">Contenido del Código (URL/Texto)</label>
+                    <input type="text" id="text" value="https://formayfondotaller.com" class="input-fft font-bold">
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button id="make" class="py-4 bg-black text-white font-black uppercase tracking-widest hover:bg-neon-500 transition-all shadow-[4px_4px_0px_0px_rgba(255,0,152,0.5)] active:translate-y-1">
+                        Generar_
+                    </button>
+                    <button id="downloadBtn" class="py-4 border-2 border-black font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all">
+                        Descargar SVG_
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-12 flex flex-col items-center">
+                <div id="qr-container" class="w-48 h-48 border-2 border-black p-2 bg-white shadow-[8px_8px_0px_0px_#ff0098]">
+                    </div>
+                <p class="mt-6 font-mono text-[10px] text-neutral-400 uppercase tracking-widest">
+                    Formato: 70x70mm Optimized // Vector Output
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const input = document.getElementById("text");
+        const container = document.getElementById("qr-container");
+        const downloadBtn = document.getElementById("downloadBtn");
+
+        const generateQR = () => {
+            // Options optimized for printing: High error correction and small margin
+            const options = {
+                type: 'svg',
+                color: {
+                    dark: '#000000',
+                    light: '#ffffff'
+                },
+                errorCorrectionLevel: 'H',
+                margin: 1
+            };
+
+            QRCode.toString(input.value, options, (err, svgString) => {
+                if (err) return console.error(err);
+                container.innerHTML = svgString;
+            });
+        };
+
+        // Download logic
+        downloadBtn.onclick = () => {
+            const svgData = container.innerHTML;
+            const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.createElement("a");
+            
+            downloadLink.href = url;
+            downloadLink.download = `FFT_QR_${Date.now()}.svg`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        };
+
+        document.getElementById("make").onclick = generateQR;
+
+        // Auto-generate on load
+        window.onload = generateQR;
+    </script>
+</body>
+</html>
