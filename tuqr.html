@@ -47,9 +47,14 @@
     <main class="relative z-10 w-full max-w-xl">
         <div class="border-4 border-black bg-white p-8 md:p-12 shadow-[16px_16px_0px_0px_#ff0098]">
             
-            <div class="mb-8 border-b-4 border-black pb-6">
-                <span class="font-mono text-[10px] text-neon-500 block mb-2 font-bold tracking-widest uppercase">System_Tools // 006.v2</span>
-                <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">Generador <br> de <span class="text-neon-500">Códigos QR.</span></h1>
+            <div class="mb-8 border-b-4 border-black pb-6 flex justify-between items-end">
+                <div>
+                    <span class="font-mono text-[10px] text-neon-500 block mb-2 font-bold tracking-widest uppercase">System_Tools // 006.v2</span>
+                    <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">Generador <br> de <span class="text-neon-500">Códigos QR.</span></h1>
+                </div>
+                <a href="index.html" class="mb-1 font-mono text-[10px] font-black uppercase tracking-widest border-b-2 border-black hover:text-neon-500 hover:border-neon-500 transition-colors">
+                    [ Volver_al_Inicio ]
+                </a>
             </div>
 
             <div class="space-y-6">
@@ -62,7 +67,7 @@
                     <button id="make" class="py-4 bg-black text-white font-black uppercase tracking-widest hover:bg-neon-500 transition-all shadow-[4px_4px_0px_0px_rgba(255,0,152,0.5)] active:translate-y-1">
                         Generar_
                     </button>
-                    <button id="downloadBtn" class="py-4 border-2 border-black font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all shadow-hard">
+                    <button id="downloadBtn" class="py-4 border-2 border-black font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all">
                         Descargar SVG_
                     </button>
                 </div>
@@ -71,8 +76,9 @@
             <div class="mt-12 flex flex-col items-center">
                 <div id="qr-container" class="w-64 h-64 border-2 border-black p-4 bg-white shadow-[8px_8px_0px_0px_#171717]">
                     </div>
-                <p class="mt-6 font-mono text-[10px] text-neutral-400 uppercase tracking-widest">
-                    Formato: 70x70mm // Hybrid Geometry: Matrix-Dots + Finder-Squares
+                <p class="mt-6 font-mono text-[10px] text-neutral-400 uppercase tracking-widest text-center">
+                    Optimized for CNC Engraving // Hybrid Geometry<br>
+                    Format: 70x70mm Vector Output
                 </p>
             </div>
         </div>
@@ -83,7 +89,7 @@
         const container = document.getElementById("qr-container");
 
         const generateHybridQR = () => {
-            const size = 500; // Resolution for SVG output
+            const size = 500; 
             const segments = QRCode.create(input.value, { errorCorrectionLevel: 'H' });
             const moduleCount = segments.modules.size;
             const cellSize = size / moduleCount;
@@ -95,16 +101,13 @@
             for (let row = 0; row < moduleCount; row++) {
                 for (let col = 0; col < moduleCount; col++) {
                     if (segments.modules.get(row, col)) {
-                        // Logic to detect if we are inside the three "Finder Patterns" (usually 7x7 squares)
                         const isTopLeft = (row < 7 && col < 7);
                         const isTopRight = (row < 7 && col >= moduleCount - 7);
                         const isBottomLeft = (row >= moduleCount - 7 && col < 7);
 
                         if (isTopLeft || isTopRight || isBottomLeft) {
-                            // Render as solid square for the corners
                             svgContent += `<rect x="${col * cellSize}" y="${row * cellSize}" width="${cellSize}" height="${cellSize}" fill="black"/>`;
                         } else {
-                            // Render as circle for the data
                             const cx = col * cellSize + cellSize / 2;
                             const cy = row * cellSize + cellSize / 2;
                             svgContent += `<circle cx="${cx}" cy="${cy}" r="${dotRadius}" fill="black"/>`;
