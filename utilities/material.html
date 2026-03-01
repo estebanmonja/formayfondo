@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FFT // MATERIAL_COST_v2.0</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                neon: {
+                    400: '#ff33ad',
+                    500: '#ff0098',
+                    600: '#cc007a',
+                },
+                neutral: {
+                    50: '#fafafa',
+                    900: '#171717',
+                }
+            },
+            fontFamily: {
+                sans: ['Barlow', 'sans-serif'],
+                mono: ['Fira Code', 'monospace'],
+            },
+            boxShadow: {
+                'hard': '4px 4px 0px 0px rgba(0,0,0,1)',
+                'hard-neon': '8px 8px 0px 0px #ff0098',
+            }
+        }
+    }
+}
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body { font-family: 'Barlow', sans-serif; }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+</style>
+</head>
+
+<body class="bg-neutral-50 text-neutral-900 antialiased selection:bg-neon-500 selection:text-white">
+
+<div class="min-h-screen flex items-center justify-center px-6">
+<div class="w-full max-w-4xl bg-white border-2 border-black shadow-hard-neon p-10">
+
+<!-- HEADER -->
+<div class="mb-10 border-b-4 border-black pb-6 flex justify-between items-end">
+
+<div>
+<span class="text-neon-500 font-mono text-xs uppercase tracking-widest">SYSTEM TOOL</span>
+<h1 class="text-5xl font-black tracking-tighter uppercase">
+Material Cost Calculator
+</h1>
+<p class="font-mono text-xs text-neutral-400 mt-2">
+FFT_MATERIAL_MODULE_v2.0
+</p>
+</div>
+
+<div class="text-right font-mono text-[10px] uppercase tracking-widest space-y-1">
+<a href="index.html" class="block border-b-2 border-black hover:text-neon-500 hover:border-neon-500">
+[ Back_to_Utilities ]
+</a>
+<a href="../index.html" class="block border-b-2 border-black hover:text-neon-500 hover:border-neon-500">
+[ Back_to_FFT ]
+</a>
+</div>
+
+</div>
+
+
+
+<!-- PROJECT CONTROL -->
+<div class="mb-10 grid md:grid-cols-3 gap-4">
+
+<input id="projectName" type="text" placeholder="Proyecto:"
+class="w-full bg-neutral-50 border-b-2 border-neutral-200 p-3 focus:border-neon-500 focus:bg-white outline-none font-mono">
+
+<button id="saveProject"
+class="border-2 border-black font-black uppercase tracking-widest shadow-hard hover:bg-neon-500 hover:text-white transition-all">
+Agregar Proyecto
+</button>
+
+<select id="projectSelect"
+class="border-2 border-black p-3 font-black uppercase text-sm shadow-hard focus:border-neon-500 outline-none">
+<option value="">Seleccionar Proyecto</option>
+</select>
+
+</div>
+
+<div class="grid md:grid-cols-2 gap-10">
+
+<!-- RAW SHEET -->
+<div>
+<h2 class="font-black uppercase text-sm tracking-widest mb-4">Tamaño de Hoja</h2>
+
+<input id="sheetWidth" type="number" placeholder="Ancho (mm)" class="w-full mb-3 bg-neutral-50 border-b-2 border-neutral-200 p-3 font-mono">
+<input id="sheetHeight" type="number" placeholder="Alto (mm)" class="w-full mb-3 bg-neutral-50 border-b-2 border-neutral-200 p-3 font-mono">
+<input id="sheetCost" type="number" placeholder="Costo de la Lámina" class="w-full bg-neutral-50 border-b-2 border-neutral-200 p-3 font-mono">
+</div>
+
+<!-- USED MATERIAL -->
+<div>
+<h2 class="font-black uppercase text-sm tracking-widest mb-4">Material Utilizado</h2>
+
+<input id="usedWidth" type="number" placeholder="Ancho Utilizado (mm)" class="w-full mb-3 bg-neutral-50 border-b-2 border-neutral-200 p-3 font-mono">
+<input id="usedHeight" type="number" placeholder="Alto Utilizado (mm)" class="w-full mb-3 bg-neutral-50 border-b-2 border-neutral-200 p-3 font-mono">
+<input id="bleed" type="number" placeholder="Excedente (mm)" class="w-full bg-neutral-50 border-b-2 border-neutral-200 p-3 font-mono">
+</div>
+
+</div>
+
+<!-- RESULT -->
+<div class="mt-10 border-t-4 border-black pt-6 font-mono text-sm">
+<p>Área de Lámina (mm²): <span id="sheetArea">0</span></p>
+<p>Área Utilizada (mm²): <span id="usedArea">0</span></p>
+<p>Costo por mm²: <span id="costPerMm">0</span></p>
+<p class="text-xl font-black">Costo de Material: <span id="finalCost">0</span></p>
+</div>
+
+</div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCuQl3fcJBIbSERG5BllWZJQxL7uIV5dHs",
+  authDomain: "vcard-9a336.firebaseapp.com",
+  databaseURL: "https://vcard-9a336-default-rtdb.firebaseio.com",
+  projectId: "vcard-9a336",
+  storageBucket: "vcard-9a336.firebasestorage.app",
+  messagingSenderId: "629638484734",
+  appId: "1:629638484734:web:a13eed59cc8f4949c54baf"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+/* ===============================
+   DOM REFERENCES (THIS WAS MISSING)
+================================= */
+
+const sheetWidth   = document.getElementById("sheetWidth");
+const sheetHeight  = document.getElementById("sheetHeight");
+const sheetCost    = document.getElementById("sheetCost");
+const usedWidth    = document.getElementById("usedWidth");
+const usedHeight   = document.getElementById("usedHeight");
+const bleed        = document.getElementById("bleed");
+
+const sheetAreaEl  = document.getElementById("sheetArea");
+const usedAreaEl   = document.getElementById("usedArea");
+const costPerMmEl  = document.getElementById("costPerMm");
+const finalCostEl  = document.getElementById("finalCost");
+
+const projectName  = document.getElementById("projectName");
+const projectSelect= document.getElementById("projectSelect");
+const saveProject  = document.getElementById("saveProject");
+
+/* ===============================
+   CALCULATION
+================================= */
+
+function calculate() {
+
+    const sw = +sheetWidth.value || 0;
+    const sh = +sheetHeight.value || 0;
+    const sc = +sheetCost.value || 0;
+    const uw = +usedWidth.value || 0;
+    const uh = +usedHeight.value || 0;
+    const ex = +bleed.value || 0;
+
+    const sheetArea = sw * sh;
+    const usedArea  = (uw + 2*ex) * (uh + 2*ex);
+    const costPerMm = sheetArea > 0 ? sc / sheetArea : 0;
+    const finalCost = usedArea * costPerMm;
+
+    sheetAreaEl.textContent = sheetArea.toFixed(2);
+    usedAreaEl.textContent  = usedArea.toFixed(2);
+    costPerMmEl.textContent = costPerMm.toFixed(8);
+    finalCostEl.textContent = finalCost.toFixed(2);
+}
+
+["sheetWidth","sheetHeight","sheetCost","usedWidth","usedHeight","bleed"]
+.forEach(id => document.getElementById(id).addEventListener("input", calculate));
+
+/* ===============================
+   SAVE PROJECT
+================================= */
+
+saveProject.addEventListener("click", async () => {
+
+    const name = projectName.value.trim();
+    if (!name) {
+        alert("Nombre de proyecto requerido");
+        return;
+    }
+
+    const projectData = {
+        sheetWidth: sheetWidth.value,
+        sheetHeight: sheetHeight.value,
+        sheetCost: sheetCost.value,
+        usedWidth: usedWidth.value,
+        usedHeight: usedHeight.value,
+        bleed: bleed.value,
+        sheetArea: sheetAreaEl.textContent,
+        usedArea: usedAreaEl.textContent,
+        costPerMm: costPerMmEl.textContent,
+        finalCost: finalCostEl.textContent,
+        timestamp: Date.now()
+    };
+
+    await set(ref(db, "materialProjects/" + name), projectData);
+    await loadProjects();
+    alert("Proyecto guardado");
+});
+
+/* ===============================
+   LOAD PROJECTS LIST
+================================= */
+
+async function loadProjects() {
+
+    const snapshot = await get(child(ref(db), "materialProjects"));
+
+    projectSelect.innerHTML = `<option value="">Seleccionar Proyecto</option>`;
+
+    if (snapshot.exists()) {
+        Object.keys(snapshot.val()).forEach(key => {
+            projectSelect.innerHTML += `<option value="${key}">${key}</option>`;
+        });
+    }
+}
+
+/* ===============================
+   LOAD SELECTED PROJECT
+================================= */
+
+projectSelect.addEventListener("change", async (e) => {
+
+    const name = e.target.value;
+    if (!name) return;
+
+    const snapshot = await get(ref(db, "materialProjects/" + name));
+    if (!snapshot.exists()) return;
+
+    const data = snapshot.val();
+
+    sheetWidth.value  = data.sheetWidth || "";
+    sheetHeight.value = data.sheetHeight || "";
+    sheetCost.value   = data.sheetCost || "";
+    usedWidth.value   = data.usedWidth || "";
+    usedHeight.value  = data.usedHeight || "";
+    bleed.value       = data.bleed || "";
+
+    calculate();
+});
+
+/* =============================== */
+
+loadProjects();
+calculate();
+
+</script>
+
+</body>
+</html>

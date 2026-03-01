@@ -1,0 +1,18 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyB18swttzl2teiH0Suelcm0VKJmrVAr8x4",
+  authDomain: "timers-a4841.firebaseapp.com",
+  databaseURL: "https://timers-a4841-default-rtdb.firebaseio.com",
+  projectId: "timers-a4841",
+  storageBucket: "timers-a4841.firebasestorage.app",
+  messagingSenderId: "288554099890",
+  appId: "1:288554099890:web:34adf33bb30ffdb6fd55ab"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);

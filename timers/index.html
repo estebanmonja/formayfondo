@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De La Monja | Timers</title>
+
+<style>
+:root {
+    --terracota: #BA5341;
+    --petroleo: #1b4853;
+    --negro: #000;
+    --fondo: #fcfcfc;
+}
+
+body {
+    margin:0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--fondo);
+    color: var(--negro);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:40px 20px;
+}
+
+.logo {
+    max-width:220px;
+    margin-bottom:30px;
+}
+
+.container {
+    width:100%;
+    max-width:520px;
+}
+
+.card {
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 20px 50px rgba(27,72,83,0.08);
+    margin-bottom:25px;
+}
+
+h2 {
+    text-align:center;
+    font-size:0.9rem;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--terracota);
+    margin-bottom:20px;
+}
+
+.time-input {
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-bottom:15px;
+}
+
+.time-input input {
+    width:70px;
+    padding:12px;
+    font-size:1.2rem;
+    text-align:center;
+    border-radius:10px;
+    border:1px solid rgba(0,0,0,0.1);
+}
+
+.quick-add {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    margin-bottom:20px;
+}
+
+.quick-add button {
+    background:transparent;
+    border:1px solid var(--terracota);
+    color:var(--terracota);
+    padding:6px 12px;
+    border-radius:30px;
+    cursor:pointer;
+}
+
+.btn-primary {
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:50px;
+    background:var(--terracota);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.timer-card {
+    margin-top:15px;
+}
+
+.timer-header {
+    display:flex;
+    justify-content:space-between;
+    font-weight:500;
+}
+
+.progress {
+    height:6px;
+    background:rgba(27,72,83,0.1);
+    border-radius:4px;
+    overflow:hidden;
+    margin-top:10px;
+}
+
+.progress-fill {
+    height:100%;
+    background:var(--terracota);
+    width:0%;
+    transition:width 0.3s linear;
+}
+
+.timer-actions {
+    margin-top:10px;
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+.timer-actions button {
+    border:none;
+    background:none;
+    cursor:pointer;
+    color:var(--petroleo);
+}
+
+.done .progress-fill {
+    background:var(--petroleo);
+}
+
+.modal {
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-card {
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    max-width:400px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,0.2);
+}
+
+.hidden {
+    display:none;
+}
+</style>
+</head>
+<body>
+
+<img src="logo.png" class="logo" alt="De La Monja">
+
+<div class="container">
+
+<div class="card">
+<h2>Nuevo Temporizador</h2>
+
+<div class="time-input">
+<input type="number" id="hh" placeholder="HH" min="0">
+<input type="number" id="mm" placeholder="MM" min="0">
+<input type="number" id="ss" placeholder="SS" min="0">
+</div>
+
+<div class="quick-add">
+<button onclick="addMinutes(5)">+5m</button>
+<button onclick="addMinutes(10)">+10m</button>
+<button onclick="addMinutes(30)">+30m</button>
+<button onclick="addHours(1)">+1h</button>
+</div>
+
+<button class="btn-primary" onclick="createTimer()">Crear Temporizador</button>
+</div>
+
+<div id="timers"></div>
+
+</div>
+
+<div class="modal" id="welcomeModal">
+<div class="modal-card">
+<h2>Bienvenido</h2>
+<p>Activar sonido y sincronización en tiempo real.</p>
+<button class="btn-primary" onclick="initApp()">Activar Experiencia</button>
+</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "timers-a4841.firebaseapp.com",
+  databaseURL: "https://timers-a4841-default-rtdb.firebaseio.com",
+  projectId: "timers-a4841",
+  storageBucket: "timers-a4841.firebasestorage.app",
+  messagingSenderId: "288554099890",
+  appId: "1:288554099890:web:34adf33bb30ffdb6fd55ab"
+};
+
+let db;
+let timers = {};
+let spoken = new Set();
+let initialized = false;
+
+window.initApp = () => {
+    if(initialized) return;
+    initialized = true;
+
+    const app = initializeApp(firebaseConfig);
+    db = getDatabase(app);
+    const timersRef = ref(db, 'timers');
+
+    onValue(timersRef, snapshot => {
+        timers = snapshot.val() || {};
+        localStorage.setItem("timersCache", JSON.stringify(timers));
+    });
+
+    const cached = localStorage.getItem("timersCache");
+    if(cached) timers = JSON.parse(cached);
+
+    document.getElementById("welcomeModal").classList.add("hidden");
+    tick();
+};
+
+function tick(){
+    render();
+    requestAnimationFrame(tick);
+}
+
+window.addMinutes = (m)=>{
+    const mm = document.getElementById("mm");
+    mm.value = (parseInt(mm.value)||0) + m;
+};
+
+window.addHours = (h)=>{
+    const hh = document.getElementById("hh");
+    hh.value = (parseInt(hh.value)||0) + h;
+};
+
+window.createTimer = ()=>{
+    const hh = parseInt(document.getElementById("hh").value)||0;
+    const mm = parseInt(document.getElementById("mm").value)||0;
+    const ss = parseInt(document.getElementById("ss").value)||0;
+
+    const total = hh*3600 + mm*60 + ss;
+    if(total <= 0) return;
+
+    const endTime = Date.now() + total*1000;
+
+    push(ref(db,'timers'),{
+        endTime,
+        total,
+        status:'active'
+    });
+
+    document.getElementById("hh").value='';
+    document.getElementById("mm").value='';
+    document.getElementById("ss").value='';
+};
+
+function render(){
+    const container = document.getElementById("timers");
+    container.innerHTML='';
+
+    Object.keys(timers).forEach(id=>{
+        const t = timers[id];
+        const remaining = Math.max(0, Math.floor((t.endTime - Date.now())/1000));
+        const progress = 1 - (remaining / t.total);
+
+        if(t.status==='active' && remaining<=0){
+            update(ref(db,`timers/${id}`),{status:'done'});
+            if(!spoken.has(id)){
+                speechSynthesis.speak(new SpeechSynthesisUtterance("Temporizador listo"));
+                spoken.add(id);
+            }
+        }
+
+        const card = document.createElement("div");
+        card.className = "card timer-card " + (t.status==='done'?'done':'');
+
+        card.innerHTML = `
+            <div class="timer-header">
+                <span>${formatTime(remaining)}</span>
+                <span>${t.status}</span>
+            </div>
+            <div class="progress">
+                <div class="progress-fill" style="width:${Math.min(progress*100,100)}%"></div>
+            </div>
+            <div class="timer-actions">
+                <button onclick="removeTimer('${id}')">Eliminar</button>
+            </div>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+window.removeTimer = (id)=>{
+    remove(ref(db,`timers/${id}`));
+};
+
+function formatTime(sec){
+    const h = Math.floor(sec/3600);
+    const m = Math.floor((sec%3600)/60);
+    const s = sec%60;
+    return [h,m,s].map(v=>String(v).padStart(2,'0')).join(":");
+}
+</script>
+
+</body>
+</html>
