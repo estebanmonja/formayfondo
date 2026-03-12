@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FFT // DISC_POLAR_v1.0</title>
+<title>FFT // DISC_RING_v1.0</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
 
 <script>
-tailwind.config = {
+tailwind.config={
 theme:{
 extend:{
 colors:{
@@ -28,6 +28,7 @@ mono:['Fira Code','monospace']
 </script>
 
 <style>
+
 body{font-family:'Barlow',sans-serif;}
 
 .grid-bg{
@@ -55,6 +56,7 @@ background:white;
 width:100%;
 height:auto;
 }
+
 </style>
 
 </head>
@@ -75,7 +77,7 @@ System_Tools // 007.v1
 
 <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">
 Generador de<br>
-<span class="text-neon-500">Discos Perforados</span>
+<span class="text-neon-500">Anillo de Perforaciones</span>
 </h1>
 
 </div>
@@ -98,23 +100,16 @@ Diámetro de Perforaciones (mm)
 
 <div>
 <label class="block font-black uppercase text-[10px] tracking-widest mb-2">
-Número de Anillos
+Cantidad de Perforaciones
 </label>
-<input id="rings" value="1" class="input-fft font-bold">
+<input id="holes" value="13" class="input-fft font-bold">
 </div>
 
 <div>
 <label class="block font-black uppercase text-[10px] tracking-widest mb-2">
-Perforaciones por Anillo
+Radio del Anillo (mm)
 </label>
-<input id="counts" value="13" class="input-fft font-mono">
-</div>
-
-<div>
-<label class="block font-black uppercase text-[10px] tracking-widest mb-2">
-Separación entre Anillos (mm)
-</label>
-<input id="spacing" value="100" class="input-fft font-bold">
+<input id="radius" value="100" class="input-fft font-bold">
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -156,10 +151,8 @@ function generate(){
 
 let discD=parseFloat(document.getElementById("discD").value)
 let holeD=parseFloat(document.getElementById("holeD").value)
-let rings=parseInt(document.getElementById("rings").value)
-let spacing=parseFloat(document.getElementById("spacing").value)
-
-let counts=document.getElementById("counts").value.split(",").map(Number)
+let holes=parseInt(document.getElementById("holes").value)
+let radius=parseFloat(document.getElementById("radius").value)
 
 let size=discD+40
 let center=size/2
@@ -167,11 +160,6 @@ let center=size/2
 let svg=`<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`
 
 svg+=`<circle cx="${center}" cy="${center}" r="${discD/2}" stroke="black" stroke-width="1" fill="none"/>`
-
-for(let r=0;r<rings;r++){
-
-let radius=spacing*(r+1)
-let holes=counts[r]
 
 for(let i=0;i<holes;i++){
 
@@ -181,8 +169,6 @@ let x=center+radius*Math.cos(angle)
 let y=center+radius*Math.sin(angle)
 
 svg+=`<circle cx="${x}" cy="${y}" r="${holeD/2}" stroke="black" fill="none"/>`
-
-}
 
 }
 
@@ -205,7 +191,7 @@ let url=URL.createObjectURL(blob)
 let a=document.createElement("a")
 
 a.href=url
-a.download="FFT_Disc_Polar.svg"
+a.download="FFT_Disc_Ring.svg"
 
 a.click()
 
