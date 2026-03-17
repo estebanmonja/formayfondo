@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FFT // DISC_RING_v1.0</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+
+<script>
+tailwind.config={
+theme:{
+extend:{
+colors:{
+neon:{500:'#ff0098'},
+neutral:{50:'#fafafa',900:'#171717'}
+},
+fontFamily:{
+sans:['Barlow','sans-serif'],
+mono:['Fira Code','monospace']
+}
+}
+}
+}
+</script>
+
+<style>
+
+body{font-family:'Barlow',sans-serif;}
+
+.grid-bg{
+background-image:
+linear-gradient(#f0f0f0 1px,transparent 1px),
+linear-gradient(90deg,#f0f0f0 1px,transparent 1px);
+background-size:40px 40px;
+}
+
+.input-fft{
+background:#f8f9fa;
+border:2px solid #000;
+padding:1rem;
+width:100%;
+outline:none;
+transition:.3s;
+}
+
+.input-fft:focus{
+border-color:#ff0098;
+background:white;
+}
+
+#preview svg{
+width:100%;
+height:auto;
+}
+
+</style>
+
+</head>
+
+<body class="bg-white text-neutral-900 antialiased min-h-screen flex items-center justify-center p-6">
+
+<div class="fixed inset-0 z-0 grid-bg pointer-events-none opacity-40"></div>
+
+<main class="relative z-10 w-full max-w-xl">
+
+<div class="border-4 border-black bg-white p-8 md:p-12 shadow-[16px_16px_0px_0px_#ff0098]">
+
+<div class="mb-8 border-b-4 border-black pb-6">
+
+<span class="font-mono text-[10px] text-neon-500 block mb-2 font-bold tracking-widest uppercase">
+System_Tools // 007.v1
+</span>
+
+<h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">
+Generador de<br>
+<span class="text-neon-500">Anillo de Perforaciones</span>
+</h1>
+
+</div>
+
+<div class="space-y-6">
+
+<div>
+<label class="block font-black uppercase text-[10px] tracking-widest mb-2">
+Diámetro del Disco (mm)
+</label>
+<input id="discD" value="250" class="input-fft font-bold">
+</div>
+
+<div>
+<label class="block font-black uppercase text-[10px] tracking-widest mb-2">
+Diámetro de Perforaciones (mm)
+</label>
+<input id="holeD" value="22" class="input-fft font-bold">
+</div>
+
+<div>
+<label class="block font-black uppercase text-[10px] tracking-widest mb-2">
+Cantidad de Perforaciones
+</label>
+<input id="holes" value="13" class="input-fft font-bold">
+</div>
+
+<div>
+<label class="block font-black uppercase text-[10px] tracking-widest mb-2">
+Radio del Anillo (mm)
+</label>
+<input id="radius" value="100" class="input-fft font-bold">
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+<button id="generate"
+class="py-4 bg-black text-white font-black uppercase tracking-widest hover:bg-neon-500 transition-all shadow-[4px_4px_0px_0px_rgba(255,0,152,0.5)] active:translate-y-1">
+Generar_
+</button>
+
+<button id="download"
+class="py-4 border-2 border-black font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all">
+Descargar SVG_
+</button>
+
+</div>
+
+</div>
+
+<div class="mt-12 flex flex-col items-center">
+
+<div id="preview"
+class="w-80 h-80 border-2 border-black p-4 bg-white shadow-[8px_8px_0px_0px_#171717]">
+</div>
+
+<p class="mt-6 font-mono text-[10px] text-neutral-400 uppercase tracking-widest text-center">
+Vector Output // CNC Ready<br>
+Units: Millimeters
+</p>
+
+</div>
+
+</div>
+
+</main>
+
+<script>
+
+function generate(){
+
+let discD=parseFloat(document.getElementById("discD").value)
+let holeD=parseFloat(document.getElementById("holeD").value)
+let holes=parseInt(document.getElementById("holes").value)
+let radius=parseFloat(document.getElementById("radius").value)
+
+let size=discD+40
+let center=size/2
+
+let svg=`<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`
+
+svg+=`<circle cx="${center}" cy="${center}" r="${discD/2}" stroke="black" stroke-width="1" fill="none"/>`
+
+for(let i=0;i<holes;i++){
+
+let angle=(i/holes)*Math.PI*2
+
+let x=center+radius*Math.cos(angle)
+let y=center+radius*Math.sin(angle)
+
+svg+=`<circle cx="${x}" cy="${y}" r="${holeD/2}" stroke="black" fill="none"/>`
+
+}
+
+svg+=`</svg>`
+
+document.getElementById("preview").innerHTML=svg
+
+}
+
+document.getElementById("generate").onclick=generate
+
+document.getElementById("download").onclick=function(){
+
+let svg=document.querySelector("#preview svg").outerHTML
+
+let blob=new Blob([svg],{type:"image/svg+xml"})
+
+let url=URL.createObjectURL(blob)
+
+let a=document.createElement("a")
+
+a.href=url
+a.download="FFT_Disc_Ring.svg"
+
+a.click()
+
+}
+
+window.onload=generate
+
+</script>
+
+</body>
+</html>

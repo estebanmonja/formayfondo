@@ -3,29 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FFT // UTILITIES_INDEX_v1.0</title>
+<title>FFT // UTILITIES_INDEX_v1.1</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
 
 <script>
 tailwind.config = {
-    theme: {
-        extend: {
-            colors: {
-                neon: { 500: '#ff0098' },
-                neutral: { 50: '#fafafa', 900: '#171717' }
-            },
-            fontFamily: {
-                sans: ['Barlow', 'sans-serif'],
-                mono: ['Fira Code', 'monospace'],
-            },
-            boxShadow: {
-                'hard': '4px 4px 0px 0px rgba(0,0,0,1)',
-                'hard-neon': '8px 8px 0px 0px #ff0098',
-            }
-        }
-    }
+theme:{
+extend:{
+colors:{
+neon:{500:'#ff0098'},
+neutral:{50:'#fafafa',900:'#171717'}
+},
+fontFamily:{
+sans:['Barlow','sans-serif'],
+mono:['Fira Code','monospace']
+},
+boxShadow:{
+'hard':'4px 4px 0px 0px rgba(0,0,0,1)',
+'hard-neon':'8px 8px 0px 0px #ff0098'
+}
+}
+}
 }
 </script>
 
@@ -40,54 +40,78 @@ body { font-family: 'Barlow', sans-serif; }
 <div class="w-full max-w-4xl bg-white border-2 border-black shadow-hard-neon p-10">
 
 <!-- HEADER -->
+
 <div class="mb-10 border-b-4 border-black pb-6 flex justify-between items-end">
+
 <div>
-<span class="text-neon-500 font-mono text-xs uppercase tracking-widest">SYSTEM REGISTRY</span>
+<span class="text-neon-500 font-mono text-xs uppercase tracking-widest">
+SYSTEM REGISTRY
+</span>
+
 <h1 class="text-5xl font-black tracking-tighter uppercase">
 Utilities Node Index
 </h1>
+
 <p class="font-mono text-xs text-neutral-400 mt-2">
-FFT_INTERNAL_TOOLS_v1.0
+FFT_INTERNAL_TOOLS_v1.1
 </p>
 </div>
 
-<a href="../index.html" class="font-mono text-[10px] uppercase tracking-widest border-b-2 border-black hover:text-neon-500 hover:border-neon-500 transition-colors">
+<a href="../index.html"
+class="font-mono text-[10px] uppercase tracking-widest border-b-2 border-black hover:text-neon-500 hover:border-neon-500 transition-colors">
 [ Back_to_FFT ]
 </a>
+
 </div>
 
 <!-- CONSOLE BLOCK -->
+
 <div class="bg-neutral-900 text-[#2dfffe] font-mono text-xs p-6 h-[400px] overflow-y-auto border-2 border-black shadow-hard">
 
 <div class="mb-2 text-neon-500">> SYSTEM_BOOT...</div>
 <div>> NODE_SCAN_COMPLETE</div>
-<div class="mt-4 text-neutral-400">---------------------------------------------</div>
+
+<div class="mt-4 text-neutral-500">
+---------------------------------------------
+</div>
 
 <div class="mt-4">
 <div>> 001 :: FFT_LENGTH_MODULE_v2.0</div>
-<a href="units.html" class="block ml-6 text-white hover:text-neon-500">
+<a href="units.html"
+class="block ml-6 text-[#2dfffe] hover:text-neon-500">
 → /utilities/units.html
 </a>
 </div>
 
 <div class="mt-4">
 <div>> 002 :: FFT_MATERIAL_MODULE_v2.0</div>
-<a href="material.html" class="block ml-6 text-white hover:text-neon-500">
+<a href="material.html"
+class="block ml-6 text-[#2dfffe] hover:text-neon-500">
 → /utilities/material.html
 </a>
 </div>
 
 <div class="mt-4">
 <div>> 003 :: FFT_NESTING_MODULE_v2.0</div>
-<a href="nesting.html" class="block ml-6 text-white hover:text-neon-500">
+<a href="nesting.html"
+class="block ml-6 text-[#2dfffe] hover:text-neon-500">
 → /utilities/nesting.html
 </a>
 </div>
 
 <div class="mt-4">
 <div>> 004 :: FFT_QR_HYBRID_v1.2</div>
-<a href="tuqr.html" class="block ml-6 text-white hover:text-neon-500">
+<a href="tuqr.html"
+class="block ml-6 text-[#2dfffe] hover:text-neon-500">
 → /utilities/tuqr.html
+</a>
+</div>
+
+<div class="mt-4">
+<div>> 005 :: FFT_PROPORTION_MODULE_v1.0</div>
+<a href="proportion.html"
+class="block ml-6 text-[#2dfffe] hover:text-neon-500">
+→ /utilities/proportion.html
 </a>
 </div>
 
