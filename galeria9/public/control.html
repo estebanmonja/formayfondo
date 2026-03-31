@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Galería9 Control Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: #eee;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        font-weight: normal;
+        letter-spacing: 2px;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: auto;
+    }
+
+    select, input, textarea, button {
+        width: 100%;
+        margin: 8px 0;
+        padding: 10px;
+        background: #222;
+        border: 1px solid #444;
+        color: white;
+        font-size: 14px;
+    }
+
+    textarea {
+        resize: vertical;
+        height: 100px;
+    }
+
+    button {
+        background: white;
+        color: black;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background: #ddd;
+    }
+
+    .row {
+        display: flex;
+        gap: 10px;
+    }
+
+    .row select {
+        width: 30%;
+    }
+
+    .row input {
+        width: 70%;
+    }
+
+    .status {
+        margin-top: 10px;
+        font-size: 12px;
+        opacity: 0.7;
+    }
+
+    .qr-box {
+        margin-top: 20px;
+        padding: 10px;
+        background: #000;
+        border: 1px solid #444;
+        font-size: 12px;
+        word-break: break-all;
+    }
+
+    .copy-btn {
+        margin-top: 5px;
+        background: #333;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>CONTROL PANEL</h1>
+
+<label>Slot</label>
+<select id="slot"></select>
+
+<label>QR URL</label>
+<div class="qr-box" id="qrUrl"></div>
+<button class="copy-btn" onclick="copyURL()">Copy URL</button>
+
+<label>Name</label>
+<input id="name">
+
+<label>Phone</label>
+<div class="row">
+    <select id="prefix">
+        <option value="+52">🇲🇽 +52</option>
+        <option value="+1">🇺🇸 +1</option>
+        <option value="+34">🇪🇸 +34</option>
+        <option value="+44">🇬🇧 +44</option>
+    </select>
+    <input id="phone">
+</div>
+
+<label>Email</label>
+<input id="email">
+
+<label>Website</label>
+<input id="website">
+
+<label>Instagram</label>
+<input id="instagram">
+
+<label>Facebook</label>
+<input id="facebook">
+
+<label>Description</label>
+<textarea id="description"></textarea>
+
+<label>Image filename (example: 01.png)</label>
+<input id="image">
+
+<button onclick="save()">SAVE</button>
+
+<div class="status" id="status">Idle</div>
+
+</div>
+
+<!-- Firebase -->
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBayC_ln4sMTEobiIIAIt5InQzW6eA3Dgg",
+  authDomain: "galeria9-e332c.firebaseapp.com",
+  databaseURL: "https://galeria9-e332c-default-rtdb.firebaseio.com/",
+  projectId: "galeria9-e332c",
+  storageBucket: "galeria9-e332c.firebasestorage.app",
+  messagingSenderId: "1007638426618",
+  appId: "1:1007638426618:web:1ea62913708174b602ea43"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const BASE_URL = "https://galeria9-123-456.web.app/code.html?id=";
+
+const slotSelect = document.getElementById("slot");
+const qrBox = document.getElementById("qrUrl");
+
+// Populate slots
+for (let i = 1; i <= 30; i++) {
+    let val = i.toString().padStart(2, "0");
+    let opt = document.createElement("option");
+    opt.value = val;
+    opt.textContent = "Slot " + val;
+    slotSelect.appendChild(opt);
+}
+
+// Normalize URL
+function normalize(url) {
+    if (!url) return "";
+    if (!url.startsWith("http")) return "https://" + url;
+    return url;
+}
+
+// Update QR URL display
+function updateQR() {
+    const id = slotSelect.value;
+    const url = BASE_URL + id;
+    qrBox.textContent = url;
+}
+
+// Copy URL
+window.copyURL = function () {
+    const text = qrBox.textContent;
+    navigator.clipboard.writeText(text);
+    document.getElementById("status").textContent = "Copied URL";
+};
+
+// Load data
+function load() {
+    const id = slotSelect.value;
+    updateQR();
+    document.getElementById("status").textContent = "Loading...";
+
+    get(ref(db, 'cards/' + id)).then(snapshot => {
+        if (snapshot.exists()) {
+            const d = snapshot.val();
+
+            document.getElementById("name").value = d.name || "";
+            document.getElementById("phone").value = d.phone || "";
+            document.getElementById("email").value = d.email || "";
+            document.getElementById("website").value = d.website || "";
+            document.getElementById("instagram").value = d.instagram || "";
+            document.getElementById("facebook").value = d.facebook || "";
+            document.getElementById("description").value = d.description || "";
+            document.getElementById("image").value = d.image || "";
+
+        } else {
+            document.querySelectorAll("input, textarea").forEach(el => el.value = "");
+        }
+
+        document.getElementById("status").textContent = "Loaded " + id;
+    });
+}
+
+// Save
+window.save = function () {
+    const id = slotSelect.value;
+
+    const data = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("prefix").value + document.getElementById("phone").value,
+        email: document.getElementById("email").value,
+        website: normalize(document.getElementById("website").value),
+        instagram: normalize(document.getElementById("instagram").value),
+        facebook: normalize(document.getElementById("facebook").value),
+        description: document.getElementById("description").value,
+        image: document.getElementById("image").value,
+        updated: Date.now()
+    };
+
+    set(ref(db, 'cards/' + id), data)
+        .then(() => {
+            document.getElementById("status").textContent = "Saved " + id;
+        })
+        .catch(err => {
+            document.getElementById("status").textContent = "Error: " + err;
+        });
+};
+
+// Init
+slotSelect.addEventListener("change", load);
+load();
+
+</script>
+
+</body>
+</html>

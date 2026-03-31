@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Triangle Acoustic Panel Generator</title>
+<style>
+    body {
+        margin: 0;
+        background: #111;
+        color: #eee;
+        font-family: sans-serif;
+        display: flex;
+    }
+    #controls {
+        width: 260px;
+        padding: 20px;
+        background: #1a1a1a;
+    }
+    label {
+        display: block;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+    input, select {
+        width: 100%;
+    }
+    #canvas {
+        flex: 1;
+        background: #000;
+    }
+    button {
+        margin-top: 15px;
+        width: 100%;
+        padding: 8px;
+        background: #333;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div id="controls">
+    <h3>Triangle Panel</h3>
+
+    <label>Openness (%)</label>
+    <input type="range" id="openness" min="0" max="100" value="30">
+
+    <label>Cluster Strength</label>
+    <input type="range" id="cluster" min="0" max="100" value="50">
+
+    <label>Cut Type</label>
+    <select id="cutType">
+        <option value="mixed">Mixed</option>
+        <option value="through">Through Only</option>
+        <option value="pocket">Pocket Only</option>
+    </select>
+
+    <label>Triangle Size</label>
+    <input type="range" id="size" min="10" max="60" value="25">
+
+    <button onclick="downloadSVG()">Download SVG</button>
+</div>
+
+<svg id="canvas"></svg>
+
+<script>
+const svg = document.getElementById("canvas");
+
+function generate() {
+    svg.innerHTML = "";
+
+    const width = window.innerWidth - 260;
+    const height = window.innerHeight;
+
+    svg.setAttribute("width", width);
+    svg.setAttribute("height", height);
+
+    const size = +document.getElementById("size").value;
+    const openness = +document.getElementById("openness").value / 100;
+    const cluster = +document.getElementById("cluster").value / 100;
+    const cutType = document.getElementById("cutType").value;
+
+    const h = size * Math.sqrt(3) / 2;
+
+    let cells = [];
+
+    // STEP 1: build grid
+    for (let y = 0; y < height + size; y += h) {
+        for (let x = 0; x < width + size; x += size) {
+
+            const offset = (Math.floor(y / h) % 2) * (size / 2);
+            const px = x + offset;
+
+            cells.push({x: px, y: y, up: true});
+            cells.push({x: px, y: y, up: false});
+        }
+    }
+
+    // STEP 2: initial random state
+    cells.forEach(c => {
+        c.state = (Math.random() < openness) ? 1 : 0;
+    });
+
+    // STEP 3: clustering pass
+    for (let i = 0; i < cells.length; i++) {
+        if (cells[i].state === 1 && Math.random() < cluster) {
+            // spread to neighbors
+            for (let j = 0; j < cells.length; j++) {
+                let dx = cells[i].x - cells[j].x;
+                let dy = cells[i].y - cells[j].y;
+                let dist = Math.sqrt(dx*dx + dy*dy);
+
+                if (dist < size * 1.5 && Math.random() < 0.6) {
+                    cells[j].state = 1;
+                }
+            }
+        }
+    }
+
+    // STEP 4: assign final types
+    cells.forEach(c => {
+        if (c.state === 1) {
+            if (cutType === "through") {
+                c.state = 3;
+            } else if (cutType === "pocket") {
+                c.state = Math.random() > 0.5 ? 1 : 2;
+            } else {
+                let r = Math.random();
+                if (r < 0.4) c.state = 3;      // through
+                else if (r < 0.7) c.state = 2; // deep pocket
+                else c.state = 1;              // shallow pocket
+            }
+        }
+    });
+
+    // STEP 5: draw
+    cells.forEach(c => {
+        drawTriangle(c.x, c.y, size, c.up, c.state);
+    });
+
+    function drawTriangle(x, y, s, up, state) {
+        const points = up
+            ? [[x, y], [x + s, y], [x + s/2, y - h]]
+            : [[x, y], [x + s, y], [x + s/2, y + h]];
+
+        const poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        poly.setAttribute("points", points.map(p => p.join(",")).join(" "));
+
+        if (state === 3) poly.setAttribute("fill", "black");       // through
+        else if (state === 2) poly.setAttribute("fill", "#666");   // deep pocket
+        else if (state === 1) poly.setAttribute("fill", "#aaa");   // shallow pocket
+        else poly.setAttribute("fill", "#ddd");                    // closed
+
+        poly.setAttribute("stroke", "#222");
+        poly.setAttribute("stroke-width", "0.5");
+
+        svg.appendChild(poly);
+    }
+}
+
+function downloadSVG() {
+    const serializer = new XMLSerializer();
+    let source = serializer.serializeToString(svg);
+
+    const blob = new Blob([source], {type: "image/svg+xml"});
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "triangle_panel.svg";
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+document.querySelectorAll("input, select").forEach(el => {
+    el.addEventListener("input", generate);
+});
+
+generate();
+</script>
+
+</body>
+</html>

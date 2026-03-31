@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Galería9</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        background: #fff;
+        color: #000;
+        font-family: Helvetica, Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+
+    .card {
+        max-width: 420px;
+        width: 90%;
+        padding: 30px;
+        text-align: center;
+    }
+
+    img {
+        max-width: 120px;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 22px;
+        margin: 10px 0;
+        font-weight: 500;
+    }
+
+    p {
+        font-size: 14px;
+        line-height: 1.5;
+        opacity: 0.8;
+    }
+
+    .links {
+        margin-top: 20px;
+    }
+
+    .links a {
+        display: block;
+        margin: 6px 0;
+        text-decoration: none;
+        color: black;
+        font-size: 14px;
+    }
+
+    .links a:hover {
+        text-decoration: underline;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: 1px solid black;
+        background: none;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: black;
+        color: white;
+    }
+
+    .empty {
+        font-size: 14px;
+        opacity: 0.6;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+    <div class="empty">Loading...</div>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBayC_ln4sMTEobiIIAIt5InQzW6eA3Dgg",
+  authDomain: "galeria9-e332c.firebaseapp.com",
+  databaseURL: "https://galeria9-e332c-default-rtdb.firebaseio.com/",
+  projectId: "galeria9-e332c",
+  storageBucket: "galeria9-e332c.firebasestorage.app",
+  messagingSenderId: "1007638426618",
+  appId: "1:1007638426618:web:1ea62913708174b602ea43"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const container = document.getElementById("card");
+
+// Get ID from URL
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+// Normalize URL
+function clean(url) {
+    if (!url) return "";
+    if (!url.startsWith("http")) return "https://" + url;
+    return url;
+}
+
+// WhatsApp link
+function whatsapp(phone) {
+    if (!phone) return "";
+    return "https://wa.me/" + phone.replace(/\D/g, '');
+}
+
+// vCard generator
+function downloadVCard(data) {
+    const vcard = `
+BEGIN:VCARD
+VERSION:3.0
+FN:${data.name || ""}
+TEL:${data.phone || ""}
+EMAIL:${data.email || ""}
+URL:${data.website || ""}
+END:VCARD
+    `.trim();
+
+    const blob = new Blob([vcard], { type: "text/vcard" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "contact.vcf";
+    a.click();
+}
+
+// Render card
+function render(d) {
+
+    let html = "";
+
+    if (d.image) {
+        html += `<img src="images/${d.image}" alt="">`;
+    }
+
+    html += `<h1>${d.name || ""}</h1>`;
+
+    if (d.description) {
+        html += `<p>${d.description}</p>`;
+    }
+
+    html += `<div class="links">`;
+
+    if (d.phone) {
+        html += `<a href="tel:${d.phone}">Call</a>`;
+        html += `<a href="${whatsapp(d.phone)}" target="_blank">WhatsApp</a>`;
+    }
+
+    if (d.email) {
+        html += `<a href="mailto:${d.email}">Email</a>`;
+    }
+
+    if (d.website) {
+        html += `<a href="${clean(d.website)}" target="_blank">Website</a>`;
+    }
+
+    if (d.instagram) {
+        html += `<a href="${clean(d.instagram)}" target="_blank">Instagram</a>`;
+    }
+
+    if (d.facebook) {
+        html += `<a href="${clean(d.facebook)}" target="_blank">Facebook</a>`;
+    }
+
+    html += `</div>`;
+
+    html += `<button onclick='downloadVCard(${JSON.stringify(d)})'>Save Contact</button>`;
+
+    container.innerHTML = html;
+}
+
+// Empty state
+function empty() {
+    container.innerHTML = `
+        <div class="empty">
+            This display is currently being curated.
+        </div>
+    `;
+}
+
+// Load from Firebase
+if (!id) {
+    empty();
+} else {
+    get(ref(db, 'cards/' + id)).then(snapshot => {
+        if (snapshot.exists()) {
+            render(snapshot.val());
+        } else {
+            empty();
+        }
+    }).catch(() => {
+        empty();
+    });
+}
+
+// Make vCard global
+window.downloadVCard = downloadVCard;
+
+</script>
+
+</body>
+</html>
