@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ff0098;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 5.66929px;
+      }
+    </style>
+  </defs>
+  <g>
+    <rect class="cls-1" x="800" y="0" width="200" height="199.80608"/>
+    <rect class="cls-1" x="800" y="199.80608" width="200" height="199.80608"/>
+    <rect class="cls-1" x="800" y="399.61217" width="200" height="199.80608"/>
+    <rect class="cls-1" x="800" y="599.41825" width="200" height="199.80608"/>
+    <rect class="cls-1" x="800" y="799.22433" width="200" height="199.80608"/>
+  </g>
+  <g>
+    <rect class="cls-1" x="400" y="599.41825" width="200" height="199.80608"/>
+    <rect class="cls-1" x="400" y="399.61217" width="200" height="199.80608"/>
+    <rect class="cls-1" x="600" y="799.22433" width="200" height="199.80608"/>
+    <rect class="cls-1" x="600" y="599.41825" width="200" height="199.80608"/>
+    <rect class="cls-1" x="400" y="199.80608" width="200" height="199.80608"/>
+  </g>
+  <g>
+    <rect class="cls-1" x="200" y="0" width="200" height="199.80608"/>
+    <rect class="cls-1" x="400" y="0" width="200" height="199.80608"/>
+    <rect class="cls-1" x="600" y="199.80608" width="200" height="199.80608"/>
+    <rect class="cls-1" x="600" y="0" width="200" height="199.80608"/>
+    <rect class="cls-1" x="600" y="399.61217" width="200" height="199.80608"/>
+  </g>
+  <g>
+    <g>
+      <rect class="cls-1" x="200.09696" y="400.48479" width="199.80608" height="200" transform="translate(800.48479 200.48479) rotate(90)"/>
+      <rect class="cls-1" x="200.09696" y="600.29088" width="199.80608" height="200" transform="translate(1000.29088 400.29088) rotate(90)"/>
+    </g>
+    <rect class="cls-1" x="200.09696" y="800.09696" width="199.80608" height="200" transform="translate(1200.09696 600.09696) rotate(90)"/>
+    <rect class="cls-1" x="400.09696" y="800.09696" width="199.80608" height="200" transform="translate(1400.09696 400.09696) rotate(90)"/>
+    <rect class="cls-1" x=".09696" y="800.09696" width="199.80608" height="200" transform="translate(1000.09696 800.09696) rotate(90)"/>
+  </g>
+  <g>
+    <rect class="cls-1" x=".09696" y=".87263" width="199.80608" height="200" transform="translate(200.87263 .87263) rotate(90)"/>
+    <rect class="cls-1" x=".09696" y="200.67871" width="199.80608" height="200" transform="translate(400.67871 200.67871) rotate(90)"/>
+    <rect class="cls-1" x="200.09696" y="200.67871" width="199.80608" height="200" transform="translate(600.67871 .67871) rotate(90)"/>
+    <rect class="cls-1" x=".09696" y="400.48479" width="199.80608" height="200" transform="translate(600.48479 400.48479) rotate(90)"/>
+    <rect class="cls-1" x=".09696" y="600.29088" width="199.80608" height="200" transform="translate(800.29088 600.29088) rotate(90)"/>
+  </g>
+</svg>
