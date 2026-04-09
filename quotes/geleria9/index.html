@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FFT_PROPUESTA_QR_2026_V1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        neon: { 500: '#ff0098' }, 
+                        neutral: { 900: '#171717' } 
+                    },
+                    fontFamily: { 
+                        sans: ['Barlow', 'sans-serif'], 
+                        mono: ['Fira Code', 'monospace'] 
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        @media print { .page-break { page-break-before: always; } }
+        .text-stroke { -webkit-text-stroke: 1px #171717; }
+    </style>
+</head>
+
+<body class="bg-white text-neutral-900 font-sans selection:bg-neon-500 selection:text-white">
+
+<div class="max-w-4xl mx-auto border-4 border-black p-8 my-12 shadow-[16px_16px_0px_0px_#171717]">
+    
+    <!-- HEADER -->
+    <div class="flex justify-between items-start border-b-4 border-black pb-6 mb-8">
+        <div>
+            <h1 class="text-6xl font-black tracking-tighter uppercase leading-[0.8]">
+                PRO <br><span class="text-neon-500">PUESTA.</span>
+            </h1>
+            <p class="font-mono text-[10px] mt-4 text-neutral-400 uppercase tracking-[0.2em]">
+                ID: 2026_QR_GA9-V01
+            </p>
+        </div>
+
+        <div class="text-right">
+            <div class="font-black text-2xl uppercase tracking-tighter leading-none">
+                Forma <span class="text-neon-500">&</span> Fondo
+            </div>
+            <p class="text-[10px] font-bold tracking-widest uppercase text-neutral-400">
+                Tapalpa, Jal. | 09.04.2026
+            </p>
+        </div>
+    </div>
+
+    <!-- INTRO -->
+    <div class="mb-8 text-lg">
+        <p class="font-bold mb-2">Buen día Fernanda,</p>
+        <p class="text-neutral-600 leading-relaxed italic border-l-4 border-neon-500 pl-6">
+            "Qué gusto saludarles de nuevo. Como platicamos, les presento la propuesta para la fabricación de códigos QR físicos con soporte web dinámico. El sistema permite adaptar la información en tiempo real según el acomodo del mobiliario y las necesidades de exhibición."
+        </p>
+    </div>
+
+    <!-- QUOTE -->
+    <div class="my-8 border-l-4 border-black pl-6">
+        <p class="text-xl font-bold italic">
+            "Un código es fijo.<br>La información no."
+        </p>
+    </div>
+
+    <!-- PRODUCT -->
+    <div class="mb-10">
+        <p class="text-sm text-neutral-600 leading-relaxed">
+            Cada pieza consiste en un módulo físico de <strong>70 x 70 mm</strong>, con un código QR grabado de <strong>55 x 55 mm</strong>, diseñado para lectura rápida y uso continuo en entorno de galería.
+            <br><br>
+            El sistema se complementa con una <strong>plataforma web de administración</strong> que permite modificar el contenido del código QR en cualquier momento, desde cualquier dispositivo.
+        </p>
+
+        <div class="bg-black text-white p-6 mt-6">
+            <h3 class="text-xs font-black uppercase tracking-widest text-neon-500 mb-4">Sistema Digital</h3>
+            <ul class="text-xs space-y-2 text-neutral-400">
+                <li>– Administración de hasta 30 códigos QR</li>
+                <li>– Edición en tiempo real</li>
+                <li>– Generación de URL dinámica</li>
+                <li>– Datos: contacto, web, Instagram, descripción</li>
+                <li>– Acciones directas: llamada, correo, WhatsApp</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- OPTIONS -->
+
+    <!-- MDF -->
+    <div class="border-2 border-black p-6 mb-8">
+        <h3 class="font-black uppercase mb-2">A. MDF 3mm — Solución ligera</h3>
+        <img src="mdf.jpg" class="w-full mb-2">
+        <p class="text-[10px] font-mono text-neutral-400 uppercase">Fig 1.1: MDF</p>
+
+        <div class="mt-4 text-sm">
+            <p>Subtotal: $157.32</p>
+            <p>IVA: $25.17</p>
+            <p class="font-bold">Total: $192.49</p>
+            <p class="mt-2">Total 30 piezas: <strong>$6,634.62</strong></p>
+        </div>
+    </div>
+
+    <!-- MDF CHAPA -->
+    <div class="border-2 border-black p-6 mb-8">
+        <h3 class="font-black uppercase mb-2">B. MDF con chapa</h3>
+        <img src="mdf-chapa.jpg" class="w-full mb-2">
+        <p class="text-[10px] font-mono text-neutral-400 uppercase">Fig 1.2: MDF con chapa</p>
+
+        <div class="mt-4 text-sm">
+            <p>Subtotal: $157.82</p>
+            <p>IVA: $25.25</p>
+            <p class="font-bold">Total: $183.07</p>
+            <p class="mt-2">Total 30 piezas: <strong>$6,552.42</strong></p>
+        </div>
+    </div>
+
+    <!-- TRIPLAY -->
+    <div class="border-2 border-black p-6 mb-8">
+        <h3 class="font-black uppercase mb-2">C. Triplay</h3>
+        <img src="triplay.jpg" class="w-full mb-2">
+        <p class="text-[10px] font-mono text-neutral-400 uppercase">Fig 1.3: Triplay</p>
+
+        <div class="mt-4 text-sm">
+            <p>Subtotal: $158.15</p>
+            <p>IVA: $25.30</p>
+            <p class="font-bold">Total: $183.45</p>
+            <p class="mt-2">Total 30 piezas: <strong>$6,663.50</strong></p>
+        </div>
+    </div>
+
+    <!-- PINO -->
+    <div class="border-2 border-black p-6 mb-8">
+        <h3 class="font-black uppercase mb-2">D. Madera de pino</h3>
+        <img src="pino.jpg" class="w-full mb-2">
+        <p class="text-[10px] font-mono text-neutral-400 uppercase">Fig 1.4: Madera de pino</p>
+
+        <div class="mt-4 text-sm">
+            <p>Subtotal: $168.67</p>
+            <p>IVA: $26.99</p>
+            <p class="font-bold">Total: $195.65</p>
+            <p class="mt-2">Total 30 piezas: <strong>$7,029.60</strong></p>
+        </div>
+    </div>
+
+    <!-- SIGNATURE -->
+    <div class="flex justify-end text-right">
+        <div>
+            <p class="text-xs text-neutral-400 uppercase font-bold mb-1">Firmado,</p>
+            <p class="font-black text-xl uppercase tracking-tighter">Esteban De la Monja Casar</p>
+            <p class="text-[10px] font-bold text-neon-500 uppercase tracking-widest">
+                Director | Forma & Fondo Taller
+            </p>
+            <div class="pt-8 border-t border-neutral-200">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono font-bold uppercase text-neutral-400">
+        <div class="flex gap-4">
+            <a href="mailto:esteban@formayfondotaller.com" class="hover:text-neon-500">esteban@formayfondotaller.com</a>
+            <span>/</span>
+            <a href="https://wa.me/523315305043" class="hover:text-neon-500">3315305043</a>
+        </div>
+        <div class="tracking-[0.4em]">MATERIA . ENERGÍA . INTENCIÓN</div>
+    </div>
+</div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
