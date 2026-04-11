@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFT // INICIAR_PROYECTO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { neon: { 500: '#ff0098' }, neutral: { 900: '#171717' } },
+                    fontFamily: { sans: ['Barlow', 'sans-serif'], mono: ['Fira Code', 'monospace'] },
+                    boxShadow: { 'hard': '8px 8px 0px 0px #171717', 'hard-neon': '12px 12px 0px 0px #ff0098' }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .grid-bg { 
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); 
+            background-size: 40px 40px; 
+        }
+        .blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        .input-terminal {
+            background: transparent; border: none; border-bottom: 2px solid #171717;
+            padding: 0.5rem 0; width: 100%; outline: none; font-family: 'Fira Code', monospace;
+        }
+        .input-terminal:focus { border-color: #ff0098; }
+        select.input-terminal { color: #fff; }
+    </style>
+</head>
+<body class="bg-white text-neutral-900 font-sans antialiased overflow-x-hidden">
+
+    <div class="fixed inset-0 z-0 grid-bg opacity-30"></div>
+
+    <main class="relative z-10 min-h-screen flex flex-col lg:flex-row">
+        
+        <section class="lg:w-2/5 p-8 lg:p-20 flex flex-col justify-between border-b-2 lg:border-b-0 lg:border-r-2 border-black bg-white">
+            <div>
+                <img src="logo.svg" alt="FFT" class="h-12 w-auto mb-12">
+                <h1 class="text-[10vw] lg:text-7xl font-black uppercase leading-[0.8] tracking-tighter mb-8">
+                    NUEVA <br><span class="text-neon-500">CONSULTA.</span>
+                </h1>
+                <p class="text-neutral-500 font-medium max-w-sm">
+                    Inicia el protocolo de diseño. Los datos ingresados serán procesados y almacenados en nuestro sistema central.
+                </p>
+            </div>
+
+            <div class="mt-12 space-y-6">
+                <div>
+                    <span class="block font-mono text-[10px] uppercase tracking-widest text-neutral-400 mb-1">Direct_Channel</span>
+                    <a href="mailto:esteban@formayfondotaller.com" class="text-xl font-black hover:text-neon-500 transition-colors">esteban@formayfondotaller.com</a>
+                </div>
+                <div>
+                    <span class="block font-mono text-[10px] uppercase tracking-widest text-neutral-400 mb-1">WA_MEX</span>
+                    <a href="https://wa.me/523315305043" class="text-xl font-black hover:text-neon-500 transition-colors">+52 3315 30 5043</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="lg:w-3/5 p-8 lg:p-20 bg-neutral-900 text-white flex items-center">
+            <div class="w-full bg-black border-2 border-white/10 p-8 lg:p-12 shadow-hard-neon relative">
+                <div id="status-bar" class="absolute top-0 right-0 p-4 font-mono text-[9px] text-neon-500/50 uppercase tracking-widest">
+                    SYSTEM_READY // ID: FFT-PENDING
+                </div>
+                
+                <form id="quoteForm" class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="font-mono text-[10px] uppercase text-neon-500 font-bold">01_Nombre*</label>
+                            <input type="text" id="name" placeholder="REQUERIDO" class="input-terminal text-white uppercase" required>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="font-mono text-[10px] uppercase text-neon-500 font-bold">02_Interés</label>
+                            <select id="type" class="input-terminal appearance-none bg-black">
+                                <option>CORTE_CNC</option>
+                                <option>PROTOTIPADO</option>
+                                <option>PRODUCCION_SERIE</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="font-mono text-[10px] uppercase text-neon-500 font-bold">03_Email_Opcional</label>
+                            <input type="email" id="email" placeholder="CONTACTO@MAIL.COM" class="input-terminal text-white uppercase">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="font-mono text-[10px] uppercase text-neon-500 font-bold">04_Tel_Opcional</label>
+                            <input type="tel" id="phone" placeholder="10_DIGITOS" class="input-terminal text-white uppercase">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="font-mono text-[10px] uppercase text-neon-500 font-bold">05_Proyecto*</label>
+                        <textarea id="desc" rows="2" placeholder="DETALLES_TECNICOS..." class="input-terminal text-white uppercase resize-none" required></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="group flex items-center gap-4 bg-white text-black font-black uppercase px-8 py-4 hover:bg-neon-500 hover:text-white transition-all w-full md:w-auto">
+                        EJECUTAR_Y_ENVIAR <span class="blink">_</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAqk7bEWpif_1J8gtnZ7St9k9HTXGxnxCc",
+        authDomain: "proyectos-fft.firebaseapp.com",
+        projectId: "proyectos-fft",
+        storageBucket: "proyectos-fft.firebasestorage.app",
+        messagingSenderId: "123769301744",
+        appId: "1:123769301744:web:a701583cd99ffe927af035"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const quoteForm = document.getElementById('quoteForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusBar = document.getElementById('status-bar');
+
+    quoteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const projectID = `FFT-${Math.floor(1000 + Math.random() * 9000)}`;
+        submitBtn.innerText = "CONTTACTANDO SERVIDOR...";
+        submitBtn.disabled = true;
+
+        const formData = {
+            projectCode: projectID,
+            name: document.getElementById('name').value,
+            type: document.getElementById('type').value,
+            email: document.getElementById('email').value || "N/A",
+            phone: document.getElementById('phone').value || "N/A",
+            description: document.getElementById('desc').value,
+            timestamp: serverTimestamp()
+        };
+
+        try {
+            // Try to save to Firebase
+            // Ensure the collection name "solicitudes" matches your intended Firestore structure
+            await addDoc(collection(db, "solicitudes"), formData);
+            
+            statusBar.innerText = `UPLOAD_SUCCESS // ID: ${projectID}`;
+            
+            const message = `*PROTOCOLO_INICIADO*\nID: ${projectID}\n\n*Cliente:* ${formData.name}\n*Servicio:* ${formData.type}\n*Email:* ${formData.email}\n*Tel:* ${formData.phone}\n*Brief:* ${formData.description}`;
+            
+            setTimeout(() => {
+                window.open(`https://wa.me/523315305043?text=${encodeURIComponent(message)}`, '_blank');
+                submitBtn.innerText = "PROTOCOLO_ENVIADO";
+            }, 500);
+
+        } catch (error) {
+            // This will now print the EXACT reason it is stuck in "Procesando"
+            console.error("FIREBASE_ERROR:", error.code, error.message);
+            statusBar.innerText = `ERROR: ${error.code}`;
+            submitBtn.disabled = false;
+            submitBtn.innerText = "REINTENTAR_ENVIO";
+        }
+    });
+</script>
+</body>
+</html>
