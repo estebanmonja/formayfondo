@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFT // PREVIEW_SYSTEM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { neon: { 500: '#ff0098' }, neutral: { 900: '#171717' } },
+                    fontFamily: { sans: ['Barlow', 'sans-serif'], mono: ['Fira Code', 'monospace'] },
+                    boxShadow: { 'hard': '8px 8px 0px 0px #171717', 'hard-neon': '8px 8px 0px 0px #ff0098' }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .grid-bg { 
+            background-image: linear-gradient(#f0f0f0 1px, transparent 1px), linear-gradient(90deg, #f0f0f0 1px, transparent 1px); 
+            background-size: 30px 30px; 
+        }
+        .scanline {
+            width: 100%; height: 2px; background: rgba(255, 0, 152, 0.1);
+            position: absolute; animation: scan 4s linear infinite;
+        }
+        @keyframes scan { from { top: 0% } to { top: 100% } }
+    </style>
+</head>
+<body class="bg-neutral-50 text-neutral-900 font-sans antialiased">
+
+    <div class="fixed inset-0 z-0 grid-bg opacity-40"></div>
+    <div class="scanline z-50 pointer-events-none"></div>
+
+    <main class="relative z-10 min-h-screen flex flex-col">
+        <nav class="p-6 border-b-2 border-black bg-white flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-black flex items-center justify-center">
+                    <span class="text-neon-500 font-black text-xs">FF</span>
+                </div>
+                <span class="font-black uppercase tracking-tighter text-lg">Control_Panel</span>
+            </div>
+            <div class="font-mono text-[10px] uppercase tracking-widest hidden md:block">
+                Status: <span class="text-neon-500 animate-pulse">Waiting_Input...</span>
+            </div>
+        </nav>
+
+        <section class="flex-grow flex items-center justify-center p-6">
+            <div class="max-w-4xl w-full">
+                <div class="mb-12">
+                    <h2 class="text-[12vw] lg:text-8xl font-black uppercase leading-[0.8] tracking-tighter mb-4">
+                        PROYECTOS <br><span class="text-white bg-black px-4">ACTIVOS.</span>
+                    </h2>
+                    <p class="font-mono text-xs uppercase tracking-[0.3em] text-neutral-400">Seleccione un archivo para previsualizar la cotización</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <a href="telar.html" class="group relative bg-white border-2 border-black p-8 shadow-hard hover:shadow-hard-neon transition-all hover:-translate-x-1 hover:-translate-y-1">
+                        <div class="flex justify-between items-start mb-6">
+                            <span class="font-mono text-[10px] bg-neon-500 text-white px-2 py-1 uppercase font-bold">V.01_2026</span>
+                            <span class="font-mono text-[10px] text-neutral-400 uppercase">Status: Pendiente</span>
+                        </div>
+                        <h3 class="text-3xl font-black uppercase mb-2 group-hover:text-neon-500 transition-colors">Jig de Tejido</h3>
+                        <p class="text-sm text-neutral-500 font-bold mb-8 italic leading-tight border-l-2 border-black pl-4">Optimización estructural y fabricación CNC en Triplay 12mm.</p>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <span class="block font-mono text-[9px] uppercase text-neutral-400">Monto Estimado</span>
+                                <span class="text-xl font-black">$594.54 MXN</span>
+                            </div>
+                            <div class="h-10 w-10 bg-black text-white flex items-center justify-center group-hover:bg-neon-500 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="relative bg-neutral-200 border-2 border-black p-8 opacity-60 grayscale cursor-not-allowed">
+                        <div class="flex justify-between items-start mb-6">
+                            <span class="font-mono text-[10px] bg-neutral-400 text-white px-2 py-1 uppercase font-bold">V.02_2026</span>
+                        </div>
+                        <h3 class="text-3xl font-black uppercase mb-2">Próximo_Proyecto</h3>
+                        <p class="text-sm text-neutral-500 font-bold mb-8">Archivo en proceso de renderizado y costeo...</p>
+                        <div class="font-mono text-[10px] uppercase tracking-tighter">DATA_ENCRYPTED</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <footer class="p-8 border-t-2 border-black bg-white flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="font-mono text-[10px] uppercase tracking-widest text-neutral-400">
+                Logged_as: <span class="text-black font-bold">CLIENT_ACCESS</span>
+            </div>
+            <div class="flex gap-8">
+                <a href="index.html" class="text-xs font-black uppercase underline decoration-2 hover:text-neon-500">Volver al taller</a>
+                <a href="mailto:esteban@formayfondotaller.com" class="text-xs font-black uppercase underline decoration-2 hover:text-neon-500">Soporte</a>
+            </div>
+        </footer>
+    </main>
+</body>
+</html>
