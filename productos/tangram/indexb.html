@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Forma & Fondo | En Construcción</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22black%22/><text y=%22.9em%22 font-size=%2290%22 font-weight=%22bold%22 fill=%22white%22>F</text><circle cx=%2280%22 cy=%2280%22 r=%2212%22 fill=%22%2339ff14%22/></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: {
+                            500: '#39ff14', 
+                            900: '#1a6608',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'scan': 'scan 4s linear infinite',
+                    },
+                    keyframes: {
+                        scan: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #000;
+            color: #fff;
+            /* Allow scrolling if content overflows, but hide bars */
+            overflow-y: auto; 
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        body {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* The custom CNC crosshair cursor (Desktop Only) */
+        @media (hover: hover) {
+            body { cursor: none; }
+            .cursor-follow {
+                display: block;
+                pointer-events: none;
+                position: fixed;
+                width: 40px;
+                height: 40px;
+                border: 1px solid #39ff14;
+                transform: translate(-50%, -50%);
+                z-index: 50;
+                mix-blend-mode: difference;
+            }
+            .cursor-follow::before {
+                content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: #39ff14;
+            }
+            .cursor-follow::after {
+                content: ''; position: absolute; left: 50%; top: 0; height: 100%; width: 1px; background: #39ff14;
+            }
+        }
+
+        /* Scanline Overlay - Made slightly stronger for mobile feel */
+        .scanline {
+            width: 100%;
+            height: 100vh;
+            z-index: 10;
+            background: linear-gradient(to bottom, rgba(57,255,20,0), rgba(57,255,20,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            position: fixed;
+            top: 0; left: 0;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+        
+        /* Radar Sweep Animation */
+        .radar-sweep {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(57,255,20,0) 0%, rgba(57,255,20,0.1) 50%, rgba(57,255,20,0) 100%);
+            z-index: 5;
+            animation: scan 8s linear infinite;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const ConstructionPage = () => {
+            const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+            const [gCodeLines, setGCodeLines] = useState([]);
+            const [loadingWidth, setLoadingWidth] = useState(0);
+            
+            // Handle Custom Cursor
+            useEffect(() => {
+                const moveCursor = (e) => {
+                    setCursorPos({ x: e.clientX, y: e.clientY });
+                };
+                window.addEventListener('mousemove', moveCursor);
+                return () => window.removeEventListener('mousemove', moveCursor);
+            }, []);
+
+            // Loading Bar Simulation
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    setLoadingWidth(prev => (prev >= 100 ? 0 : prev + 5));
+                }, 200);
+                return () => clearInterval(interval);
+            }, []);
+
+            // Generate "Matrix" G-Code background animation
+            useEffect(() => {
+                const generateGCode = () => {
+                    const commands = ['G00', 'G01', 'G02', 'M03', 'X', 'Y', 'Z'];
+                    // Generate random spacing to make it look scattered
+                    const spacing = Array(Math.floor(Math.random() * 5)).fill("\u00A0").join(""); 
+                    const line = `${spacing}N${Math.floor(Math.random() * 999)} ${commands[Math.floor(Math.random() * commands.length)]} X${(Math.random() * 100).toFixed(1)}`;
+                    
+                    setGCodeLines(prev => {
+                        const newLines = [...prev, line];
+                        if (newLines.length > 30) newLines.shift(); 
+                        return newLines;
+                    });
+                };
+
+                const interval = setInterval(generateGCode, 150);
+                return () => clearInterval(interval);
+            }, []);
+
+            return (
+                <div className="relative min-h-[100dvh] w-full flex flex-col justify-between items-center bg-black overflow-hidden selection:bg-neon-500 selection:text-black">
+                    
+                    {/* Custom Cursor Element (Visible only on hover capable devices via CSS) */}
+                    <div className="cursor-follow hidden" style={{ left: cursorPos.x, top: cursorPos.y }}></div>
+                    
+                    {/* Atmospheric Overlays */}
+                    <div className="scanline"></div>
+                    <div className="radar-sweep"></div>
+
+                    {/* Background G-Code Waterfall - Now Full Width & Centered */}
+                    <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none select-none flex flex-col justify-center items-center">
+                        {gCodeLines.map((line, i) => (
+                            <div key={i} className="text-neon-500 font-mono text-xs md:text-sm whitespace-pre transition-opacity duration-300" style={{opacity: (i / gCodeLines.length)}}>
+                                {line}
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Top Spacing / Safe Area */}
+                    <div className="h-12 w-full"></div>
+
+                    {/* Main Content */}
+                    <div className="relative z-20 flex flex-col items-center w-full px-6 max-w-lg">
+                        
+                        {/* Status Module */}
+                        <div className="w-full flex items-center justify-between mb-12 opacity-80">
+                            <div className="h-[1px] bg-neon-500 w-1/4"></div>
+                            <div className="flex flex-col items-center">
+                                <span className="text-neon-500 text-[10px] font-bold tracking-[0.3em] uppercase mb-1">
+                                    Status: Processing
+                                </span>
+                                {/* Fake Loading Bar */}
+                                <div className="w-24 h-1 bg-neutral-900">
+                                    <div className="h-full bg-neon-500 transition-all duration-200" style={{width: `${loadingWidth}%`}}></div>
+                                </div>
+                            </div>
+                            <div className="h-[1px] bg-neon-500 w-1/4"></div>
+                        </div>
+
+                        {/* Logo */}
+                        <div className="mb-8 relative group">
+                            <div className="w-20 h-20 border-2 border-white flex items-center justify-center relative bg-black z-10">
+                                <span className="text-5xl font-black text-white">F</span>
+                            </div>
+                            {/* Pulsing Dot */}
+                            <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-neon-500 animate-pulse-slow z-20"></div>
+                            {/* Decorative Outline */}
+                            <div className="absolute top-2 left-2 w-20 h-20 border border-neon-900 z-0"></div>
+                        </div>
+
+                        {/* Headline */}
+                        <h1 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter text-center leading-[0.9] mb-8 text-white uppercase">
+                            Sitio en <br />
+                            <span className="text-neon-500">Construcción</span>
+                        </h1>
+
+                        {/* Animated Subtitle List */}
+                        <div className="flex flex-col gap-3 text-neutral-400 font-mono text-xs text-center tracking-widest uppercase">
+                            <div className="flex items-center justify-center gap-3">
+                                <span className="w-1.5 h-1.5 bg-neon-500 animate-ping"></span>
+                                Calibrando Ejes...
+                            </div>
+                            <div>Afilando Bits...</div>
+                            <div>Migrando Materia...</div>
+                        </div>
+
+                        {/* Contact CTA - Made Button Bigger for Touch */}
+                        <div className="mt-16 w-full text-center">
+                            <p className="text-neutral-500 text-xs mb-4 uppercase tracking-widest">¿Tienes un proyecto urgente?</p>
+                            <a href="mailto:emonja@gmail.com" className="block w-full sm:w-auto sm:inline-block border border-neon-500 bg-black/50 backdrop-blur-md text-neon-500 px-8 py-5 font-bold uppercase tracking-widest hover:bg-neon-500 hover:text-black transition-all duration-300 active:scale-95">
+                                Contáctanos
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Footer / Safe Area Bottom */}
+                    <div className="relative z-20 w-full text-center py-8 opacity-50">
+                        <div className="text-[10px] font-mono text-white mb-2">FORMA & FONDO TALLER</div>
+                        <div className="flex justify-center gap-2 text-[10px] text-neon-500 font-mono">
+                            <span>MX</span>
+                            <span>::</span>
+                            <span>2025</span>
+                        </div>
+                    </div>
+
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<ConstructionPage />);
+    </script>
+</body>
+</html>

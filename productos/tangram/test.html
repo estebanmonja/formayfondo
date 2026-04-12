@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tangram</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+            overflow: hidden;
+            background-color: #f8f7f2;
+        }
+
+        polygon {
+            transition:
+                stroke 1.5s ease-in-out,
+                stroke-width 1.5s ease-in-out,
+                stroke-dashoffset 1.8s ease-in-out;
+        }
+
+        [x-cloak] { display: none !important; }
+
+        /* One-time, very soft pulse */
+        @keyframes pulse-soft-once {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.025);
+                opacity: 0.85;
+            }
+        }
+
+        .pulse-once {
+            animation: pulse-soft-once 3s ease-in-out 1;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4">
+
+<div
+    x-data="{
+        revelado: false,
+        hinted: false,
+        timeout: null,
+        resolver() {
+            this.revelado = true;
+            this.hinted = true;
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
+                this.revelado = false;
+            }, 5000);
+        }
+    }"
+    class="w-full max-w-sm flex flex-col items-center touch-manipulation"
+    x-cloak
+>
+
+    <!-- TANGRAM / INTERFACE -->
+    <div
+        @click="resolver()"
+        @keydown.enter.prevent="resolver()"
+        @keydown.space.prevent="resolver()"
+        tabindex="0"
+        role="button"
+        aria-label="Mostrar solución del tangram"
+        :class="[
+            'w-full cursor-pointer transition-transform duration-700 focus:outline-none',
+            !hinted ? 'pulse-once' : ''
+        ]"
+    >
+        <svg
+            viewBox="0 0 612 520"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-full h-auto drop-shadow-sm overflow-visible"
+        >
+
+            <polygon points="81 451 228 451 228 304 81 451"
+                fill="#ed2390"
+                :stroke="revelado ? '#6fccdd' : 'transparent'"
+                stroke-width="2"
+                stroke-dasharray="600"
+                :stroke-dashoffset="revelado ? '0' : '600'" />
+
+            <polygon points="271 435 479 435 375 331 271 435"
+                fill="#ed2390"
+                :stroke="revelado ? '#6fccdd' : 'transparent'"
+                stroke-width="2"
+                stroke-dasharray="600"
+                :stroke-dashoffset="revelado ? '0' : '600'" />
+
+            <polygon points="479 331 479 435 375 331 479 331"
+                fill="#ed2390"
+                :stroke="revelado ? '#6fccdd' : 'transparent'"
+                stroke-width="2"
+                stroke-dasharray="400"
+                :stroke-dashoffset="revelado ? '0' : '400'" />
+
+            <polygon points="375 331 302 331 302 405 375 331"
+                fill="#ed2390"
+                :stroke="revelado ? '#6fccdd' : 'transparent'"
+                stroke-width="2"
+                stroke-dasharray="300"
+                :stroke-dashoffset="revelado ? '0' : '300'" />
+
+            <polygon points="228 478 228 405 302 405 228 478"
+                fill="#ed2390"
+                :stroke="revelado ? '#6fccdd' : 'transparent'"
+                stroke-width="2"
+                stroke-dasharray="300"
+                :stroke-dashoffset="revelado ? '0' : '300'" />
+
+            <polygon points="302 331 228 331 228 405 302 405 302 331"
+                fill="#ed2390"
+                :stroke="revelado ? '#6fccdd' : 'transparent'"
+                stroke-width="2"
+                stroke-dasharray="350"
+                :stroke-dashoffset="revelado ? '0' : '350'" />
+
+            <polygon points="531 383 479 331 479 435 531 487 531 383"
+                fill="#ed2390"
+                :stroke="revelado ? '#6fccdd' : 'transparent'"
+                stroke-width="2"
+                stroke-dasharray="500"
+                :stroke-dashoffset="revelado ? '0' : '500'" />
+        </svg>
+    </div>
+
+</div>
+
+</body>
+</html>

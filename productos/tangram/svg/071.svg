@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="CAT" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450.04 450.04">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #9c298c;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        fill: #333391;
+      }
+
+      .cls-3 {
+        fill: #00a651;
+      }
+
+      .cls-7 {
+        fill: #00a8de;
+      }
+
+      .cls-4 {
+        fill: #fc0;
+      }
+
+      .cls-5 {
+        fill: #ff0098;
+      }
+
+      .cls-6 {
+        fill: #ed1c24;
+      }
+    </style>
+  </defs>
+  <rect class="cls-7" x="115.0535" y="64.4286" width="70.52717" height="70.52717" transform="translate(-26.46617 135.4894) rotate(-45)"/>
+  <polygon class="cls-2" points="274.77065 274.016 274.77073 450.01991 98.76682 450.02 274.77065 274.016"/>
+  <polygon class="cls-4" points="150.31708 149.56243 150.3171 274.01599 25.86355 274.01601 150.31708 149.56243"/>
+  <polygon class="cls-1" points="374.37455 450.01991 274.77073 450.01991 324.57264 400.21801 424.17645 400.21801 374.37455 450.01991"/>
+  <polygon class="cls-3" points="150.31708 149.56243 274.77065 274.016 150.31708 398.46956 150.31708 149.56243"/>
+  <polygon class="cls-5" points="100.51517 .02005 150.31708 49.82195 100.51518 99.62386 100.51517 .02005"/>
+  <polygon class="cls-6" points="200.11903 99.62382 150.31708 49.82195 200.11895 .02 200.11903 99.62382"/>
+</svg>
