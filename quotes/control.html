@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFT // MONITOR_SISTEMA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { neon: { 500: '#ff0098' }, neutral: { 900: '#171717' } },
+                    fontFamily: { sans: ['Barlow', 'sans-serif'], mono: ['Fira Code', 'monospace'] },
+                    boxShadow: { 'hard': '8px 8px 0px 0px #171717', 'hard-neon': '8px 8px 0px 0px #ff0098' }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .grid-bg { background-image: linear-gradient(#f0f0f0 1px, transparent 1px), linear-gradient(90deg, #f0f0f0 1px, transparent 1px); background-size: 30px 30px; }
+        .input-terminal { background: #171717; border: 1px solid #333; color: #ff0098; padding: 0.75rem; width: 100%; outline: none; font-family: 'Fira Code', monospace; appearance: none; }
+        .input-terminal:focus { border-color: #ff0098; }
+        .data-label { font-family: 'Fira Code', monospace; font-size: 10px; text-transform: uppercase; color: #666; margin-bottom: 2px; display: block; }
+    </style>
+</head>
+<body class="bg-neutral-50 text-neutral-900 font-sans antialiased overflow-x-hidden">
+
+    <div class="fixed inset-0 z-0 grid-bg opacity-40"></div>
+
+    <main class="relative z-10 min-h-screen p-6 lg:p-12 flex flex-col items-center">
+        
+        <div class="max-w-4xl w-full">
+            <div class="flex justify-between items-end border-b-4 border-black pb-6 mb-12">
+                <div>
+                    <img src="logo.svg" alt="FFT" class="h-8 w-auto mb-4">
+                    <h1 class="text-5xl lg:text-7xl font-black uppercase tracking-tighter leading-none">
+                        MONITOR <br><span class="text-neon-500">PROYECTOS.</span>
+                    </h1>
+                </div>
+                <div class="text-right font-mono text-[10px] uppercase tracking-widest text-neutral-400">
+                    Sincronización: <span id="sync-status" class="text-black">Cargando...</span>
+                </div>
+            </div>
+
+            <div class="bg-black p-8 shadow-hard mb-12 border-2 border-black">
+                <label class="data-label text-white/50 mb-4">Seleccionar ID de Protocolo:</label>
+                <div class="relative">
+                    <select id="projectSelector" class="input-terminal text-xl font-bold cursor-pointer">
+                        <option value="">ESPERANDO_DATOS...</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-neon-500">
+                        ▼
+                    </div>
+                </div>
+            </div>
+
+            <div id="displayArea" class="hidden grid grid-cols-1 md:grid-cols-2 gap-8 bg-white border-2 border-black p-8 lg:p-12 shadow-hard-neon">
+                
+                <div class="space-y-6">
+                    <div>
+                        <span class="data-label">Código_Proyecto</span>
+                        <div id="res-code" class="text-3xl font-black text-neon-500 italic">--</div>
+                    </div>
+                    <div>
+                        <span class="data-label">Cliente_Nombre</span>
+                        <div id="res-name" class="text-2xl font-black uppercase leading-tight">--</div>
+                    </div>
+                    <div>
+                        <span class="data-label">Tipo_Servicio</span>
+                        <div id="res-type" class="font-mono font-bold bg-neutral-100 p-2 inline-block">--</div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <span class="data-label">Canal_Email</span>
+                            <div id="res-email" class="text-sm font-bold truncate">--</div>
+                        </div>
+                        <div>
+                            <span class="data-label">Canal_Tel</span>
+                            <div id="res-phone" class="text-sm font-bold">--</div>
+                        </div>
+                    </div>
+                    <div class="border-t-2 border-black pt-6">
+                        <span class="data-label">Briefing_Técnico</span>
+                        <p id="res-desc" class="text-sm text-neutral-600 leading-relaxed italic">--</p>
+                    </div>
+                    <div id="res-date" class="font-mono text-[9px] text-neutral-300 uppercase tracking-widest pt-4 text-right">
+                        Timestamp: --
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="emptyState" class="border-2 border-dashed border-neutral-300 p-20 text-center">
+                <p class="font-mono text-xs uppercase text-neutral-400 tracking-widest italic">Selecciona un proyecto para visualizar el log de datos</p>
+            </div>
+        </div>
+
+        <footer class="mt-20">
+            <a href="https://www.formayfondotaller.com" class="text-xs font-black uppercase underline decoration-2 hover:text-neon-500 transition-all">Regresar al Taller_</a>
+        </footer>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAqk7bEWpif_1J8gtnZ7St9k9HTXGxnxCc",
+            authDomain: "proyectos-fft.firebaseapp.com",
+            databaseURL: "https://proyectos-fft-default-rtdb.firebaseio.com/",
+            projectId: "proyectos-fft",
+            storageBucket: "proyectos-fft.firebasestorage.app",
+            messagingSenderId: "123769301744",
+            appId: "1:123769301744:web:a701583cd99ffe927af035"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const projectSelector = document.getElementById('projectSelector');
+        const displayArea = document.getElementById('displayArea');
+        const emptyState = document.getElementById('emptyState');
+        const syncStatus = document.getElementById('sync-status');
+
+        let proyectosData = {};
+
+        // Escuchar cambios en la DB (Sincronización en tiempo real)
+        const solicitudesRef = ref(db, 'solicitudes');
+        onValue(solicitudesRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                proyectosData = data;
+                syncStatus.innerText = "LIVE_SIGNAL_ACTIVE";
+                
+                // Limpiar y llenar el selector
+                projectSelector.innerHTML = '<option value="">-- SELECCIONAR_ID --</option>';
+                
+                // Iterar sobre los objetos de la RTDB
+                Object.keys(data).reverse().forEach(key => {
+                    const proyecto = data[key];
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = `${proyecto.projectCode} // ${proyecto.name}`;
+                    projectSelector.appendChild(option);
+                });
+            } else {
+                syncStatus.innerText = "NO_DATA_FOUND";
+            }
+        });
+
+        // Evento al cambiar selección
+        projectSelector.addEventListener('change', (e) => {
+            const key = e.target.value;
+            if (key && proyectosData[key]) {
+                const p = proyectosData[key];
+                
+                displayArea.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+
+                // Llenar campos
+                document.getElementById('res-code').innerText = p.projectCode;
+                document.getElementById('res-name').innerText = p.name;
+                document.getElementById('res-type').innerText = p.type;
+                document.getElementById('res-email').innerText = p.email;
+                document.getElementById('res-phone').innerText = p.phone;
+                document.getElementById('res-desc').innerText = p.description;
+                document.getElementById('res-date').innerText = `TS: ${new Date(p.timestamp).toLocaleString()}`;
+            } else {
+                displayArea.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

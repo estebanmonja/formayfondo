@@ -174,83 +174,35 @@
         </section>
 
         <section id="contacto" class="grid grid-cols-1 lg:grid-cols-2 border-b-2 border-black bg-white">
-    <div class="p-8 lg:p-20 flex flex-col justify-between border-b-2 lg:border-b-0 lg:border-r-2 border-black bg-white">
-        <div>
-            <span class="text-neon-500 font-black uppercase text-xs tracking-[0.3em] block mb-4">CONVERSACIÓN_PROTOCOLO</span>
-            <h2 class="text-[12vw] lg:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-8">
-                HABLEMOS <br>DE <span class="text-neon-500">Materia.</span>
-            </h2>
-            <div class="space-y-4 max-w-md">
-                <p class="text-xl font-bold italic border-l-4 border-black pl-4">
-                    "Cada objeto comienza con una instrucción clara."
-                </p>
-                <p class="text-neutral-500 font-bold uppercase text-xs tracking-widest">
-                    Inicia el protocolo de diseño. Los datos se sincronizan al instante con nuestro sistema central.
-                </p>
-            </div>
-        </div>
-
-        <div class="mt-12 space-y-8">
-            <div>
-                <span class="block font-mono text-[10px] uppercase tracking-[0.3em] text-neutral-400 mb-2 font-bold">Directo_Taller</span>
-                <a href="mailto:esteban@formayfondotaller.com" class="text-2xl font-black hover:text-neon-500 transition-colors break-words">
-                    esteban@formayfondotaller.com
-                </a>
-            </div>
-            <div>
-                <span class="block font-mono text-[10px] uppercase tracking-[0.3em] text-neutral-400 mb-2 font-bold">Canal_Urgente</span>
-                <a href="https://wa.me/523315305043" class="text-2xl font-black hover:text-neon-500 transition-colors">
-                    +52 3315 30 5043
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="p-4 lg:p-12 bg-neutral-900 flex items-center">
-        <div class="w-full bg-black border-2 border-white/10 p-8 lg:p-12 shadow-hard-neon relative">
-            <div id="status-bar" class="absolute top-0 right-0 p-4 font-mono text-[9px] text-neon-500/50 uppercase tracking-widest">
-                RTDB_READY // ID: PENDING
-            </div>
-            
-            <form id="quoteForm" class="space-y-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-2">
-                        <label class="font-mono text-[10px] uppercase text-neon-500 font-bold">01_Nombre*</label>
-                        <input type="text" id="name" placeholder="REQUERIDO" class="input-fft !bg-transparent !text-white !border-neutral-800 uppercase" required>
+            <div class="p-8 lg:p-16">
+                <span class="text-neon-500 font-black uppercase text-xs tracking-widest block mb-4">COLABORACIÓN</span>
+                <h2 class="text-[12vw] lg:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-8">HAGÁMOSLO <br> REALIDAD.</h2>
+                <div class="space-y-10">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-black flex-shrink-0 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div><span class="block font-mono text-[10px] text-neutral-400 uppercase tracking-widest mb-1">Escríbenos</span><a href="mailto:esteban@formayfondotaller.com" class="text-xl font-black hover:text-neon-500 transition-colors">esteban@formayfondotaller.com</a></div>
                     </div>
-                    <div class="space-y-2">
-                        <label class="font-mono text-[10px] uppercase text-neon-500 font-bold">02_Materia</label>
-                        <select id="type" class="input-fft !bg-transparent !text-white !border-neutral-800 appearance-none uppercase font-black">
-                            <option class="bg-black">CORTE_CNC</option>
-                            <option class="bg-black">PROTOTIPADO</option>
-                            <option class="bg-black">PRODUCCION_SERIE</option>
-                        </select>
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-black flex-shrink-0 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                        </div>
+                        <div><span class="block font-mono text-[10px] text-neutral-400 uppercase tracking-widest mb-1">Ubicación</span>
+                        <div class="flex gap-6 mt-1"><a href="https://maps.app.goo.gl/DuXKGsqGVbhZE4sg7" target="_blank" class="font-black text-sm uppercase underline decoration-2 hover:text-neon-500">Tapalpa</a><a href="https://maps.app.goo.gl/Dkst6kR53NZtz2VB6" target="_blank" class="font-black text-sm uppercase underline decoration-2 hover:text-neon-500">Zapopan</a></div></div>
                     </div>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-2">
-                        <label class="font-mono text-[10px] uppercase text-neon-500 font-bold">03_Email</label>
-                        <input type="email" id="email" placeholder="OPCIONAL" class="input-fft !bg-transparent !text-white !border-neutral-800 uppercase">
-                    </div>
-                    <div class="space-y-2">
-                        <label class="font-mono text-[10px] uppercase text-neon-500 font-bold">04_Tel</label>
-                        <input type="tel" id="phone" placeholder="OPCIONAL" class="input-fft !bg-transparent !text-white !border-neutral-800 uppercase">
-                    </div>
-                </div>
-
-                <div class="space-y-2">
-                    <label class="font-mono text-[10px] uppercase text-neon-500 font-bold">05_Briefing*</label>
-                    <textarea id="desc" rows="3" placeholder="DESCRIBE_TU_PROYECTO..." class="input-fft !bg-transparent !text-white !border-neutral-800 uppercase resize-none" required></textarea>
-                </div>
-
-                <button type="submit" id="submitBtn" class="group flex items-center gap-4 bg-white text-black font-black uppercase px-8 py-5 hover:bg-neon-500 hover:text-white transition-all w-full md:w-auto">
-                    EJECUTAR_Y_ENVIAR <span class="blink">_</span>
-                </button>
-            </form>
-        </div>
-    </div>
-</section>
+            </div>
+            <div class="p-8 lg:p-16 bg-neutral-50 border-t-2 lg:border-t-0 lg:border-l-2 border-black flex items-center">
+                <div class="bg-white border-2 border-black p-8 shadow-hard-xl w-full"><form id="whatsappForm" class="space-y-6">
+                    <div><label class="block font-black uppercase text-[10px] tracking-widest mb-2">Nombre</label><input type="text" id="nombre" placeholder="Tu nombre o empresa" class="input-fft font-bold" required></div>
+                    <div><label class="block font-black uppercase text-[10px] tracking-widest mb-2">Email</label><input type="email" id="email" placeholder="contacto@ejemplo.com" class="input-fft font-bold" required></div>
+                    <div><label class="block font-black uppercase text-[10px] tracking-widest mb-2">Interés</label><select id="interes" class="input-fft font-black"><option>Corte & Grabado CNC</option><option>Prototipado</option><option>Producción en Serie</option></select></div>
+                    <div><label class="block font-black uppercase text-[10px] tracking-widest mb-2">Mensaje</label><textarea id="mensaje" rows="4" placeholder="Detalles del proyecto..." class="input-fft font-bold" required></textarea></div>
+                    <button type="submit" class="w-full py-5 bg-black text-white font-black uppercase tracking-widest hover:bg-neon-500 transition-all">Enviar Propuesta_</button>
+                </form></div>
+            </div>
+        </section>
 
         <footer class="p-8 lg:p-12 border-t-2 border-black bg-white flex flex-col md:flex-row justify-between items-center">
             <div class="flex items-center gap-4 mb-4 md:mb-0">
@@ -263,92 +215,28 @@
         </footer>
     </main>
 
-    <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, push, set, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    <script>
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
 
-    // Configuración compartida con el sistema de cotizaciones
-    const firebaseConfig = {
-        apiKey: "AIzaSyAqk7bEWpif_1J8gtnZ7St9k9HTXGxnxCc",
-        authDomain: "proyectos-fft.firebaseapp.com",
-        databaseURL: "https://proyectos-fft-default-rtdb.firebaseio.com/",
-        projectId: "proyectos-fft",
-        storageBucket: "proyectos-fft.firebasestorage.app",
-        messagingSenderId: "123769301744",
-        appId: "1:123769301744:web:a701583cd99ffe927af035"
-    };
+        const containers = document.querySelectorAll('.img-reveal-container');
+        containers.forEach(container => {
+            const slides = container.querySelectorAll('.slide-img');
+            if (slides.length <= 1) return;
+            let current = 0;
+            setInterval(() => {
+                slides[current].style.opacity = '0';
+                current = (current + 1) % slides.length;
+                slides[current].style.opacity = '1';
+            }, 3500 + Math.random() * 1000);
+        });
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    // Lógica de Lenis y Slideshow (Mantenida del original)
-    const lenis = new Lenis();
-    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-
-    document.querySelectorAll('.img-reveal-container').forEach(container => {
-        const slides = container.querySelectorAll('.slide-img');
-        if (slides.length <= 1) return;
-        let current = 0;
-        setInterval(() => {
-            slides[current].style.opacity = '0';
-            current = (current + 1) % slides.length;
-            slides[current].style.opacity = '1';
-        }, 3500 + Math.random() * 1000);
-    });
-
-    // Nueva Lógica de Formulario Unificada con RTDB
-    document.getElementById('quoteForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        const status = document.getElementById('status-bar');
-        
-        btn.innerText = "GENERANDO FOLIO...";
-        btn.disabled = true;
-
-        try {
-            // Generación de ID Secuencial
-            const counterRef = ref(db, 'metadata/lastProjectId');
-            const result = await runTransaction(counterRef, (currentValue) => {
-                return (currentValue || 0) + 1;
-            });
-
-            if (!result.committed) throw new Error("Error de secuencia");
-
-            const nextId = result.snapshot.val();
-            const projectID = `FFT-${String(nextId).padStart(4, '0')}`;
-            
-            const data = {
-                projectCode: projectID,
-                name: document.getElementById('name').value,
-                type: document.getElementById('type').value,
-                email: document.getElementById('email').value || "N/A",
-                phone: document.getElementById('phone').value || "N/A",
-                description: document.getElementById('desc').value,
-                timestamp: Date.now()
-            };
-
-            // Guardar en la misma colección que las cotizaciones
-            const newItemRef = push(ref(db, 'solicitudes'));
-            await set(newItemRef, data);
-
-            status.innerText = `SYNC_SUCCESS // ID: ${projectID}`;
-            
-            // Redirección a WhatsApp
-            const message = `*PROTOCOLO_WEB_INICIADO*\nID: ${projectID}\n\n*Cliente:* ${data.name}\n*Materia:* ${data.type}\n*Email:* ${data.email}\n*Tel:* ${data.phone}\n*Brief:* ${data.description}`;
-            
-            setTimeout(() => {
-                window.open(`https://wa.me/523315305043?text=${encodeURIComponent(message)}`, '_blank');
-                btn.innerText = "PROTOCOLO_ENVIADO";
-            }, 500);
-
-        } catch (err) {
-            console.error(err);
-            status.innerText = "SYNC_ERROR";
-            btn.disabled = false;
-            btn.innerText = "REINTENTAR_ENVIO";
-        }
-    });
-</script>
+        document.getElementById('whatsappForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const text = `Hola Forma & Fondo. Soy ${document.getElementById('nombre').value}. Interés: ${document.getElementById('interes').value}. Proyecto: ${document.getElementById('mensaje').value}`;
+            window.open(`https://wa.me/5213315305043?text=${encodeURIComponent(text)}`, '_blank');
+        });
+    </script>
 </body>
 </html>
